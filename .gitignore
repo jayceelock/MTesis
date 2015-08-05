@@ -23,4 +23,4 @@
 *.synctex.gz
 *latexmk
 *.fls
-*.pdf
+tesis.pdf

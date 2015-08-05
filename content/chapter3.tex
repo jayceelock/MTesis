@@ -2,17 +2,17 @@
 
 \section{Introduction}
 
-An outdoor pose measurement system is required. Due to their considerable cost, radar and laser measurement systems are not considered, which requires another method to be devised. One method that is investigated is using computer vision (CV) techniques to estimate the pose of a drone. 
+To be able to determine the pose error of a drone in flight, an outdoor pose measurement system is required. Due to their considerable cost, radar and laser measurement systems are were considered, which requires another method to be devised. One method that was investigated is a computer vision system (CVS) that can estimate the pose of a drone.
 
-The CV measurement system will make use of a flat calibration pattern and a Perspective n-Points (PnP) problem solver to extract the six-dimensional pose data vector $\bm{x} = {[x\;y\;z\;\theta\;\phi\;\psi]}^T$, where ${[x\;y\;z]}^T$ are the translation dimensions and ${[\theta\;\phi\;\psi]}^T$ are the roll, pitch and yaw dimensions respectively. 
+The CV measurement system makes use of a flat calibration pattern and a Perspective n-Points (PnP) problem solver to extract the six-dimensional pose data vector $\bm{x} = {[x\;y\;z\;\theta\;\phi\;\psi]}^T$, where ${[x\;y\;z]}^T$ are the translation dimensions and ${[\theta\;\phi\;\psi]}^T$ are the roll, pitch and yaw dimensions respectively. 
 
-This section discusses the details of the CV system implemented. It starts by discussing the system layout and design
+This section discusses the details of CVS that was investigated and implemented. It starts by discussing the system layout and design
 
-\section{System Layout}
+\section{Computer Vision System Layout}
 
 \subsection{Hardware}
 
-The hardware requirements for the CV system are minimal. To perform six-dimensional pose estimation of a calibration pattern, either one or two cameras are required, along with a flat board containing the calibration pattern and a laptop running the pose estimation software. 
+The hardware requirements for the CVS are minimal. To perform six-dimensional pose estimation of a calibration pattern, either one or two cameras are required, along with a flat board containing the calibration pattern and a laptop running the pose estimation software. 
 
 The accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension, where the stereo vastly outperforms the single camera. This is to be expected and is very akin to a person's depth perception abilities being compromised with one eye closed. For this implementation, the single camera variant was selected. This makes the system simpler to set up and use. However, care must be taken with the depth estimation when using a single camera.
 
@@ -328,63 +328,59 @@ In all, the histograms of the errors show that the assumption made in Equation~\
 
 \subsection{Optimum Focal Lengths and Offset}
 
-During the optimisation procedure, the optimal focal lengths, $f_x$ and $f_y$ were found to be 760 and 630 respectively after 50 iterations, which is quite close to the calibrated optimum of 700. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found to be approximately
+As a result of the focal length and offset optimisation process, the optimal focal lengths, $f_x$ and $f_y$ were found to be 760 and 630 after 50 iterations, which is quite close to the calibrated optimum of 700. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found to be approximately
 
 \[
   {[320.63,\;-661.04,\;-3.7608,\;-180.17,\;-4.1309,\;182.75]}^T
 \]
 
-The values in $\bar{\bm{P}}$ contain any constant error bias that may have been introduced to the system during testing. The offsets in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the camera and Vicon systems, reorienting it by approximately $\pm$180\degree. This indicates that the offset is doing what it is supposed to. The large offset in the $y$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. The offset of 320mm in the $x$ dimension is slightly surprising. However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides when facing each other. The chessboard's origin would be 4 blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
+The values in $\bar{\bm{P}}$ contain any constant error bias that may have been introduced to the system during testing. The offsets in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the camera and Vicon systems, reorienting it by approximately $\pm$180\degree. This indicates that the offset is doing what it is supposed to. The large offset in the $z$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. The offset of 320mm in the $x$ dimension is slightly surprising. However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides when facing each other. The chessboard's origin would be 4 blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
 
 All of the above produce an error 2-norm of approximately 0.81 (normalised), compared to the original 1.15, normalised. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CV system measurements in all 6 dimensions.
 
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/x}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $x$ dimension.}
-%\label{fig:estimate-x}
-%\end{figure}
-
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/y}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $y$ dimension.}
-%\label{fig:estimate-y}
-%\end{figure}
-
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/z}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $z$ dimension.}
-%\label{fig:estimate-z}
-%\end{figure}
-
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/roll}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\theta$ dimension.}
-%\label{fig:estimate-roll}
-%\end{figure}
-
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/pitch}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\phi$ dimension.}
-%\label{fig:estimate-pitch}
-%\end{figure}
-
-%\begin{figure}
-  %\centering
-  %\includegraphics[scale=0.2]{figures/yaw}
-  %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\psi$ dimension.}
-%\label{fig:estimate-yaw}
-%\end{figure}
+\begin{figure*}
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[clip, trim = 200 50 150 0, width=\textwidth]{figures/chapter3/x}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $x$ dimension.}
+  \label{fig:estimate-x}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter3/y}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $y$ dimension.}
+  \label{fig:estimate-y}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter3/z}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $z$ dimension.}
+  \label{fig:estimate-z}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter3/roll}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\theta$ dimension.}
+  \label{fig:estimate-roll}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter3/pitch}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\phi$ dimension.}
+  \label{fig:estimate-pitch}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter3/yaw}
+    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\psi$ dimension.}
+  \label{fig:estimate-yaw}
+  \end{subfigure}
+\end{figure*}
 
 It can be seen that there is a some improvement in all the dimensions. However, in some cases the improvement is negated by worse results in another place in the data set. This is a result of the optimisation process where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $\phi$ dimension. Since the norm of $\bm{\epsilon}$ converges, it can be taken that the improved results are indeed better as a whole, even though it may look like it has gotten worse in the individual dimensions.
 
 \subsection{System Accuracy}
 
-Determining the accuracy of a multi-dimensional model is often a complex task, but the fact that the error is normally distributed makes it possible to use the covariance matrix to check the interdimensional variance. If it is found that the diagonal of the covariance matrix is sufficiently large relative to the off-diagonal elements, the dimensions can be taken as strongly enough independent of one another and the variance along the diagonal can be taken as a measure of the accuracy. 
+Determining the accuracy of a multi-dimensional model is often a complex task, but the fact that the error is normally distributed makes it possible to use the covariance matrix to check the interdimensional variance and dependence. If it is found that the diagonal of the covariance matrix is sufficiently large relative to the off-diagonal elements, the dimensions can be taken as strongly enough independent of one another and the variance along the diagonal can be taken as a measure of the accuracy. 
 
 The covariance matrix, $\bm{\Sigma}$, was found to be 
 
@@ -400,7 +396,7 @@ The covariance matrix, $\bm{\Sigma}$, was found to be
   \end{bmatrix}
 \]
 
-$\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This unfortunately means that there is no clear indication on the accuracy of the system. However, a probability density function (PDF) can be set up using $\bm{\Sigma}$ that will show what the expected error in the 6 dimensions will be for a given pose. The PDF is given by Equation~\ref{eq:pdf}.
+The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This unfortunately means that there is no clear indication on the accuracy of the system. However, a probability density function (PDF) can be set up using $\bm{\Sigma}$ that will show what the expected error in the 6 dimensions will be for a given pose. The PDF is given by Equation~\ref{eq:pdf}.
 
 \begin{equation}
   \label{eq:pdf}

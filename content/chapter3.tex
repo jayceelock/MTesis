@@ -310,14 +310,14 @@ Figure~\ref{fig:err-norm} shows the histogram plots of the errors in the six dim
   \begin{subfigure}{0.45\textwidth}
      \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_pitch}
      %\caption{Histogram of the error in the $\phi$ dimension with a mean of 14.7 mili-degrees and a standard deviation of 19.0\degree.}
-     \caption{meme}
+     \caption{mememememe mememememe mememem ememememem emem e m e m e m e me m e m e m e m em e m e m eme}
   \label{fig:norm-pitch}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
      \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_yaw}
      %\caption{Histogram of the error in the $\psi$ dimension with a mean of 0.3 mili-degrees and a standard deviation of 7.99\degree.}
-     \caption{meme}
+     \caption{memememe memememe mememememe memememe memememememe memememememe memememe`}
   \label{fig:norm-yaw}
   \end{subfigure}
   \caption{meme}
@@ -330,13 +330,13 @@ In all, the histograms of the errors show that the assumption made in Equation~\
 
 \subsection{Optimum Focal Lengths and Offset}
 
-As a result of the focal length and offset optimisation process, the optimal focal lengths, $f_x$ and $f_y$ were found to be 760 and 630 after 50 iterations, which is quite close to the calibrated optimum of 700. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found to be approximately
+As a result of the focal length and offset optimisation process, the optimal focal lengths, $f_x$ and $f_y$ were found to be 628 and 535 after 50 iterations, which is considerably less than the optimum of 700 produced by OpenCV's calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found to be approximately
 
 \[
-  {[320.63,\;-661.04,\;-3.7608,\;-180.17,\;-4.1309,\;182.75]}^T
+  [240.8mm, \; 40.09mm, \; 375.9mm, \; \ang{184.3}, \; \ang{-2.697}, \; \ang{-179.9}]^T
 \]
 
-The values in $\bar{\bm{P}}$ contain any constant error bias that may have been introduced to the system during testing. The offsets in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the camera and Vicon systems, reorienting it by approximately $\pm$180\degree. This indicates that the offset is doing what it is supposed to. The large offset in the $z$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. The offset of 320mm in the $x$ dimension is slightly surprising. However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides when facing each other. The chessboard's origin would be 4 blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
+The values in $\bar{\bm{P}}$ contain any constant error bias that may have been introduced to the system during testing. The offsets in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, reorienting it by approximately $\pm$180\degree. This indicates that the offset was correctly calculated and is doing what it is supposed to. The large offset in the $z$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. The offset of 240mm in the $x$ dimension is slightly surprising. However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides when facing each other. The chessboard's origin would be four blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
 
 All of the above produce an error 2-norm of approximately 0.81 (normalised), compared to the original 1.15, normalised. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CV system measurements in all 6 dimensions.
 

@@ -2,7 +2,7 @@
 
 \section{Introduction}
 
-To be able to determine the pose error of a drone in flight, an outdoor pose measurement system is required. Due to their considerable cost, radar and laser measurement systems are were considered, which requires another method to be devised. One method that was investigated is a computer vision system (CVS) that can estimate the pose of a drone.
+To be able to determine the pose error of a drone in flight, an outdoor pose measurement system is required. Due to their considerable cost, radar and laser measurement systems were not considered, which required another method to be devised. One method that was investigated is a computer vision system (CVS) that can estimate the pose of a drone.
 
 The CV measurement system makes use of a flat calibration pattern and a Perspective n-Points (PnP) problem solver to extract the six-dimensional pose data vector $\bm{x} = {[x\;y\;z\;\theta\;\phi\;\psi]}^T$, where ${[x\;y\;z]}^T$ are the translation dimensions and ${[\theta\;\phi\;\psi]}^T$ are the roll, pitch and yaw dimensions respectively. 
 
@@ -14,7 +14,7 @@ This section discusses the details of CVS that was investigated and implemented.
 
 The hardware requirements for the CVS are minimal. To perform six-dimensional pose estimation of a calibration pattern, either one or two cameras are required, along with a flat board containing the calibration pattern and a laptop running the pose estimation software. 
 
-The accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension, where the stereo vastly outperforms the single camera. This is to be expected and is very akin to a person's depth perception abilities being compromised with one eye closed. For this implementation, the single camera variant was selected.This makes the system simpler to set up and use. However, care must be taken with the depth estimation when using a single camera. In the future, the project can be expanded to a stereo camera system.
+The accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension, where the stereo vastly outperforms the single camera. This is to be expected and is very akin to a person's depth perception abilities being compromised with one eye closed. For this implementation, the single camera variant was selected. This makes the system simpler to set up and use. However, care must be taken with the depth estimation when using a single camera. In the future, the project can be expanded to a stereo camera system.
 
 For the pose estimation software to work best, it requires a clear view of the calibration pattern. Therefore, a big calibration pattern is desirable. Furthermore, the pattern should of a high quality and printed on white paper with a wide white border to enhance the contrast between the pattern and the background, making it easier for the software to detect the pattern. 
 
@@ -23,7 +23,7 @@ For the pose estimation software to work best, it requires a clear view of the c
 
 The software used to perform the pose estimation comes packaged with the OpenCV computer vision library. 
 
-The camera of the CV system is calibrated by a calibration function and pattern. The goal of the calibration process is to determine the intrinsic parameters of the camera matrix. The camera matrix takes up the form given in Equation~\ref{eq:cam-matrix},
+The camera of the CV system is calibrated by a calibration function and pattern. The goal of the calibration process is to determine the intrinsic parameters of the camera matrix. The camera matrix takes up the form given in Equation~\ref{eq:cam-matrix}
 
 \begin{equation}
   \label{eq:cam-matrix}
@@ -61,16 +61,16 @@ With the camera matrix $C$ known, and a set of two-dimensional data points, a Pr
 
 Before the CVS was used to record the pose data of a drone, the accuracy of the system's measurements was first determined. Since the PnP solving algorithm is, at its core, an optimisation problem and produces estimates of the pose, determining the accuracy of the CVS is an important step in the system design phase. 
 
-To determine the measurement error, a measurement test was performed in an indoor environment where an external measurement device recorded pose data. The error was then be determined by comparing the CV system's data with that of the external measurement system's measurement data. Both systems were set to record the pose of a flat chessboard calibration pattern that was moved and orientated by hand.
+To determine the measurement error, a measurement test was performed in an indoor environment where an external measurement device recorded pose data. The error was then be determined by comparing the CVS's data with that of the external measurement system's measurement data. Both systems were set to record the pose of a flat chessboard calibration pattern that was moved and orientated by hand.
 
-This section describes the test layout, including the external measurement device and its details, as well as the CV system details. Then, the measurement procedure is presented, followed by the steps taken to process the data during the post-processing phase. Finally, the results of the test are given and discussed. 
+This section describes the test layout, including the external measurement device and its details, as well as the CVS details. Then, the measurement procedure is presented, followed by the steps taken to process the data during the post-processing phase. Finally, the results of the test are given and discussed. 
 
 \subsection{Test Layout}
 \label{sec:vicon-test-setup}
 
 \subsubsection{External Measurement Device Layout}
 
-The external measurement system used to record the data that was used as ground-truth pose data, is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements, depending on the individual set-up and how well its calibrated. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software. Given its accuracy, the measurement results from this system is taken as ground-truth.
+The external measurement system used to record the data that was used as ground-truth pose data, is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software. Given its accuracy, the measurement results from this system was taken as ground-truth.
 
 The Vicon system used for the test is located in the 3D Human Motion Laboratory on Stellenbosch University's Tygerberg medical campus. It consists of eight infrared cameras arranged around a square on the floor in a configuration that maximises the number of infrared markers visible to each camera at any given point in time. Figure~\ref{fig:vicon-layout} shows a diagram of the Vicon system layout. 
  
@@ -82,7 +82,7 @@ The Vicon system used for the test is located in the 3D Human Motion Laboratory 
 \label{fig:vicon-layout}
 \end{figure}
 
-Before the test commenced, the Vicon system was calibrated and the infrared markers were placed on both the calibration board and camera frame used by the CV system. Since the Vicon and CV camera each have their own coordinate systems, having the position and orientation of the CV camera available will allow the Vicon's measurements to be related back to the CV camera's coordinate system during the post-processing phase. The markers were placed in such a way that they will produce axes that more or less coincides with the Vicon's axis system, slightly reducing the work load during the post-processing phase. Figure~\ref{fig:cam-vicon-axes} shows the axis system's for both the CV and Vicon systems.
+Before the test commenced, the Vicon system was calibrated and the infrared markers were placed on both the calibration board and camera frame used by the CVS\@. Since the Vicon and CVS camera each have their own coordinate systems, having the position and orientation of the CVS camera available will allow the Vicon's measurements to be related back to the CVS's camera coordinate system during the post-processing phase. The markers were placed in such a way that they will produce axes that more or less coincides with the Vicon's axis system, slightly reducing the work load during the post-processing phase. Figure~\ref{fig:cam-vicon-axes} shows the axis system's for both the CVS and Vicon systems.
 
 \begin{figure}
   \centering
@@ -129,31 +129,31 @@ Figure~\ref{fig:pic-sys-layout} shows a picture of the complete setup. As descri
 \label{fig:pic-sys-layout}
 \end{figure}
 
-Data capture started when the Vicon system started recording. At the same time, the chessboard was tilted forward. This allowed for the data to be synchronised to a common timeframe during the post-processing phase. During the data capturing phase, the board was moved by hand to different positions and orientations with respect to the camera's axis system, to generate data vectors. To produce a diverse cloud of data vectors, the board was moved around the full field of view and depth of the camera, while varying the rotational orientation at the same time. Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used for consistency reasons. 
+Data capture started when the Vicon system started recording. At the same time, the chessboard was tilted forward. This allowed for the data to be synchronised to a common timeframe during the data processing phase. During the data capturing phase, the board was moved by hand to different positions and orientations with respect to the camera's axis system, to generate data vectors. To produce a diverse cloud of data vectors, the board was moved around the full field of view and depth of the camera, while varying the rotational orientation at the same time. Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used for consistency reasons. 
 
 The test produces two sets of data: one ground-truth pose measurement data set from the Vicon system, and one data set from the CVS\@. These data sets allows the determination of the CVS measurement error. These sets were also used to provide training and validation data sets for a error prediction mode, which is discussed in Section MEMEMEMEME.
 
 \subsection{Data Processing}
 
-During the test, the CVS only captured video data, leaving the data extraction and pose estimation to be done off-line during post-processing. The Vicon system requires very little post-processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix incorrect measurements that were introduced when not enough Vicon cameras have a good view of a infrared marker. These points were corrected by means of interpolation. Furthermore, since the CVS data is the focus of these tests, the Vicon system's axis system was rotated and reorientated to coincide with the axis system of the CVS.
+During the test, the CVS only captured video data, leaving the data extraction and pose estimation to be done off-line during the data processing phase. The Vicon system data requires very little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix incorrect measurements that were introduced when not enough Vicon cameras have a good view of the infrared markers. These points were corrected by means of interpolation. Furthermore, since the CVS data is the focus of these tests, the Vicon system's axis system was rotated and reorientated to coincide with the axis system of the CVS.
 
-Processing the CV data involves several steps, which include simultaneously optimising the camera's focal length and the infrared marker offsets and then determining the accuracy of the CV pose estimation system. Each of these aspects are discussed next.
+Processing the CVS data involves several steps, which include simultaneously optimising the camera's focal length and the infrared marker offsets and then determining the accuracy of the CVS pose estimation system. Each of these aspects are discussed next.
 
 \subsubsection{Rotating the Camera and Chessboard Data}
 \label{sec:rotate-axes}
 
-During the test, 4 markers were placed on the CVS camera frame to provide data on its placement. These markers were placed along the camera's $x$ and $y$ axes and is identical to the chessboard's axis system. 
+During the test, four markers were placed on the CVS camera frame to provide data on its placement. These markers were placed along the camera's $x$ and $y$ axes and is identical to the chessboard's axis system. 
 
-With the CVS's camera placement in the Vicon coordinate system known, it is possible to move the Vicon axis system to the centre of the CVS's camera axis system and to find the angle between the Vicons's axis system and the CVS's camera. This was done by finding the $\arctan$ relationship between the relevant axes and was double checked by using the cosine angle of the dot product. As an additional sanity check that the measurements are correct, the angles have to be relatively constant, since the camera does not move during the experiment. This was indeed the case, except for some sensor noise introduced from the Vicon system, which may ignored given its small magnitude. 
+With the CVS's camera placement and orientation in the Vicon coordinate system known, it is possible to move the Vicon axis system to the centre of the CVS's camera axis system and to find the angle between the Vicons's axis system and the CVS's camera. This was done by finding the $\arctan$ relationship between the relevant axes and was double checked by using the cosine angle of the dot product. As an additional sanity check that the measurements are correct, the angles have to be relatively constant, since the camera does not move during the experiment. This was indeed the case, except for some high-frequency sensor noise introduced from the Vicon system, which may ignored given its small magnitude. 
 
-With the angular deviation between the Vicon and CVS's camera axis system's known, an Euler rotation matrix of type 1--2--3 can be set up. This matrix can then be used to rotate the Vicon's measurement data of the chessboard to coincide with the CVS's camera axis system, making it possible to directly relate the calibration board measurements of the two systems. 
+With the angular deviation between the Vicon and CVS's camera axis system's known, an Euler rotation matrix of type 1--2--3 can be set up. This matrix can then be used to rotate the Vicon's measurement data of the calibration board to coincide with the CVS's camera axis system, making it possible to directly relate the calibration board measurements of the two systems. 
 
-Similarly, it was advantageous to centre the CVS's camera axis system around the Vicon system's origin. This was done by subtracting the CVS's camera Vicon position data from the chessboard and CVS's camera position data given by the Vicon system. This will centre both the Vicon and CV camera data sets around the Vicon's origin, simplifying the optimisation procedure discussed next. 
+Similarly, it is advantageous to centre the CVS's camera axis system around the Vicon system's origin. This was done by subtracting the CVS's camera Vicon position data from the calibration board and CVS's camera position data given by the Vicon system. This will centre both the Vicon and CVS camera data sets around the Vicon's origin, simplifying the optimisation procedure discussed next. 
 
 \subsubsection{Camera Parameter Optimisation}
 \label{sec:focal-optimisation}
 
-Before the test took place, the CVS camera was calibrated using OpenCV's camera calibration toolbox. This procedure provides a fairly good estimate of the intrinsic parameters of the camera, e.g.\ the focal lengths. However, given the lack of absolute three-dimensional data, it is only an estimate. Using the ground-truth Vicon pose data will allow the focal length to be determined far more accurately. At the same time, the distance offset between the true marker centre and the ideal marker centre also needs to be taken into account. This offset will also account for any constant measurement bias introduced by the CVS. This presents a circular optimisation problem: the focal length will affect the perceived offset, while the offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
+Before the test took place, the CVS camera was calibrated using OpenCV's camera calibration toolbox. This procedure provides a fairly good estimate of the intrinsic parameters of the camera, e.g.\ the focal lengths. However, given the lack of reference three-dimensional data, it is only an estimate. Using the ground-truth Vicon pose data will allow the focal length to be determined more accurately. At the same time, the distance offset between the true infrared marker centre and the ideal infrared marker centre also needs to be taken into account. This offset will also account for any constant measurement bias introduced by the CVS\@. This presents a circular optimisation problem: the focal length will affect the perceived offset, while the offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
 
 First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector as given by the Vicon system, while $\bar{\bm{P}}$ is the constant offset vector and the subscripts $c$ and $b$ represent the camera and board respectively. $\bm{\epsilon}$ is the error between the Vicon and CV systems' measurements that needs to be determined and $\bm{F}(f)$ is the pose vector measured by the CV camera, as a function of its focal lengths $f_x$ and $f_y$. The Vicon pose and offset vectors are then given by the following equations
 
@@ -228,97 +228,103 @@ During the optimisation procedure, it was assumed that $\bm{\epsilon}$ was norma
 
 \subsection{Proof of Convergence}
 
-To test for convergence, the total error for each dimension after an entire iteration of the optimisation was determined and plotted. Figure~\ref{fig:err-convergence-x} to~\ref{fig:err-convergence-psi} show the errors of the $\bm{\epsilon}$ vector over 50 iterations.
+To test for convergence, the total error for each dimension after an entire iteration of the optimisation was determined and plotted. Figure~\ref{fig:err-convergence} shows the errors of the $\bm{\epsilon}$ vector over 50 iterations.
 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_x}
-    \caption{Error convergence in the $x$ dimension.}
+    \caption{Error convergence in the $x$ dimension [m].}
 \label{fig:err-convergence-x}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_y}
-    \caption{Error convergence in the $y$ dimension.}
+    \caption{Error convergence in the $y$ dimension [m].}
 \label{fig:err-convergence-y}
   \end{subfigure}
 ~
 \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_z}
-    \caption{Error convergence in the $z$ dimension.}
+    \caption{Error convergence in the $z$ dimension [m].}
 \label{fig:err-convergence-z}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_roll}
-    \caption{Error convergence in the $\theta$ dimension.}
+    \caption{Error convergence in the $\theta$ dimension [degrees].}
 \label{fig:err-convergence-roll}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_pitch}
-    \caption{Error convergence in the $\phi$ dimension.}
+    \caption{Error convergence in the $\phi$ dimension [degrees].}
 \label{fig:err-convergence-pitch}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/err_yaw}
-    \caption{Error convergence in the $\psi$ dimension.}
+    \caption{Error convergence in the $\psi$ dimension [degrees].}
 \label{fig:err-convergence-psi}
   \end{subfigure}
+  \caption{Plots showing the error in each dimension during for each iteration of the error minimisation procedure.}
+  \label{fig:err-convergence}
 \end{figure*}
 
-These figures show that the error hovers around 0 after only a few iterations, but does not fully converge. This may warrant some investigation, but it is suspected that the focal length step sizes are too large and must be adapted between iterations. This will be implemented in later versions.
+The graphs in Figure~\ref{fig:err-convergence} show that the error gets reduced in the $x$ and $z$ dimensions, while it gets worse in the $y$ and rotation dimensions. Since the optimisation procedure is based on the error in the translation vector, it is not surprising that the rotation error grows. However, the $y$ dimension error growing is somewhat surprising.  %These figures show that the error hovers around 0 after only a few iterations, but does not fully converge. This may warrant some investigation, but it is suspected that the focal length step sizes are too large and must be adapted between iterations. This will be implemented in later versions.
+
+Upon closer inspection, it can be seen that of the three translation vectors, the $y$ dimension has the lowest total error. Since all three vectors carry the same importance weighting for optimisation, it is inevitable that the $x$ and $z$ dimension's errors get lowered at the cost of the $y$ dimension's accuracy. 
 
 \subsection{Test for Normality}
 \label{sec:err-norm-test}
 
 To check if $\bm{\epsilon}$ is indeed normally distributed as assumed in Equation~\ref{eq:offset}, a frequency histogram of the error matrix $\epsilon$ in all six dimensions are plotted along with a normal distribution drawn using each dimension's mean and standard deviation. A $\chi^2$ test could also have been used. However, it was found that the sample size of the data set was too large and it is known that some skewness in the data can have a large impact on the $\chi^2$ probability estimate. Therefore, a graphical approach was taken to determining if the errors are normally distributed around 0.0. 
 
-Figures~\ref{fig:norm-x} to~\ref{fig:norm-yaw} show the histogram plots of the errors in the 6 dimensions. A normal distribution, using the averages and standard deviations from the data set, are superimposed to illustrate the normal distribution of the data.
+Figure~\ref{fig:err-norm} shows the histogram plots of the errors in the six dimensions. A normal distribution, using the averages and standard deviations from the data set, are superimposed to illustrate the normal distribution of the data.
 
 \begin{figure*}
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_x}
-     \caption{Histogram of the error in the $x$ dimension with a standard deviation of 55.6mm.}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_x}
+     \caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$m and a standard deviation of 293mm.}
   \label{fig:norm-x}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_y}
-     \caption{Histogram of the error in the $y$ dimension with a standard deviation of 202mm.}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_y}
+     \caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$m and a standard deviation of 167mm.}
   \label{fig:norm-y}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_z}
-     \caption{Histogram of the error in the $z$ dimension with a standard deviation of 74.8mm.}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_z}
+     \caption{Histogram of the error in the $z$ dimension with a mean of 1.17mm and a standard deviation of 560mm.}
   \label{fig:norm-z}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_roll}
-     \caption{Histogram of the error in the $\theta$ dimension with a standard deviation of 9.21\degree.}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_roll}
+     \caption{Histogram of the error in the $\theta$ dimension with a mean of 4 mili-degrees and a standard deviation of 44.0\degree.}
   \label{fig:norm-roll}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_pitch}
-     %\caption{Histogram of the error in the $\phi$ dimension with a standard deviation of 10.5\degree.}
-     \caption{hello}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_pitch}
+     %\caption{Histogram of the error in the $\phi$ dimension with a mean of 14.7 mili-degrees and a standard deviation of 19.0\degree.}
+     \caption{meme}
   \label{fig:norm-pitch}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 175 0, width=\textwidth]{figures/chapter3/norm_yaw}
-     %\caption{Histogram of the error in the $\psi$ dimension with a standard deviation of 17.8\degree.}
-     \caption{daar}
+     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_yaw}
+     %\caption{Histogram of the error in the $\psi$ dimension with a mean of 0.3 mili-degrees and a standard deviation of 7.99\degree.}
+     \caption{meme}
   \label{fig:norm-yaw}
   \end{subfigure}
+  \caption{meme}
+  \label{fig:err-norm}
 \end{figure*}
 
-It can be seen that all the plots are roughly centred around 0.0 and are very nearly normally distributed, with the $z$ dimension displaying the largest standard deviation of approximately 300mm. Again, a bad depth estimate is to be expected when working with a single camera.
+It can be seen that all the plots are roughly centred around 0.0 and are very nearly normally distributed, with the $z$ dimension displaying the largest standard deviation of approximately 500mm. Again, a bad depth estimate is to be expected when working with a single camera.
 
 In all, the histograms of the errors show that the assumption made in Equation~\ref{eq:offset} that the errors are normally distributed around 0.0 is a valid one. 
 

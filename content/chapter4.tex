@@ -2,15 +2,29 @@
 
 \section{Introduction}
 
-The error of the pose estimation of the computer vision system (CVS) was determined and discussed in Chapter HEEEEE\@. Since the CVS was used as a measurement device, it is critical to know what the pose estimation error would be for any pose vector sample before the CVS can be used to determine the pose error of a drone. 
+The error of the pose estimation of the computer vision system (CVS) was determined and discussed in Chapter HEEEEE\@. It was found that the pose estimation error, i.e.\ the difference between the true pose versus the measured pose, is highly dependent on the current pose relative to the CVS's camera. The data produced also contains a large amount of noise introduced by the CVS's camera. 
 
-It was found that the pose estimation error, i.e.\ the difference between the true pose versus the measured pose, is highly dependent on the current pose relative to the CVS's camera. The data produced also contains a large amount of noise. As a consequence of the complex nature of the data, it is close to impossible to predict the pose estimate error that the CVS produces, in a simple manner. 
+The CVS was used as a measurement device and it is therefore critical to know what the pose estimation error would be for any pose vector sample before the CVS can be used to determine the pose error of a drone. The complexity, interdimensional dependence and high dimensionality of the pose error data makes it almost impossible to establish what the measurement pose error would be for any sample pose.
 
-\section{Methodology}
+However, there are methods available which will allow a pose error vector to be predicted for a sample pose, i.e.\ for a sample input pose vector, an output pose error vector will be produced that will most likely occur at the given input pose. These methods are commonly knows as machine learning methods.
+
+This chapter provides a broad overview of the machine learning methods available, as well as a discussion on the type machine learning method selected. Then the
 
 \section{Prediction Model}
 
 \subsection{Background}
+
+Machine learning is not a modern field, with Alan Turing already posing the question, `Can machines think?' [\cite{turing1950computing}] in 1950.~\cite{michalski2013machine} provides a more formal description of machine learning: `A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E'. 
+
+
+
+\subsection{Traditional Neural Network}
+
+\subsection{Radial Basis Function}
+
+\subsection{Model Choice}
+
+\section{Model Training and Validation}
 
 \subsection{Model Training}
 

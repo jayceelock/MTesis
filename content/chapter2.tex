@@ -62,7 +62,41 @@ The fields of interest for this thesis, is the object detection, tracking and po
 
 \subsection{Camera Matrix}
 
+An image is a collection of 2-dimensional vectors representing a collection of 3-dimensional space vectors. These collections of vectors are related by a matrix $C$, known as the camera matrix. The camera matrix contains the intrinsic parameters of the camera that recorded the image, i.e.\ the focal lengths and principle point of the image, as well as the extrinsic parameters of the camera, i.e.\ the translation and rotation information. The camera matrix $C$ given is given by Equation~\ref{eq:cam-matrix}, as derived by~\cite{heikkila1997four}. 
+\begin{equation}
+  \label{eq:cam-matrix}
+  C = 
+  \begin{bmatrix}
+    f_x & 0   & u_0 \\
+    0   & f_y & v_0 \\
+    0   & 0   & 1   \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    R | T
+  \end{bmatrix}
+\end{equation}
+
+where $f_x$ and $f_y$ describe the focal lengths of the camera, and $u_0$ and $v_0$ are the principal points. $R$ is a $3\times3$ matrix describing the rotation of the camera, and $T$ is a three-dimensional vector describing the translation of the camera. 
+
+If the camera matrix $C$ is known, the 3-dimensional coordinates for any 2-dimensional image can be determined by the relation given in Equation~\ref{eq:2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
+
+\begin{equation}
+   \label{eq:2d-to-3d}
+   \begin{bmatrix}
+     x_c & y_c & 1 \\
+   \end{bmatrix}^T
+   = C
+   \begin{bmatrix}
+     x_w & y_w & z_w & 1 \\
+   \end{bmatrix}^T
+ \end{equation}
+
 \subsection{Camera Calibration}
+\label{sec:chap2-cam-calibration}
+
+There are various camera calibration procedures available, from the two-step calibration described by~\cite{melen1994geometrical} to the classical approach given by~\cite{slama1980manual}, where a nonlinear error function is minimised. However, the minimisation problem presented by~\citeauthor{slama1980manual} is computationally inefficient and slow, while~\citeauthor{melen1994geometrical}'s method does not account for image distortion and correction.
+
+A popular calibration method, as used by the OpenCV computer vision library [\cite{bradski2000opencv}], is the four-step method, proposed by~\cite{heikkila1997four} as an extension to the two-step method which was the prevalent at the time.
 
 \subsection{Principle n-Points Problem}
 

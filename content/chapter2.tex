@@ -67,17 +67,41 @@ An image is a collection of 2-dimensional vectors representing a collection of 3
 \begin{equation}
   \label{eq:chap2-cam-matrix}
   C = 
+  NP
+\end{equation}
+
+where $N$ is given by the matrix in Equation~\ref{eq:chap2-cam-intrinsic}.
+
+\begin{equation}
+  \label{eq:chap2-cam-intrinsic}
+  N = 
   \begin{bmatrix}
     f_x & 0   & u_0 \\
     0   & f_y & v_0 \\
     0   & 0   & 1   \\
   \end{bmatrix}
+\end{equation}
+
+Here, $f_x$ and $f_y$ describe the focal lengths of the camera and $u_0$ and $v_0$ are the principal points. 
+
+The pose matrix $P$ is given by the matrix in Equation~\ref{eq:chap2-cam-extrinsic}.
+
+\begin{equation}
+  \label{eq:chap2-cam-extrinsic}
+  P = 
   \begin{bmatrix}
     R | T
   \end{bmatrix}
+  =
+  \begin{bmatrix}
+    r_{11} & r_{21} & r_{31} & t_1 \\
+    r_{21} & r_{22} & r_{32} & t_2 \\
+    r_{31} & r_{23} & r_{33} & t_3 \\
+  \end{bmatrix}
 \end{equation}
 
-where $f_x$ and $f_y$ describe the focal lengths of the camera, and $u_0$ and $v_0$ are the principal points. $R$ is a $3\times3$ matrix describing the rotation of the camera, and $T$ is a three-dimensional vector describing the translation of the camera. 
+In the matrix $P$, $R$ is a $3\times3$ matrix describing the rotation of the camera, and $T$ is a three-dimensional vector describing the translation of the camera. 
+
 
 If the camera matrix $C$ is known, the 3-dimensional coordinates for any 2-dimensional image can be determined by the relation given in Equation~\ref{eq:chap2-2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
 
@@ -116,16 +140,28 @@ With the of two-dimensional and three-dimensional data sets recorded, the calibr
 
 \subsection{Principle n-Points Problem}
 
-The Principle n-Points (PnP) problem, as stated by\cite{horaud1989analytic}, `is the problem of finding the position and orientation of a camera with respect to a scene object from $n$ correspondence points' and is a well-researched sub-field of computer vision. Various solutions to the problem have been proposed. These solutions include the non-iterative solutions, such as the P3P solution proposed by~\cite{gao2003complete} and the PnP solvers by~\cite{lepetit2009epnp} and~\cite{schweighofer2006robust}, and iterative solutions, such as the method proposed by~\cite{lu2000fast}.
+The Principle n-Points (PnP) problem, as stated by~\cite{horaud1989analytic}, `is the problem of finding the position and orientation of a camera with respect to a scene object from $n$ correspondence points', where the scene object would normally be a well-characterised calibration object or pattern. It is a well-researched sub-field of computer vision with various solutions to the problem that have been proposed. These solutions include the non-iterative solutions, such as the P3P solution proposed by~\cite{gao2003complete} and the PnP solvers by~\cite{lepetit2009epnp} and~\cite{schweighofer2006robust}, and iterative solutions, such as the method proposed by~\cite{lu2000fast}.
 
 It was found that iterative methods produce very accurate results, but can become unstable if its not properly initialised and can take a long time to converge. Conversely, the non-iterative ePnP method by~\citeauthor{lepetit2009epnp} implements~\citeauthor{schweighofer2006robust}'s robust solver and produces results whose accuracy is comparable to those produced by its iterative counterpart. However, it produces these results in a fraction of the time, having a big $\mathcal{O}$ complexity that grows linearly ($\mathcal{O}(n)$), as opposed to competing non-iterative methods which commonly have a big $\mathcal{O}$ complexity to the order of 4 or more ($\mathcal{O}^4(n)$). On the downside, the accuracy of the ePnP's methods results is fairly dependant on the number of sample points, i.e.\ the number of point correspondences between the three-dimensional features and their two-dimensional projections. 
 
 The OpenCV library has implementations of the P3P and ePnP methods, as well as its own implementation based on Levenberg-Marquardt [\cite{levenberg1944method} and~\cite{marquardt1963algorithm}] optimisation, where the pose (i.e.\ the combination of translation and rotation vectors) that minimises the reprojection error, that is the sum of the squared distances between the actual two-dimensional points and the projected two-dimensional points, is determined and selected. 
 
+OpenCV's `solvePnP()' function can be used to determine the pose of a camera relative to a calibration pattern. This can be accomplished as follows. After the camera calibration procedure, the intrinsic parameter matrix $N$ from Equation~\ref{eq:chap2-cam-intrinsic} is determined. Then, using a calibration pattern, a set of three-dimensional object coordinates and its corresponding two-dimensional projection can be obtained. Following from Equation~\ref{eq:chap2-2d-to-3d}, with the matrix $C$ and two-dimensional image projections and three-dimensional object coordinates, the pose matrix $P$ can then be found. This matrix then contains the translation and rotation data for the camera relative to the calibration pattern. 
+
 \subsection{Random Sample Consensus}
 
 SPEEL MET RANSAC WAARDES IN OPENCV OM PUNTE AF TE SKAAAAAAAT
 
+For both the camera calibration and PnP solving functions, two-dimensional image projection data of three-dimensional object data is required. As mentioned, OpenCV's `findChessboardCorners()' function can automatically detect corner features on a chessboard pattern and provide the two-dimensional projection data. However, the methods employed are prone to erroneously classifying some features as corners, introducing unwanted noise into the system. 
+
+To remedy this,~\cite{fischler1981random} proposed a new algorithm to iteratively sift through a data set and reject any outlier data. This algorithm is dubbed Random Sample Consensus (RANSAC) and is a commonly used method in the computer vision field where it is used to determine if an image feature, e.g.\ a corner on a chessboard, that has been classified as such, has been classified correctly. 
+
 \section{Machine Learning Algorithms}
 
 \subsection{Introduction}
+
+\subsection{Radial Basis Function}
+
+\subsection{Artifical Neural Network}
+
+\subsection{Linear Interpolator}

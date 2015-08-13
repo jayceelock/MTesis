@@ -3,7 +3,7 @@
 
 \section{Introduction}
 
-\section{Drones}
+\section{Quadcopters}
 
 \subsection{Modelling}
 
@@ -62,9 +62,10 @@ The fields of interest for this thesis, is the object detection, tracking and po
 
 \subsection{Camera Matrix}
 
-An image is a collection of 2-dimensional vectors representing a collection of 3-dimensional space vectors. These collections of vectors are related by a matrix $C$, known as the camera matrix. The camera matrix contains the intrinsic parameters of the camera that recorded the image, i.e.\ the focal lengths and principle point of the image, as well as the extrinsic parameters of the camera, i.e.\ the translation and rotation information. The camera matrix $C$ given is given by Equation~\ref{eq:cam-matrix}, as derived by~\cite{heikkila1997four}. 
+An image is a collection of 2-dimensional vectors representing a collection of 3-dimensional space vectors. These collections of vectors are related by a matrix $C$, known as the camera matrix. The camera matrix contains the intrinsic parameters of the camera that recorded the image, i.e.\ the focal lengths and principle point of the image, as well as the extrinsic parameters of the camera, i.e.\ the translation and rotation information. The camera matrix $C$ given is given by Equation~\ref{eq:chap2-cam-matrix}, as derived by~\cite{heikkila1997four}. 
+
 \begin{equation}
-  \label{eq:cam-matrix}
+  \label{eq:chap2-cam-matrix}
   C = 
   \begin{bmatrix}
     f_x & 0   & u_0 \\
@@ -78,10 +79,10 @@ An image is a collection of 2-dimensional vectors representing a collection of 3
 
 where $f_x$ and $f_y$ describe the focal lengths of the camera, and $u_0$ and $v_0$ are the principal points. $R$ is a $3\times3$ matrix describing the rotation of the camera, and $T$ is a three-dimensional vector describing the translation of the camera. 
 
-If the camera matrix $C$ is known, the 3-dimensional coordinates for any 2-dimensional image can be determined by the relation given in Equation~\ref{eq:2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
+If the camera matrix $C$ is known, the 3-dimensional coordinates for any 2-dimensional image can be determined by the relation given in Equation~\ref{eq:chap2-2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
 
 \begin{equation}
-   \label{eq:2d-to-3d}
+   \label{eq:chap2-2d-to-3d}
    \begin{bmatrix}
      x_c & y_c & 1 \\
    \end{bmatrix}^T
@@ -94,13 +95,36 @@ If the camera matrix $C$ is known, the 3-dimensional coordinates for any 2-dimen
 \subsection{Camera Calibration}
 \label{sec:chap2-cam-calibration}
 
-There are various camera calibration procedures available, from the two-step calibration described by~\cite{melen1994geometrical} to the classical approach given by~\cite{slama1980manual}, where a nonlinear error function is minimised. However, the minimisation problem presented by~\citeauthor{slama1980manual} is computationally inefficient and slow, while~\citeauthor{melen1994geometrical}'s method does not account for image distortion and correction.
+A properly calibrated camera is a very important part of any computer vision system, since the accuracy of the data extracted from an image may strongly depend on the accuracy of the calibration. The goal of a camera calibration procedure is to produce the complete camera matrix $C$, as given in Equation~\ref{eq:chap2-cam-matrix}, as well as finding the camera's distortion coefficients introduced by low-quality or fish-eye lenses. There are various camera calibration procedures available, from the two-step calibration described by~\cite{melen1994geometrical} to the classical approach given by~\cite{slama1980manual}, where a non-linear error function is minimised. However, the minimisation problem presented by~\citeauthor{slama1980manual} is computationally inefficient and slow, while~\citeauthor{melen1994geometrical}'s method does not account for image distortion and correction. A popular calibration method is the four-step method, proposed by~\cite{heikkila1997four} as an extension to the two-step method which was the prevalent at the time.
 
-A popular calibration method, as used by the OpenCV computer vision library [\cite{bradski2000opencv}], is the four-step method, proposed by~\cite{heikkila1997four} as an extension to the two-step method which was the prevalent at the time.
+The `calibrateCamera()' function of the OpenCV computer vision library [\cite{bradski2000opencv}], makes use of the four-step method. The fine details of the method is beyond the scope of this research, however a broad overview of the steps and equipment required to calibrate a camera, is provided. 
+
+To perform the calibration and find the camera matrix, OpenCV requires two sets of data: one two-dimensional image data set, $[x_c\;y_c\;1]$, as well as a set of corresponding three-dimensional data points, $[x_w\;y_w\;z_w\;1]$. This implies that image data of an object where the dimensions and coordinates of certain features are known, must recorded. In practice, any well-characterised object can be used for calibration. For example, some calibration methods rely on a three-dimensional cube covered in precisely laid out markers. However, since manufacturing and distributing such precisely constructed objects to a large audience is infeasible, and therefore OpenCV opts to use the more convenient flat, regular pattern, such as chessboard or asymmetrical dot pattern. Figure~\ref{fig:chap2-calib-pattern} shows an example of a typical chessboard pattern generated by OpenCV.\@ With these flat patterns, the features used to populate the data sets would be the square corners on a chessboard, i.e.\ where a black block meets another black block, or the dots on an asymmetric dot pattern. The drawback to this approach, however, is that multiple views of the flat calibration pattern is required, whereas a single image of the three-dimensional object would suffice. 
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=90, width=0.5\textwidth]{figures/chapter2/chessboard_pattern}
+  \caption{An example of a typical chessboard pattern used for calibration.}
+\label{fig:chap2-calib-pattern}
+\end{figure}
+
+In the case of the chessboard pattern, acquiring the two-dimensional coordinates of the corners is accomplished by using OpenCV's `findChessboardCorners()' and `findCornerSubPix()' functions, which makes use of a Harris corner detection algorithm, first described by~\cite{harris1988combined}, to find the pixel coordinates of the corners on the chessboard pattern. The three-dimensional coordinates is fed to the calibration function according to an axis-system and measurement unit defined by the programmer. These coordinates can be as simple as a vector containing the corner coordinates in square units, e.g.\ the corner from Figure~\ref{fig:chap2-calib-pattern} will then be represented as $(3, 2, 0, 1)$ in homogeneous coordinates (note that $z_w$ will be zero since the board is flat). 
+
+Next, for best calibration results, OpenCV recommends that camera calibration takes place within a well-lit room with a white background, using a calibration pattern with a wide white border in clear view of the camera and at different locations and orientations relative to the camera. These recommendations are mainly to increase the contrast between the black features and the white background and make it easier for OpenCV to accurately find each feature's pixel coordinates. Furthermore, the more diverse the location and orientation data is, the more accurate the estimate for the intrinsic camera parameters will be. 
+
+With the of two-dimensional and three-dimensional data sets recorded, the calibration function can determine the camera matrix $C$. 
 
 \subsection{Principle n-Points Problem}
 
+The Principle n-Points (PnP) problem, as stated by\cite{horaud1989analytic}, `is the problem of finding the position and orientation of a camera with respect to a scene object from $n$ correspondence points' and is a well-researched sub-field of computer vision. Various solutions to the problem have been proposed. These solutions include the non-iterative solutions, such as the P3P solution proposed by~\cite{gao2003complete} and the PnP solvers by~\cite{lepetit2009epnp} and~\cite{schweighofer2006robust}, and iterative solutions, such as the method proposed by~\cite{lu2000fast}.
+
+It was found that iterative methods produce very accurate results, but can become unstable if its not properly initialised and can take a long time to converge. Conversely, the non-iterative ePnP method by~\citeauthor{lepetit2009epnp} implements~\citeauthor{schweighofer2006robust}'s robust solver and produces results whose accuracy is comparable to those produced by its iterative counterpart. However, it produces these results in a fraction of the time, having a big $\mathcal{O}$ complexity that grows linearly ($\mathcal{O}(n)$), as opposed to competing non-iterative methods which commonly have a big $\mathcal{O}$ complexity to the order of 4 or more ($\mathcal{O}^4(n)$). On the downside, the accuracy of the ePnP's methods results is fairly dependant on the number of sample points, i.e.\ the number of point correspondences between the three-dimensional features and their two-dimensional projections. 
+
+The OpenCV library has implementations of the P3P and ePnP methods, as well as its own implementation based on Levenberg-Marquardt [\cite{levenberg1944method} and~\cite{marquardt1963algorithm}] optimisation, where the pose (i.e.\ the combination of translation and rotation vectors) that minimises the reprojection error, that is the sum of the squared distances between the actual two-dimensional points and the projected two-dimensional points, is determined and selected. 
+
 \subsection{Random Sample Consensus}
+
+SPEEL MET RANSAC WAARDES IN OPENCV OM PUNTE AF TE SKAAAAAAAT
 
 \section{Machine Learning Algorithms}
 

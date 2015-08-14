@@ -20,7 +20,7 @@ In an attempt to create a quadcopter model that will allow a quadcopter to be mo
 \label{fig:chap2-quad-model}
 \end{figure}
 
-Their resulting model was used to develop a simple hovering Proportional Integral Differential (PID) attitude and altitude controller for the purpose of model verification. The results show that the drone stabilised itself in indoor flight with $\pm1$\textdegree of precision and $\pm5$\textdegree of precision during outdoor flight. The lower precision during outdoor flights is due to the added wind disturbances, etc. Thus, the model, as it stands, is sufficiently accurate to safely control a drone for hovering. However, they did not compare their model, which includes aerodynamic effects, against the model of~\citeauthor{hamel2002dynamic}, which is based on rigid body dynamics. 
+Their resulting model was used to develop a simple hovering Proportional Integral Differential (PID) attitude and altitude controller for the purpose of model verification. The results show that the drone stabilised itself in indoor flight with $\pm1$\textdegree\ of precision and $\pm5$\textdegree\ of precision during outdoor flight. The lower precision during outdoor flights is due to the added wind disturbances, etc. Thus, the model, as it stands, is sufficiently accurate to safely control a drone for hovering. However, they did not compare their model, which includes aerodynamic effects, against the model of~\citeauthor{hamel2002dynamic}, which is based on rigid body dynamics. 
 
 \subsection{Control}
 
@@ -199,6 +199,8 @@ The FFN has a supervised training algorithm, commonly referred to as backpropaga
 
 GIMME RNN
 
+Nodig?
+
 \subsubsection{Radial Basis Function}
 
 GIMME RBF
@@ -207,6 +209,8 @@ GIMME RBF
 
 GIMME INTERPOLATOR
 
+Nodig?
+
 \subsection{Support Vector Machines}
 
 Support vector machines (SVM) is a widely used classification technique first proposed by~\cite{vapnik1995support}. It works by finding a hyperplane between two data classes that separates the classes by the widest possible average margin. See Figure~\ref{fig:chap2-svm-linear} for an illustration of this.
@@ -214,17 +218,17 @@ Support vector machines (SVM) is a widely used classification technique first pr
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{figures/chapter2/svm_linear}
-  \caption[SVM with linear hyperplane.]{SVM plot illustrating different class separators CITE WIKIPEDIA. $H_1$ does not separate the classes, while $H_2$ has only minimal class separation. $H_3$ exhibits the widest separation margin.}
-  \label{fig:chap2-svm-linear}
+  \caption[SVM with linear hyperplane.]{SVM plot illustrating different class separators CITE WIKIPEDIA.\@$H_1$ does not separate the classes, while $H_2$ has only minimal class separation. $H_3$ exhibits the widest separation margin.}
+\label{fig:chap2-svm-linear}
 \end{figure}
 
-\citeauthor{vapnik1995support}'s original method was limited to linear hyperplanes. Since then, the algorithm has extended to be non-linear hyperplanes by applying what is known as the `kernel trick', as described by~\cite{amaril1999improving}. An example of such a non-linear separator can be seen in Figure~\ref{fig:chap2-svm-nonlinear}.
+\citeauthor{vapnik1995support}'s original method was limited to linear hyperplanes. Since then, the algorithm has extended to be non-linear hyperplanes by applying what is known as the `kernel trick', as described by~\cite{amari1999improving}. An example of such a non-linear separator can be seen in Figure~\ref{fig:chap2-svm-nonlinear}.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/chapter2/svm_nonlinear}
   \caption{An example of an SVM with a non-linear kernel separator CITE WIKIPEDIA.}
-  \label{fig:chap2-svm-nonlinear}
+\label{fig:chap2-svm-nonlinear}
 \end{figure}
 
 SVM's are also limited to  binary, i.e.\ two class, problems, somewhat limiting their use for high-dimensional problems. However, they are extremely popular in scientific circles thanks to their accuracy and relative simplicity. 

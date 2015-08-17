@@ -3,6 +3,8 @@
 
 \section{Introduction}
 
+In this chapter, previous work and research that has been performed in the fields relevant to the research carried out during this project, is mentioned and discussed. These fields include the quadcopter platform, computer vision and machine learning techniques. 
+
 \section{Quadcopters}
 
 A quadcopter is an autonomous aerial vehicle (UAV) in a four rotor frame configuration. This configuration comes in an X or plus (+) shape, with the control equipment and sensors typically located at the centre. See Figure~\ref{fig:chap2-quad} for a picture of the SunKopter in a typical quadcopter X configuration. They can also come equipped with either four or eight motors and props, though the four-rotor variant is very common.
@@ -16,7 +18,7 @@ A quadcopter is an autonomous aerial vehicle (UAV) in a four rotor frame configu
 
 As described in Chapter REF CHAP1, the goal of this project is to determine the pose estimation error, i.e.\ the difference between a quadcopter's true pose and its estimated pose. To be able to do this, it is important that the dynamics and control strategy of a typical quadcopter is well defined and understood. This section sets out to discuss the dynamic modelling of a quadcopter, as well as the different control strategies that have been developed in the past. 
 
-\subsection{Modelling}
+\subsection{Plant Modelling}
 
 When designing a control system, arguably the most crucial part of the process is to derive an accurate mathematical model of the plant that is to be controlled. The plant in this case is a UAV in a `quadcopter' configuration. 
 
@@ -33,7 +35,7 @@ In an attempt to create a quadcopter model that will allow a quadcopter to be mo
 
 Their resulting model was used to develop a simple hovering Proportional Integral Differential (PID) attitude and altitude controller for the purpose of model verification. The results show that the drone stabilised itself in indoor flight with $\pm1$\textdegree\ of precision and $\pm5$\textdegree\ of precision during outdoor flight. The lower precision during outdoor flights is due to the added wind disturbances, etc. Thus, the model, as it stands, is sufficiently accurate to safely control a drone for hovering. However, they did not compare their model, which includes aerodynamic effects, against the model of~\citeauthor{hamel2002dynamic}, which is based on rigid body dynamics. 
 
-\subsection{Control}
+\subsection{Control Strategies}
 
 \subsubsection{Introduction}
 
@@ -45,7 +47,7 @@ There are different types of quadcopters, each of them equipped with different s
 
 Indoor drones may or may not come equipped with an on-board inertial measurement unit (IMU), which includes an accelerometer and gyroscope, for stability control. However, they commonly solely rely on an external motion detection system which tracks the drone, providing position and rotation (also known as pose) feedback to the controller, thereby closing the feedback control loop. These drones are exceptionally accurate and capable of performing remarkable acrobatic feats. However, their use is restricted to carefully regulated and controlled indoor environments.
 
-Outdoor drones, without the luxury of having very accurate external sensors available, have to rely on their on-board sensors to provide the controller with pose feedback. The on-board sensors these drones come equipped with may vary between quadcopter platforms, however they almost certainly come equipped with an IMU to provide pose data. However, since the IMU readings for position data drifts with time due to integration errors, a global positioning system (GPS) sensor is added to provide a base-line reading for a quadcopter's position. Other sensors that may be included are magnetometers, barometers, visual feedback sensors and sonar sensors. To combine the readings of the different sensors, a filtering technique, such as the Extended Kalmann Filter, is used. The pose error of the combination of the different readings are, in theory, less than the most accurate sensor in the suite, but this has not yet been proven and a exact error margin is yet to be determined. 
+Outdoor drones, without the luxury of having very accurate external sensors available, have to rely on their on-board sensors to provide the controller with pose feedback. The on-board sensors these drones come equipped with may vary between quadcopter platforms, however they almost certainly come equipped with an IMU to provide pose data. However, since the IMU readings for position data drifts with time due to integration errors, a global positioning system (GPS) sensor is added to provide a base-line reading for a quadcopter's position. Other sensors that may be included are magnetometers, barometers, visual feedback sensors and sonar sensors. To combine the readings of the different sensors, a filtering technique, such as the Extended Kalmann Filter, is used. The pose error of the combination of the different readings are, in theory, less than the most accurate sensor in the suite, but this has not yet been proven and an exact error margin is yet to be determined. 
 
 \subsubsection{Hovering Control}
 
@@ -53,7 +55,7 @@ The stable hovering of a quadcopter has been the focus of many projects and rese
 
 \cite{bouabdallah2004pid}, as part of their `OS4' project, compared the modern linear quadratic regulator (LQR) and classic PID controller with one another, with respect to the control performance (disturbance rejection, reference tracking, etc.) of a quadcopter.
 
-They found that the PID controller produced better results than the LQR in terms of reference tracking and dynamic performance. This was a surprising result, since LQR controllers normally excel at controlling unstable, underactuated plants such as a quadcopter platform. They suspect that the reason for this result may be because they neglected the effects of actuator dynamics, such as blade and rotor flapping, in their drone model. They do expect that an LQR controller will produce superior results if these effects are taken into account. 
+They found that the PID controller produced better results than the LQR in terms of reference tracking and dynamic performance. This was a surprising result, since LQR controllers normally excel at controlling unstable, underactuated plants such as a quadcopter platform. They suspect that the reason for this result may be because the PID controller is better at handling plant uncertainties, since they neglected the effects of actuator dynamics such as blade and rotor flapping, in their drone model. They do expect that an LQR controller will produce superior results if a more accurate model is used by taking these effects into account. 
 
 Some researchers have also investigated controlling a drone using an H-infinity (H$_{\inf}$) control structure and a model predictive controller (MPC). Most notably,~\cite{raffo2010integral} have done extensive research on this topic. MPC's are computationally efficient and modern controllers that drive a plant's state to a reference state within predefined constraints (eg.\ motor saturation, model dynamics, etc.), while a properly designed non-linear H$_{\inf}$ controller is very good at rejecting disturbances (eg.\ wind gusts, motor vibrations, etc.) and are robust to model uncertainties. They opted to combine the two controllers in an intelligent manner in order to extract the most efficient performance out of their drone. 
 

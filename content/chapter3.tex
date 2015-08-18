@@ -101,12 +101,12 @@ Only three markers are required for the Vicon system to produce a six-dimensiona
 \label{fig:cam-marker-placement}
 \end{figure}
 
-\begin{figure}
-   \centering 
-   \includegraphics[clip, trim = 600 0 400 0, width=0.8\textwidth]{figures/chapter3/bord_2.pdf}
-   \caption{Infrared marker placement on the chessboard.}
-\label{fig:board-marker-placement}
-\end{figure}
+%\begin{figure}
+   %\centering 
+   %\includegraphics[clip, trim = 600 0 400 0, width=0.8\textwidth]{figures/chapter3/bord_2.pdf}
+   %\caption{Infrared marker placement on the chessboard.}
+%\label{fig:board-marker-placement}
+%\end{figure}
 
 One aspect of the Vicon system to note is that the infrared markers have some high-frequency noise associated with them, which is apparent when inspecting the raw data. This noise is inherent to the marker and can be safely filtered out with a zero-lag, second order Butterworth filter. However, the raw, unfiltered data is used throughout this project. 
 
@@ -122,20 +122,20 @@ In the test, the camera was placed in a stable aluminium frame and was left unto
 
 Figure~\ref{fig:pic-sys-layout} shows a picture of the complete setup. As described in Section~\ref{sec:vicon-test-setup}, the camera is placed on a chair and the board is held facing the camera. Both of these are covered with four infrared markers with the eight infrared cameras surrounding both the board and camera.  
 
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 600 300 0 0, width=0.8\textwidth]{figures/chapter3/sys_1.pdf}
-  \caption{Picture of the test layout.}
-\label{fig:pic-sys-layout}
-\end{figure}
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 600 300 0 0, width=0.8\textwidth]{figures/chapter3/sys_1.pdf}
+  %\caption{Picture of the test layout.}
+%\label{fig:pic-sys-layout}
+%\end{figure}
 
 Data capture started when the Vicon system started recording. At the same time, the chessboard was tilted forward. This allowed for the data to be synchronised to a common timeframe during the data processing phase. During the data capturing phase, the board was moved by hand to different positions and orientations with respect to the camera's axis system, to generate data vectors. To produce a diverse cloud of data vectors, the board was moved around the full field of view and depth of the camera, while varying the rotational orientation at the same time. Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used for consistency reasons. 
 
-The test produces two sets of data: one ground-truth pose measurement data set from the Vicon system, and one data set from the CVS\@. These data sets allows the determination of the CVS measurement error. These sets were also used to provide training and validation data sets for a error prediction mode, which is discussed in Section MEMEMEMEME.
+The test produces two sets of data: one ground-truth pose measurement data set from the Vicon system, and one data set from the CVS\@. These data sets allows the determination of the CVS measurement error. These sets were also used to provide training and validation data sets for a error prediction mode, which is discussed in Section MEMEMEMEME.\@
 
 \subsection{Data Processing}
 
-During the test, the CVS only captured video data, leaving the data extraction and pose estimation to be done off-line during the data processing phase. The Vicon system data requires very little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix incorrect measurements that were introduced when not enough Vicon cameras have a good view of the infrared markers. These points were corrected by means of interpolation. Furthermore, since the CVS data is the focus of these tests, the Vicon system's axis system was rotated and reorientated to coincide with the axis system of the CVS.
+During the test, the CVS only captured video data, leaving the data extraction and pose estimation to be done off-line during the data processing phase. The Vicon system data requires very little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix incorrect measurements that were introduced when not enough Vicon cameras have a good view of the infrared markers. These points were corrected by means of interpolation. Furthermore, since the CVS data is the focus of these tests, the Vicon system's axis system was rotated and reorientated to coincide with the axis system of the CVS.\@
 
 Processing the CVS data involves several steps, which include simultaneously optimising the camera's focal length and the infrared marker offsets and then determining the accuracy of the CVS pose estimation system. Each of these aspects are discussed next.
 
@@ -233,37 +233,37 @@ To test for convergence, the total error for each dimension after an entire iter
 \begin{figure*}
   \centering
   \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_x}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_x.pdf}
     \caption{Error convergence in the $x$ dimension [m].}
 \label{fig:err-convergence-x}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_y}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_y.pdf}
     \caption{Error convergence in the $y$ dimension [m].}
 \label{fig:err-convergence-y}
   \end{subfigure}
 ~
 \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_z}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_z.pdf}
     \caption{Error convergence in the $z$ dimension [m].}
 \label{fig:err-convergence-z}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_roll}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_roll.pdf}
     \caption{Error convergence in the $\theta$ dimension [degrees].}
 \label{fig:err-convergence-roll}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_pitch}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_pitch.pdf}
     \caption{Error convergence in the $\phi$ dimension [degrees].}
 \label{fig:err-convergence-pitch}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/err_yaw}
+    \includegraphics[width=\textwidth]{figures/chapter3/err_yaw.pdf}
     \caption{Error convergence in the $\psi$ dimension [degrees].}
 \label{fig:err-convergence-psi}
   \end{subfigure}
@@ -282,47 +282,45 @@ To check if $\bm{\epsilon}$ is indeed normally distributed as assumed in Equatio
 
 Figure~\ref{fig:err-norm} shows the histogram plots of the errors in the six dimensions. A normal distribution, using the averages and standard deviations from the data set, are superimposed to illustrate the normal distribution of the data.
 
-\begin{figure*}
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_x}
-     \caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$m and a standard deviation of 293mm.}
-  \label{fig:norm-x}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_y}
-     \caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$m and a standard deviation of 167mm.}
-  \label{fig:norm-y}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_z}
-     \caption{Histogram of the error in the $z$ dimension with a mean of 1.17mm and a standard deviation of 560mm.}
-  \label{fig:norm-z}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_roll}
-     \caption{Histogram of the error in the $\theta$ dimension with a mean of 4 mili-degrees and a standard deviation of 44.0\degree.}
-  \label{fig:norm-roll}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_pitch}
-     %\caption{Histogram of the error in the $\phi$ dimension with a mean of 14.7 mili-degrees and a standard deviation of 19.0\degree.}
-     \caption{mememememe mememememe mememem ememememem emem e m e m e m e me m e m e m e m em e m e m eme}
-  \label{fig:norm-pitch}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_yaw}
-     %\caption{Histogram of the error in the $\psi$ dimension with a mean of 0.3 mili-degrees and a standard deviation of 7.99\degree.}
-     \caption{memememe memememe mememememe memememe memememememe memememememe memememe`}
-  \label{fig:norm-yaw}
-  \end{subfigure}
-  \caption{meme}
-  \label{fig:err-norm}
-\end{figure*}
+%\begin{figure*}
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_x.pdf}
+     %\caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$m and a standard deviation of 293mm.}
+  %\label{fig:norm-x}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_y.pdf}
+     %\caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$m and a standard deviation of 167mm.}
+  %\label{fig:norm-y}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_z.pdf}
+     %\caption{Histogram of the error in the $z$ dimension with a mean of 1.17mm and a standard deviation of 560mm.}
+  %\label{fig:norm-z}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_roll.pdf}
+     %\caption{Histogram of the error in the $\theta$ dimension with a mean of 4 mili-degrees and a standard deviation of 44.0\degree.}
+  %\label{fig:norm-roll}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_pitch.pdf}
+     %\caption{emem}
+  %\label{fig:norm-pitch}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+     %\includegraphics[clip, trim = 150 50 155 0, width=\textwidth]{figures/chapter3/norm_yaw.pdf}
+     %\caption{memememe}
+  %\label{fig:norm-yaw}
+  %\end{subfigure}
+  %\caption{meme}
+  %\label{fig:err-norm}
+%\end{figure*}
 
 It can be seen that all the plots are roughly centred around 0.0 and are very nearly normally distributed, with the $z$ dimension displaying the largest standard deviation of approximately 500mm. Again, a bad depth estimate is to be expected when working with a single camera.
 
@@ -340,43 +338,43 @@ The values in $\bar{\bm{P}}$ contain any constant error bias that may have been 
 
 All of the above produce an error 2-norm of approximately 0.81 (normalised), compared to the original 1.15, normalised. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CV system measurements in all 6 dimensions.
 
-\begin{figure*}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 200 50 150 0, width=\textwidth]{figures/chapter3/x}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $x$ dimension.}
-  \label{fig:estimate-x}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/y}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $y$ dimension.}
-  \label{fig:estimate-y}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/z}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $z$ dimension.}
-  \label{fig:estimate-z}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/roll}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\theta$ dimension.}
-  \label{fig:estimate-roll}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/pitch}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\phi$ dimension.}
-  \label{fig:estimate-pitch}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/yaw}
-    \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\psi$ dimension.}
-  \label{fig:estimate-yaw}
-  \end{subfigure}
-\end{figure*}
+%\begin{figure*}
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[clip, trim = 200 50 150 0, width=\textwidth]{figures/chapter3/x}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $x$ dimension.}
+  %\label{fig:estimate-x}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[width=\textwidth]{figures/chapter3/y}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $y$ dimension.}
+  %\label{fig:estimate-y}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[width=\textwidth]{figures/chapter3/z}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $z$ dimension.}
+  %\label{fig:estimate-z}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[width=\textwidth]{figures/chapter3/roll}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\theta$ dimension.}
+  %\label{fig:estimate-roll}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[width=\textwidth]{figures/chapter3/pitch}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\phi$ dimension.}
+  %\label{fig:estimate-pitch}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{0.45\textwidth}
+    %\includegraphics[width=\textwidth]{figures/chapter3/yaw}
+    %\caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\psi$ dimension.}
+  %\label{fig:estimate-yaw}
+  %\end{subfigure}
+%\end{figure*}
 
 It can be seen that there is a some improvement in all the dimensions. However, in some cases the improvement is negated by worse results in another place in the data set. This is a result of the optimisation process where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $\phi$ dimension. Since the norm of $\bm{\epsilon}$ converges, it can be taken that the improved results are indeed better as a whole, even though it may look like it has gotten worse in the individual dimensions.
 

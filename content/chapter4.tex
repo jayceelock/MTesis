@@ -30,14 +30,30 @@ First, the training data selection is important.
 
 To train a prediction model that will output accurate results, it is important to select training data across a wide spectrum in the region where the working point is most likely to be. In the case of the CVS, pose measurement vectors that contain as many pose combinations as possible, is desirable. Furthermore, it is also advantageous to have the sample vectors be uniformly distributed in a frequency histogram. Lastly, in the case of ANN's, the size of the training data set plays a significant roll in the accuracy of the training procedure: use too many samples and the model becomes over fitted, failing to capture the non-linear relationships, whereas too few samples fail to characterise the system properly. 
 
-The RBFN uses a supervised learning scheme where the desired output, the true CVS pose measurement error, must be known. Therefore, the training data vectors were selected out of the data acquired from the Vicon test discussed in Chapter MEME.
+The RBFN uses a supervised learning scheme where the desired output, the true CVS pose measurement error in this case, must be known. Therefore, the training data vectors were selected out of the data acquired from the Vicon test discussed in Chapter MEME, which produced pose measurement data vectors for the CVS, as well as pose measurement errors for each of the measurement vectors of the CVS. 
 
-To select a normally
+To select a training data set that shows a wide variation in values while being uniformly distributed, it was opted to randomly sample a collection of vectors and test the distribution of the dimension of interest for uniformity using a $\chi^2$ test. If the dimension is uniformly distributed enough, then that collection of pose vectors is added to the training set. The process is repeated until a uniform data set for each dataimension is found. It was opted to select a total of 15 vectors per dimension, giving a total 90 training pose vectors. 
+
+\subsubsection{Training Process}
+
+Memememe
+
+For the training process, a supervised method is used. Here, the desired output is known and the training process attempts to fit an optimal number of radial functions, or nodes, that best describes the output data set for the given input. 
+
+The SciPy library's\footnote{SciPy v0.13.3} `Rbf' function was used. The function is written in such a way where it does not iteratively adjust its nodes centres to better fit the data. Instead, it sets up a linear seat of equations and solves them linearly. The sets of equations is of the form given in Equation mememe
+
+\begin{equation}
+  \label{eq:chap4-rbf-train}
+  Rx = y
+\end{equation}
+
+In Equation~\ref{eq:chap4-rbf-train}, the matrix $R$ is a matrix containing the euclidian norm distance between each node's centre. To 
 
 Data
 Training process - find nodes centres that best cover data, supervised
 Training params selection
 Verify
+
 
 \subsection{Model Validation}
 

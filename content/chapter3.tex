@@ -2,28 +2,55 @@
 
 \section{Introduction}
 
-As stated in Chapter~\ref{chap:lit-review}, the goal of this project is to determine the pose estimation error of a quadcopter in the outdoors. In this context, the pose is a six-dimensional position and orientation vector given by $P = [T | R]$, where the vector $T = [x\;y\;z]^T$ contains the translation dimensions and the matrix $R = [\theta\;\phi\;\psi]^T$ contains the roll, pitch and yaw dimensions respectively. 
+The goal of this project is to determine the pose estimation error of a quadcopter in the outdoors. In this context, the pose is a six-dimensional position and orientation vector given by $P = [T | R]$, where the vector $T = [x\;y\;z]^T$ contains the translation dimensions and the matrix $R = [\theta\;\phi\;\psi]^T$ contains the roll, pitch and yaw dimensions respectively. 
 
-In order to determine the pose estimation error of a drone, two sets of data is required, the first being the quadcopter's own estimate as well as a reading from an external measurement tool. There are measurement tools available for an outdoor environment, which include laser and sonar systems. However, these are very expensive systems that often require specialist knowledge to operate. It was therefore decided to investigate another alternative.
+In order to determine the pose estimation error of a drone, two sets of data are required, with the first being the quadcopter's own pose estimate as well as its true pose, as given by a reading from an accurate external measurement tool. There are accurate measurement tools available for the outdoor environment, which include laser and sonar systems. However, these are fairly expensive systems and the necessary equipment was not available at the time this project was executed. It was therefore decided to investigate an alternative method of measuring a quadcopter's true pose in the outdoors.
 
-A computer vision system (CVS) for measurement is an attractive option: its simple, cheap, small and easy to operate.However, the measurement accuracy of such a system must first be determined before it can be used to make any measurements that can be used as ground-truth pose measurements. 
+The system that was investigated, and later implemented, is a computer vision-based system. Computer vision systems (CVS) for measurement is an attractive option: they are simple, cheap, compact and easy to operate. However, the measurement accuracy of these systems differ between platforms. Therefore, a method of reliably determining a CVS's pose measurement accuracy, must also be developed before it can be used to make pose measurements.  
 
-This chapter discusses the design and setup of the CVS, as well as the process that was used to determine its measurement accuracy. Finally, the system accuracy is presented and the implications thereof is discussed. 
+This chapter sets out to provide detail on the CVS.\@ First, the design and layout of the CVS is discussed. Then, the method employed to determine the pose measurement accuracy is provided, finally followed by the results of the entire process, from testing to data processing.
 
 \section{Computer Vision System Layout}
 
 \subsection{Introduction}
 
-The CVS consists of hardware and software components. These components are mentioned and discussed in this section. 
+The CVS has both hardware and software components, both of which are important to making accurate measurements. In this section, the design of the CVS, including the hardware and software aspects, is discussed, providing a broad overview of what the system looks like and how it functions. 
+
+\subsection{System Overview}
+
+Lys requirements
+
+The CVS is to be used to make pose measurements of a quadcopter in flight. Its measurements are to be used as accurate as possible pose data which can be used as reference pose data when comparing it to the quadcopter's on-board pose data, thereby determining the pose accuracy of a quadcopter. The CVS has to fulfil the following objectives:
+
+\begin{itemize}
+  \item Make six-dimensional pose measurements.
+  \item Provide measurements with an accuracy better than the quadcopter's on-board estimate.
+  \item Make reliable, consistent pose measurements.
+  \item Nog?? meme
+\end{itemize}
+
+Lys metingsproses
+
+To meet these requirements, a CVS was designed and implemented. The proposed computer vision measurement system makes use of the following processes and procedures: 
+
+\begin{itemize}
+  \item Camera calibration.
+  \item Automated two-dimensional image feature extraction.
+  \item Pose data extraction and derivation.
+  \item Data noise elimination. 
+  \item Nog?? Meme
+\end{itemize}
+
+Weet nie van hierdie deel nie...
 
 \subsection{Software}
 \label{sec:cv-sys-software}
 
-The CVS is relies on well-researched and understood computer vision techniques and algorithms. To this end, the open source and widely-used OpenCV library\footnote{OpenCV v2.4.8} and its sub-components was used to perform the computer vision tasks. This library was used since its free, readily available, has a wide support network on the internet and come packaged with a large variety of up-to-date computer vision functions. To perform the numerical operations, the open-source NumPy\footnote{NumPy v1.8.2} library was used. 
+The CVS is computer vision system, where a computer extracts information of interest from an arbitrary image. Thus, there is a string software aspect to the CVS, where the CVS relies on well-researched and understood computer vision techniques and algorithms. To this end, the open source and widely-used OpenCV library\footnote{OpenCV v2.4.8} and its sub-components was used to perform the computer vision tasks. This library was used since its free, readily available, has a wide support network on the internet and come pre-packaged with a large variety of up-to-date and powerful computer vision functions. To perform the numerical operations, the open-source NumPy\footnote{NumPy v1.8.2} library was used. 
 
-The OpenCV library was used to extract feature data from a video stream, calibrate the CVS's camera and determine the pose of a calibration pattern by solving the principle n-points (PnP) problem. 
+The OpenCV library was used to extract feature data from a video stream, calibrate the CVS's camera and determine the pose of a calibration pattern by solving the principle n-points (PnP) problem. The entire process takes place as follows. 
 
-First, the camera is calibrated by following the procedure discussed in SectionLITSTUDY. Here, a $5\times6$ square chessboard pattern was used for calibration. To summarise the procedure, the OpenCV functions `findChessboardCorners()' and `findConrersSubPix()' are used to extract two-dimensional coordinate data of the corners on the chessboard pattern from a still image. These coordniates, along with their three-dimensional world coordinates, are fed to the `calibrateCamera()' function to produce the camera matrix. The calibration procedure produced the camera matrix $C$, as presented in Equation~\ref{eq:chap2-cam-matrix} and repeated again in Equation~\ref{eq:chap3-cam-matrix} for convenience. 
+First, the camera is calibrated by following the procedure discussed in Chapter meme. Here, a $5\times6$ square chessboard pattern was used for calibration. To summarise the procedure, the OpenCV functions `findChessboardCorners()' and `findConrersSubPix()' are used to detect and extract two-dimensional coordinate data of the corners on the chessboard pattern from a still image. These coordinates, along with their three-dimensional world coordinates, are fed to the `calibrateCamera()' function to produce the camera matrix. The calibration procedure produced the camera matrix $C$, as presented in Equation~\ref{eq:chap2-cam-matrix} and repeated again in Equation~\ref{eq:chap3-cam-matrix} for convenience. 
 
 \begin{equation}
   \label{eq:chap3-cam-matrix}
@@ -31,7 +58,7 @@ First, the camera is calibrated by following the procedure discussed in SectionL
   NP
 \end{equation}
 
-where $N$ is given by the matrix in Equation~\ref{eq:chap3-cam-intrinsic} and $P$ the matrix in Equation~\ref{eq:chap3-cam-extrinsic}.
+In Equation~\ref{eq:chap3-cam-matrix}, the matrix $N$ is given by Equation~\ref{eq:chap3-cam-intrinsic} and matrix $P$ by Equation~\ref{eq:chap3-cam-extrinsic}.
 
 \begin{equation}
   \label{eq:chap3-cam-intrinsic}
@@ -57,7 +84,7 @@ where $N$ is given by the matrix in Equation~\ref{eq:chap3-cam-intrinsic} and $P
   \end{bmatrix}
 \end{equation}
 
-With the calibrated camera matrices, it is now possible to perform camera pose estimation. This procedure is based on the relation given in Equation~\ref{eq:chap3-2d-to-3d}, which relates the three-dimensional world coordinate system $X_w$ to its two-dimensional image projection $x_c$.  
+With the calibrated camera matrices, $N$ and $P$, it is now possible to perform camera pose estimation. This procedure is based on the relation given in Equation~\ref{eq:chap3-2d-to-3d}, which relates the three-dimensional world coordinate system $X_w$ to its two-dimensional image projection $x_c$.  
 
 \begin{equation}
    \label{eq:chap3-2d-to-3d}

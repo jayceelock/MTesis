@@ -97,30 +97,30 @@ Using the relation in Equation~\ref{eq:chap3-2d-to-3d} and the camera matrix $C$
 
 \subsection{Hardware}
 
-The hardware requirements for the CVS are minimal and its setup is very simple. To perform six-dimensional pose estimations, the hardware only needs to capture image data at a high enough frame rate and resolution for the OpenCV algorithms to be able to detect and extract feature information. A computer for data processing tasks, as well as a calibration board, is also required. 
+The hardware requirements for the CVS are minimal and its setup fairly simple. To allow the software to make six-dimensional pose estimations, the camera hardware needs to capture image data at an appropriate resolution for the OpenCV algorithms to be able to detect and extract two-dimensional feature coordinate data. The camera should preferably not have a lens zoom function to keep the focal length constant throughout a measurement session. A computer running the OpenCV and data-processing scripts, as well as a calibration board, are also required. 
 
-To meet these requirements, a single camera can be used to capture still or video image data, along with a chessboard calibration pattern and laptop running the pose estimation software.  
+The camera that was implemented, is a single Microsoft LifeCamHD webcam, capable of capturing 720p high definition (HD) video data at a frame rate of 30 frames per second (FPS). This camera has a variable zoom feature, however, this was controlled and set to a constant value by using the `uvcdynctrl' webcam control library\footnote{uvcdynctrl v0.2.4, bit.ly/1E4ARv3}, thereby keeping the focal length constant. A stereo camera setup can also be used, however, the accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension where the stereo vastly outperforms the single camera. This is to be expected and is very akin to a person's depth perception abilities being compromised with one eye closed. For this implementation, the single camera variant was selected. This makes the system simpler to set up and use. However, care must be taken with the depth estimation when using a single camera. In the future, the project can be expanded to a stereo camera system if it is found that the inaccurate depth estimate compromises the measurement accuracy.
 
-A stereo camera setup can also be used, however, the accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension where the stereo vastly outperforms the single camera. This is to be expected and is very akin to a person's depth perception abilities being compromised with one eye closed. For this implementation, the single camera variant was selected. This makes the system simpler to set up and use. However, care must be taken with the depth estimation when using a single camera. In the future, the project can be expanded to a stereo camera system if it is found that the inaccurate depth estimate compromises the measurement accuracy.
+The calibration board used, was a flat, A1-sized, $5\times6$-square chessboard pattern calibration board. See Figure~\ref{fig:chap3-board-marker-placement} for an image of the calibration board. This size was selected, since the squares and the board were large, affording the camera a good view, improving the data extraction performance. The large board size also allowed for a fairly large white border around the squares, as per OpenCV's recommendation. 
 
-For the pose estimation software to work best, it requires a clear view of the calibration pattern. Therefore, a big calibration pattern is desirable. Furthermore, the pattern should of a high quality and printed on white paper with a wide white border to enhance the contrast between the pattern and the background, making it easier for the software to detect the pattern. 
+A laptop running Linux Mint 17.1 `Rebecca' was used as a ground control station for the quadcopter is subsequent measurement tests. In addition, it was used as a recording device along with the webcam, and performed some of the data processing tasks, though a more powerful desktop PC was used to perform the image processing tasks. 
 
 \section{Measurement Test Design}
 
 \subsection{Introduction}
 
-Before the CVS was used to record the pose data of a drone, the accuracy of the system's measurements was first determined. Since the PnP solving algorithm is, at its core, an optimisation problem and produces estimates of the pose, determining the accuracy of the CVS is an important step in the system design phase. 
+Before the CVS could be used to measure the true the pose of a quadcopter in flight, the accuracy of the CVS's measurements was first determined. Since the PnP solving algorithm is, at its core, an optimisation problem and produces estimates of the pose, determining the accuracy of the CVS is an important step in the system design phase. 
 
-To determine the measurement error, a measurement test was performed in an indoor environment where an external measurement device recorded pose data. The error was then be determined by comparing the CVS's measurements with that of the external measurement system's measurement data. Both systems were set to record the pose of a flat chessboard calibration pattern that was moved and orientated by hand.
+To determine the measurement error of the CVS, a measurement test was performed in an indoor environment where another external measurement device could pose data, whose accuracy is high enough that its pose measurements can be taken as ground-truth values. The error could then be determined by comparing the CVS's measurements with that of the external measurement system's pose measurement data. Both systems were set to record the pose of a flat chessboard calibration pattern that was moved and orientated by hand.
 
-This section describes the test layout, including the external measurement device and its details, as well as the CVS's details. Then, the measurement procedure is presented, followed by the steps taken to process the data during the post-processing phase. 
+This section describes the test layout, including the external measurement device and its details, as well as the CVS's details for the test. Then, the measurement procedure is presented, followed by the steps taken to process the data during the post-processing phase. 
 
 \subsection{Test Layout}
 \label{sec:vicon-test-setup}
 
 \subsubsection{External Measurement Device Layout}
 
-The external measurement system used to record the ground-truth data that was used to compare the CVS's measurements to, is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements. It works by tracking a set of infrared markers stuck to a surface, with at least two infrared cameras and sophisticated proprietary motion tracking software. It does this at a rate of 300Hz, or 300 FPS.\@ Given its accuracy, the measurement results from this system was taken as ground-truth.
+The external measurement system used to record the ground-truth data that was used to compare the CVS's measurements to, is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface, with at least two infrared cameras and sophisticated proprietary motion tracking software and does this at a rate of 300Hz, or 300 FPS.\@ The Vicon only measures the translation vectors. Therefore, to get a complete pose vector including the orientation, trigonometric relationships between the different translation vectors were used to determine the angular orientation. Given its well-documented measurement accuracy [\citeauthor{windolf2008systematic}], the measurement results from this system was taken as ground-truth.
 
 The Vicon system used for the test is located in the 3D Human Motion Laboratory on Stellenbosch University's Tygerberg medical campus. It consists of eight infrared cameras arranged around a square on the floor in a configuration that maximises the number of infrared markers visible to each camera at any given point in time. Figure~\ref{fig:chap3-vicon-layout} shows a diagram of the Vicon system layout. 
  
@@ -132,7 +132,7 @@ The Vicon system used for the test is located in the 3D Human Motion Laboratory 
 \label{fig:chap3-vicon-layout}
 \end{figure}
 
-Before the test commenced, the Vicon system was calibrated and the infrared markers were placed on both the calibration board and camera frame used by the CVS\@. Since the Vicon and CVS camera each have their own coordinate systems, having the position and orientation of the CVS camera available will allow the Vicon's measurements to be related back to the CVS's camera coordinate system during the data processing phase. The markers were placed in such a way that they will produce axes that more or less coincides with the Vicon's axis system, slightly reducing the work load during the data processing phase. Figure~\ref{fig:chap3-cam-vicon-axes} shows the axis system's for both the CVS and Vicon systems.
+Before the test commenced, the Vicon system was calibrated using a calibration procedure is similar to the CVS's, but the calibration object used is a special calibration `wand', whose dimensions are pre-programmed into the Vicon system. Then, infrared markers were placed on both the calibration board and the CVS's camera to provide pose data on both. Since the Vicon and CVS camera each have their own coordinate systems, having the position and orientation of the CVS camera available will allow the Vicon's measurements to be related back to the CVS's camera coordinate system during the data processing phase. The markers were placed in such a way that they will produce axes that more or less coincides with the Vicon's axis system, slightly reducing the work load during the data processing phase. Figure~\ref{fig:chap3-cam-vicon-axes} shows the axis system's for both the CVS and Vicon systems.
 
 \begin{figure}
   \centering
@@ -142,7 +142,7 @@ Before the test commenced, the Vicon system was calibrated and the infrared mark
 \label{fig:chap3-cam-vicon-axes}
 \end{figure}
 
-Only three markers are required to be visible for the Vicon system to produce a six-dimensional pose vector, but a fourth asymmetrical auxiliary marker was placed to provide fail-safe orientation data during the post-processing phase. Figures~\ref{fig:chap3-cam-marker-placement} and~\ref{fig:chap3-board-marker-placement} show the marker placements for the camera and the calibration board. These markers were carefully placed by hand, but there will be some placement error nonetheless. This error offset is taken into account during the data processing phase. 
+Only three markers are required to be visible for the Vicon system to to track an object's translation, thereby producing a six-dimensional pose vector, however, a fourth asymmetrical auxiliary marker was placed to provide fail-safe orientation data during the post-processing phase. Figures~\ref{fig:chap3-cam-marker-placement} and~\ref{fig:chap3-board-marker-placement} show the marker placements for the camera and the calibration board. These markers were carefully placed in line with one another by hand, but some placement error is inevitable. This placement error offset is taken into account during the data processing phase. 
 
 \begin{figure}
    \centering 
@@ -158,19 +158,19 @@ Only three markers are required to be visible for the Vicon system to produce a 
 \label{fig:chap3-board-marker-placement}
 \end{figure}
 
-One aspect of the Vicon system to note is that the infrared markers have some high-frequency noise associated with them, which is apparent when inspecting the raw data. This noise is inherent to the marker and can be safely filtered out with a zero-lag, second order Butterworth filter. However, the raw, unfiltered data is used throughout this project. 
+Nodig?? One aspect of the Vicon system to note is that the infrared markers have some high-frequency noise associated with them, which is apparent when inspecting the raw data. This noise is inherent to the marker and can be safely filtered out with a zero-lag, second order Butterworth filter. However, the raw, unfiltered data is used throughout this project. 
 
 \subsubsection{Computer Vision System Setup}
 
-The CVS consists out of a single Microsoft LifeCamHD webcam, capable of recording 720p High-Definition (HD) video data at 30 frames per second (FPS), an A1, $5\times6$ square chessboard pattern, generated by OpenCV's pattern generator, and a laptop running the image capturing and processing software. The webcam's focus, image resolution, FPS rate and exposure was controlled from the laptop using he `uvcdynctrl' script from the libwebcam library\footnote{uvcdynctrl v0.2.4, bit.ly/1E4ARv3}. 
+The CVS configuration used during the test, is the exact same as the one described in Section MEME of this chapter.
 
-Before the test, the camera was calibrated to determine its camera matrix and focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera, and roughly 15 still images in standard resolution ($640\times480$ pixels) were taken. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of between 0.18 and 0.21 pixels. It was found that capturing data at a higher resolution did not produce significantly better results and slowed the data extraction process down. 
+Before the test, the camera was calibrated to determine its camera matrix and focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera, and roughly 15 still images in standard resolution ($640\times480$ pixels) were taken. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of approximately 0.21 pixel units. It was found that capturing data at a higher resolution did not produce significantly better results and slowed the data extraction process down. 
 
 In the test, the camera was placed in a stable aluminium frame and was left untouched throughout the test. The laptop was set to only capture video at $640\times480$ pixels, while zoom and autofocus was disabled to keep the camera's lens focus constant to the focal length that was found during calibration. The focal length was found to be approximately 700 pixel units in both the $x$ and $y$ direction. The data extraction and pose estimation took place off-line. 
 
 \subsection{Test Procedure}
 
-Figure~\ref{fig:chap3-pic-sys-layout} shows a picture of the complete test setup. As described in Section~\ref{sec:vicon-test-setup}, the camera is placed on a chair and the board is held facing the camera. Both of these are covered with four infrared markers with the eight infrared cameras surrounding both the board and camera.  
+Figure~\ref{fig:chap3-pic-sys-layout} shows a picture of the complete test setup. As described in Section~\ref{sec:vicon-test-setup}, the camera is placed on a chair and the board is held facing the camera. Both of these are covered with four infrared markers with the eight infrared cameras of the Vicon system surrounding both the board and camera.  
 
 \begin{figure}
   \centering
@@ -179,7 +179,7 @@ Figure~\ref{fig:chap3-pic-sys-layout} shows a picture of the complete test setup
 \label{fig:chap3-pic-sys-layout}
 \end{figure}
 
-Data capture started when the Vicon system started recording. At the same time, the chessboard was tilted forward. This allowed for both measurement data sets to be synchronised to a common timeframe during the data processing phase. During the data capturing phase, the board was moved by hand to different positions and orientations with respect to the CVS's camera axis system to generate measurement data vectors with both the CVS and Vicon. To produce a diverse cloud of data vectors, the board was moved around the full field of view and at different distances to the camera, while simultaneously varying the board's rotation angles. Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used to compensate for any invalid or inconsistent readings. 
+Data capture for both systems started when the Vicon system started recording. At the same time, the chessboard was tilted forward, allowing for both measurement data sets to be synchronised to a common timeframe during the data processing phase. During the data capturing phase, the board was moved by hand to different positions and orientations with respect to the CVS's camera axis system to generate measurement a wide variety of pose data vector combinations, with both the CVS and Vicon systems. To produce a diverse cloud of data vectors, the board was moved around the full field of view and at different distances to the camera, while simultaneously varying the board's rotation angles. Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used to compensate for any invalid or inconsistent readings. 
 
 The test produced two sets of measurement data: one ground-truth pose measurement data set from the Vicon system, and one data set from the CVS\@. These data sets allows for the determination of the CVS's measurement error by comparing the two sets of measurement. These sets were also used to provide training and validation data sets for a error prediction model, which is discussed in Chapter MEMEMEMEME.\@
 
@@ -187,9 +187,17 @@ The test produced two sets of measurement data: one ground-truth pose measuremen
 
 \subsubsection{Introduction}
 
-During the test, the CVS only captured video data, leaving the data extraction and pose estimation to be done off-line during the data processing phase. The Vicon system data requires very little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix invalid measurements that were introduced when not enough Vicon cameras had a good view of the infrared markers for a few frames. These points were corrected by means of interpolation. Furthermore, because the Vicon is a stationary system, it was convenient to move and rotate the CVS's camera and chessboard pose data to coincide with the Vicon's axis system.
+During the test, the CVS only captured video data, leaving the feature data extraction and pose estimation to be done off-line during the data processing phase. 
+
+The Vicon system data requires very little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix invalid measurements that were introduced when not enough Vicon cameras had a good view of the infrared markers for a few frames. These points were corrected by means of interpolation. Furthermore, because the Vicon is a stationary system, it was convenient to move and rotate the CVS's camera and chessboard pose data to coincide with the Vicon's axis system. Furthermore, the Vicon system's data was downsampled to match the sample speed of the CVS. 
 
 Processing the CVS data involves several steps, which include simultaneously optimising the camera's focal length and the infrared marker offsets and then determining the accuracy of the CVS pose estimation system. Each of these aspects are discussed next.
+
+\subsubsection{Reducing Vicon Sample Speed}
+
+The Vicon system's lowest framerate is 300Hz, whereas the CVS's is 30Hz. Therefore, the Vicon's framerate had to be downsampled to math the CVS's framerate so that the two data sets could be directly related. 
+
+The downsampling involved averaging the Vicon data set in intervals of 10 samples, downsampling the Vicon by a factor of 10 and matching the CVS's framerate. This approach was taken to ensure that no data that might contain valueble information and trends, gets discarded. 
 
 \subsubsection{Rotating the Camera and Chessboard Data}
 \label{sec:rotate-axes}

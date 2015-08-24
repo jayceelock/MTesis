@@ -288,11 +288,9 @@ In summation, the algorithm is as follows:
 
 Several sets of data were produced during the data processing phase and are discussed in this section. These include the proofs of error convergence for the optimisation procedure, as well as proofs that the error $\bm{\epsilon}$ is indeed normally distributed around zero. Lastly, the new focal length combination is given and discussed, followed by the pose measurement accuracy results of the CVS. 
 
-During the optimisation procedure, it was assumed that $\bm{\epsilon}$ was normally distributed around 0. In this section, it is proven that this is indeed the case. Convergence of the optimisation procedure is also proven, and the results of the CVS's pose estimates, and its measurement error, are presented and discussed.
-
 \subsection{Proof of Convergence}
 
-To test for convergence, the total error for each dimension after an entire iteration of the optimisation was determined and plotted. Figure~\ref{fig:err-convergence} shows the errors of the $\bm{\epsilon}$ vector over 50 iterations.
+To prove that the optimisation procedure works as expected, minimising the error in each pose dimension, the error after each iteration of the procedure is plotted. These plots are given in Figure~\ref{fig:err-convergence} and shows the errors over 50 iterations of optimisation.  
 
 \begin{figure*}
   \centering
@@ -331,13 +329,13 @@ To test for convergence, the total error for each dimension after an entire iter
     \caption{Error convergence in the $\psi$ dimension [degrees].}
 \label{fig:err-convergence-psi}
   \end{subfigure}
-  \caption{Plots showing the error in each dimension during for each iteration of the error minimisation procedure.}
+  \caption[Plots showing error convergence for the optimsation procedure.]{Plots showing the error in each dimension during for each iteration of the error minimisation procedure.}
   \label{fig:err-convergence}
 \end{figure*}
 
-The graphs in Figure~\ref{fig:err-convergence} show that the error gets reduced in the $x$ and $z$ dimensions, while it gets worse in the $y$ and rotation dimensions. Since the optimisation procedure is based on the error in the translation vector, it is not surprising that the rotation error grows. However, the $y$ dimension error growing is somewhat surprising.  %These figures show that the error hovers around 0 after only a few iterations, but does not fully converge. This may warrant some investigation, but it is suspected that the focal length step sizes are too large and must be adapted between iterations. This will be implemented in later versions.
+The graphs in Figure~\ref{fig:err-convergence} show that the error gets reduced in the $x$ and $z$ dimensions, while it gets worse in the $y$ and orientation angle dimensions. 
 
-Upon closer inspection, it can be seen that of the three translation vectors, the $y$ dimension has the lowest total error. Since all three vectors carry the same importance weighting for optimisation, it is inevitable that the $x$ and $z$ dimension's errors get lowered at the cost of the $y$ dimension's accuracy. 
+The errors in the rotation angle dimensions may be growing, since it carries no weight in the optimisation cost function. As for the growing error in the $y$ dimension, closer inspection of the graph shows that the $y$ dimension initially has the smallest error. It may be argued that since all three translation dimensions carry equal weight in the optimisation cost function, the $x$ and $z$ dimensions are being improved at the cost of the error in the $y$ dimension. 
 
 \subsection{Test for Normality}
 \label{sec:err-norm-test}
@@ -349,12 +347,12 @@ Figure~\ref{fig:err-norm} shows the frequency histogram plots of the CVS measure
 \begin{figure*}
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/norm_x}
-    \caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$mm and a standard deviation of 293mm.}
+    \caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$m and a standard deviation of 293mm.}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
      \includegraphics[width=\textwidth]{figures/chapter3/norm_y}
-     \caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$mm and a standard deviation of 167mm.}
+     \caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$m and a standard deviation of 167mm.}
   \label{fig:norm-y}
   \end{subfigure}
 ~
@@ -372,34 +370,38 @@ Figure~\ref{fig:err-norm} shows the frequency histogram plots of the CVS measure
 ~
   \begin{subfigure}{0.45\textwidth}
      \includegraphics[width=\textwidth]{figures/chapter3/norm_pitch.pdf}
-     \caption{emem}
+     \caption{Histogram of the error in the $\phi$ dimension with a mean of meme and a standard deviation of meme.}
   \label{fig:norm-pitch}
   \end{subfigure}
 ~
   \begin{subfigure}{0.45\textwidth}
      \includegraphics[width=\textwidth]{figures/chapter3/norm_yaw.pdf}
-     \caption{memememe}
+     \caption{Histogram of the error in the $\psi$ dimension with a mean of meme and a standard deviation of meme. }
   \label{fig:norm-yaw}
   \end{subfigure}
-  \caption{meme}
+  \caption[Plots of the frequency histograms of the error data in each dimension.]{Plots of the frequency histograms of the error data in each dimension. To demonstrate normality, the histograms are superimposed with a normal distribution plot generated from the data's mean and standard deviation.}
   \label{fig:err-norm}
 \end{figure*}
 
-It can be seen that all the plots are roughly centred around 0.0 and are very nearly normally distributed, with the $z$ dimension displaying the largest standard deviation of approximately 500mm. Again, a bad depth estimate is to be expected when working with a single camera.
+It can be seen that all the plots are roughly centred around zero and are look very nearly normally distributed. The $z$ dimension displays the largest standard deviation of approximately 560mm. The reason behind this is the bad depth estimates that a single camera system provides. 
 
-In all, the histogram plotsof the errors show that the assumption made in Equation~\ref{eq:chap3-eq2-offset} that the errors are normally distributed around 0.0, is roughly a valid one. 
+In all, the frequency histogram and normal distribution plots of the errors in Figure~\ref{fig:err-norm} show that the assumption made in Equation~\ref{eq:chap3-eq2-offset}, that the errors are normally distributed around zero, is a valid one. 
 
 \subsection{Optimum Focal Lengths and Offset}
 
-As a result of the focal length and offset optimisation process, the optimal focal lengths, $f_x$ and $f_y$ were found to be 628 and 535 after 50 iterations of the optimisation algorithm, which is considerably less than the optimum of 700 produced by OpenCV's calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found to be approximately
+As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $f_x$ and $f_y$ were found to be 628 and 535 after 50 iterations of the algorithm, which is considerably less than the optimum of 700 produced by OpenCV's calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset $\bar{\bm{P}}$ was found and is given in Equation~\ref{eq:chap3-offset-value}.
 
-\[
-  [240.8mm \; 40.09mm \; 375.9mm \; \ang{184.3} \; \ang{-2.697} \; \ang{-179.9}]^T
-\]
+\begin{equation}
+  \label{eq:chap3-offset-value}
+  \bar{\bm{P}} = 
+  \begin{bmatrix}
+    240.8mm & 40.09mm & 375.9mm & \ang{184.3} & \ang{-2.697} & \ang{-179.9}
+  \end{bmatrix}^T
+\end{equation}
 
-The values in $\bar{\bm{P}}$ contain any constant error bias that may have been introduced to the system during testing. The offsets in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, reorienting it by approximately $\pm$$\ang{180}$. This indicates that the offset was correctly calculated and is doing what it is supposed to. The large offset in the $z$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. The offset of 240mm in the $x$ dimension is slightly surprising. %However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides of each others' $x$-axis when facing each other. The chessboard's origin would be four blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
+The values in $\bar{\bm{P}}$ contain any constant error bias, as well as marker placement errors, that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $\theta$ and $\psi$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed rotating to coincide with one another. This indicates that the offset was correctly calculated and is working as expected. The large offset in the $z$ dimension is to be expected, since single camera's are known to produce very bad depth estimates. However, the relatively large offset of 240mm in the $x$ dimension is slightly surprising. %However, it may be explained when it is considered that the origin of the chessboard and camera are on opposite sides of each others' $x$-axis when facing each other. The chessboard's origin would be four blocks, or 400mm, away from the camera's along the $x$-axis, making up for the 320mm offset.
 
-All of the above produce an error 2-norm of approximately 0.81 (normalised), compared to the original 1.15 (normalised). Figure~\ref{fig:estimate} shows the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
+All of the above produce an error two-norm of approximately 0.81 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. Figure~\ref{fig:estimate} shows the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
 
 \begin{figure*}
   \begin{subfigure}{0.45\textwidth}
@@ -437,13 +439,13 @@ All of the above produce an error 2-norm of approximately 0.81 (normalised), com
     \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\psi$ dimension.}
   \label{fig:estimate-yaw}
   \end{subfigure}
-  \caption{hello}
+  \caption[Plots comparing the Vicon's measurements with the CVS's original and improved measurements. ]{Plots comparing the Vicon's pose measurements with the CVS's original estimate, as well as the estimate with the optimal focal length combination.}
   \label{fig:estimate}
 \end{figure*}
 
-It can be seen that there is a some improvement in all the dimensions. However, in some cases the improvement is negated by worse results in another place in the data set. This is a result of the optimisation process where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $\phi$ dimension. Since the norm of $\bm{\epsilon}$ converges, it can be taken that the improved results are indeed better as a whole, even though it may look like it has gotten worse in the individual dimensions.
+It can be seen that there is some improvement in all the dimensions. However, in some cases the improvement in one section of the data set, is negated by worse estimates in another. This can be attributed to the optimisation process, where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $\phi$ dimension. However, as the reduction in the two-norm magnitude of the error proves, there is an overall reduction in the error with the optimised data set. It can therefore be concluded that the optimisation procedure did indeed function as expected, producing a better focal length combination, which led to a more accurate pose estimate from the CVS. 
 
-\subsection{System Accuracy}
+\subsection{Computer Vision System Accuracy}
 
 Determining the accuracy of a multi-dimensional model is often a complex task, but the fact that the error is normally distributed makes it possible to use the covariance matrix to check the interdimensional variance and dependence. If it is found that the diagonal of the covariance matrix is sufficiently large relative to the off-diagonal elements, the dimensions can be taken as strongly enough independent of one another and the variance along the diagonal can be taken as a measure of the accuracy. 
 
@@ -461,7 +463,13 @@ The covariance matrix, $\bm{\Sigma}$, was found to be
   \end{bmatrix}
 \]
 
-The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This unfortunately means that there is no clear indication on the accuracy of the system. However, a probability density function (PDF) can be set up using $\bm{\Sigma}$ that will show what the expected error in the 6 dimensions will be for a given pose. The PDF is given by Equation~\ref{eq:pdf}.
+The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This unfortunately means that there is no clear indication on the accuracy of the system. This is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated in the contour plots of Figure meme. 
+
+From Figure meme it can be seen that the error in a dimension varies when the two other pose dimensions changes. 
+
+The conclusion one can draw from the covariance matrix $\Sigma$ and the plots in Figure meme is that there is that the error data is high dimensional and very complex. This makes it difficult to determine the pose error of the CVS for any given input pose measurement vector. 
+
+However, a probability density function (PDF) can be set up using $\bm{\Sigma}$ that will show what the expected error in the 6 dimensions will be for a given pose. The PDF is given by Equation~\ref{eq:pdf}.
 
 \begin{equation}
   \label{eq:pdf}

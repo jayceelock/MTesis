@@ -197,26 +197,26 @@ Processing the CVS data involves several steps, which include simultaneously opt
 
 The Vicon system's lowest framerate is 300Hz, whereas the CVS's is 30Hz. Therefore, the Vicon's framerate had to be downsampled to math the CVS's framerate so that the two data sets could be directly related. 
 
-The downsampling involved averaging the Vicon data set in intervals of 10 samples, downsampling the Vicon by a factor of 10 and matching the CVS's framerate. This approach was taken to ensure that no data that might contain valueble information and trends, gets discarded. 
+The downsampling involved averaging the Vicon data set in intervals of 10 samples, downsampling the Vicon by a factor of 10 and matching the CVS's framerate. This approach was taken to ensure that no data that might contain valuable information and trends, gets discarded. 
 
 \subsubsection{Rotating the Camera and Chessboard Data}
 \label{sec:rotate-axes}
 
-During the test, four markers were placed on the CVS camera frame to provide data on its placement. These markers were placed along the camera's $x$ and $y$ axes and coincides with the chessboard's axis system. 
+During the test, four markers were placed on the CVS camera frame to provide data on its placement within the Vicon's axis system. These markers were placed along the frame's $x$ and $y$ axes and coincides with the chessboard's axis system. 
 
-With the CVS's camera placement and orientation in the Vicon coordinate system known, relocating and reorientating the CVS's camera pose data to coincide with the Vicon's axis system becomes a simple task. The CVS's pose within the Vicon system is constant and the CVS's measurements are made relative to its camera's axis system. Therefore, relocating and reorientating the chessboard's pose data to coincide with the Vicon's axis system was done by simply subtracting the CVS's camera placement pose from each pose vector of the chessboard.
+With the CVS's camera placement and orientation in the Vicon coordinate system known, relocating and reorientating the CVS's camera pose data to be centred around the Vicon's axis system becomes a relatively simple task. Given that the CVS's camera didn't move throughout the test, the CVS's camera pose within the Vicon system is constant and the CVS's measurements are made relative to its camera's axis system. Therefore, relocating and reorientating the camera and calibration board's pose data to coincide with the Vicon's axis system was done by simply subtracting the CVS's camera placement pose with the Vicon axis system from each pose vector of the calibration board within the Vicon axis system.
 
-With the CVS's camera axis system now centred around the Vicon system's origin, the pose data for the chessboard acquired by the CVS and the Vicon are directly relatable. 
+With the CVS's camera axis system now centred around the Vicon system's origin, the pose data for the chessboard acquired by the CVS and the Vicon are directly relatable to one another.  
 
 \subsubsection{Camera Parameter Optimisation}
 \label{sec:focal-optimisation}
 
-Before the test took place, the CVS camera was calibrated using OpenCV's camera calibration toolbox. This procedure provides a fairly good estimate of the intrinsic parameters of the camera, which includes the focal lengths. However, given the lack of reference three-dimensional data, it is only an estimate. Using the ground-truth Vicon pose data will allow the focal length to be determined more accurately. At the same time, the distance offset between the true infrared marker centre and the ideal infrared marker centre also needs to be taken into account. This offset will also account for any constant measurement bias introduced by the CVS\@. This presents a circular optimisation problem: the focal length will affect the perceived offset, while the offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
+Before the test took place, the CVS camera was calibrated using OpenCV's camera calibration toolbox. This procedure provides a fairly good estimate of the intrinsic parameters of the camera, which includes the focal lengths. However, given the lack of reference three-dimensional data, it is only an estimate of the intrinsic parameters where the accuracy of the estimate is not verifiable. Using the ground-truth pose data from the Vicon system will allow the intrinsic parameters to be determined more accurately. At the same time, the distance offset between the true infrared marker centre and the ideal infrared marker centre also needs to be taken into account. This offset is introduced by inaccurately placed infrared markers on the calibration board and camera frames and will also account for any constant measurement bias introduced by the CVS\@. This presents a circular optimisation problem: the focal length will affect the perceived error offset, while the error offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
 
-First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector as given by the Vicon system, while $\bar{\bm{P}}$ is the constant offset vector and the subscripts $c$ and $b$ represent the camera and board respectively. $\bm{\epsilon}$ is the error between the Vicon and CVSs' measurements that needs to be determined and $\bm{F}(f)$ is the pose vector measured by the CVS's camera, as a function of its focal lengths $f_x$ and $f_y$. The Vicon pose and offset vectors are then given by the Equations~\ref{eq:chap3-pose} and~\ref{eq:chap3-offset}.
+First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector of the calibration board (before it is centred around the Vicon's axis system) as produced by the Vicon system, while $\bar{\bm{P}}$ is the constant error offset vector and the subscripts $c$ and $b$ represent the camera and board respectively. $\bm{\epsilon}$ refers to the error between the Vicon and CVSs' measurements that needs to be determined and $\bm{F}(f)$ is the pose vector measured by the CVS's camera, as a function of its focal lengths $f_x$ and $f_y$. The Vicon pose and offset vectors are then given by the Equations~\ref{eq:chap3-calibration-pose} and~\ref{eq:chap3-offset}.
 
 \begin{equation}
- \label{eq:chap3-pose}
+ \label{eq:chap3-calibration-pose}
   \bm{P}^* = \bm{P}^*_b - \bm{P}^*_c
 \end{equation}
 
@@ -253,7 +253,7 @@ At this point, it is assumed that the error vector $\bm{\epsilon}$ is normally d
   i\bar{\bm{P}} = \sum\limits_i \bm{F}_i(f) - \sum\limits_i(\bm{P}^*_{b,i} - \bm{P}^*_{c, i})
 \end{equation}
 
-Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths, $f_x$ and $f_y$. The minimum focal lengths were found by first setting up a $3\times n$ error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set. The optimisation is based on these three dimensions, since it was found that including the rotation dimensions added too much variability to the procedure, leading to instability. The error matrix is produced by Equation~\ref{eq:chap3-error-base}.
+Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's  two-norm. The optimisation is based on these three dimensions since it was found that including the orientation angle dimensions added too much variability to the procedure, leading to instability. The error matrix is produced by Equation~\ref{eq:chap3-error-base}.
 
 \begin{equation}
   \label{eq:chap3-error-base}
@@ -275,11 +275,11 @@ In summation, the algorithm is as follows:
   \item Initialise focal lengths with values from the calibration procedure. 
   \item Repeat $k$ times:
   \begin{enumerate}
-    \item Find $\bar{\bm{P}}$ for a constant $f_x$ and $f_y$ (Equation~\ref{eq:chap3-offset}).
-    \item Determine the error vector $\bm{\epsilon}$ with new $\bar{\bm{P}}$ (Equation~\ref{eq:chap3-error-base}).
-    \item Update focal lengths $f_x$ and $f_y$ with focal length that minimises $\left \Vert \bm{\epsilon} \right \Vert$ (Equation~\ref{eq:chap3-err-min}).
+    \item Find $\bar{\bm{P}}$ for a constant $f_x$ and $f_y$ (Equation~\ref{eq:chap3-eq2-offset}).
+    \item Determine the error vector $\bm{\epsilon}$ with a new $\bar{\bm{P}}$ (Equation~\ref{eq:chap3-error-base}).
+    \item Update focal lengths $f_x$ and $f_y$ with the focal length combination that minimises $\left \Vert \bm{\epsilon} \right \Vert$ (Equation~\ref{eq:chap3-err-min}).
   \end{enumerate}
-  \item Use new focal lengths to estimate the chessboard's pose.
+  \item Use the new focal lengths to estimate the chessboard's pose.
 \end{enumerate}
 
 \section{Results}

@@ -2,34 +2,63 @@
 
 \section{Introduction}
 
-The error of the pose estimation of the computer vision system (CVS) was determined and discussed in Chapter HEEEEE\@. It was found that the pose estimation error, i.e.\ the difference between the true pose versus the measured pose, is highly dependent on the current pose relative to the CVS's camera. The data produced also contains a large amount of noise introduced by the CVS's camera. 
 
-The CVS was used as a measurement device and it is therefore critical to know what the pose estimation error would be for any pose vector sample before the CVS can be used to determine the pose error of a drone. The complexity, interdimensional dependence and high dimensionality of the pose error data makes it almost impossible to establish what the measurement pose error would be for any sample pose.
+The CVS was to be used as a measurement device to accomplish the objective of determining how accurately a quadcopter can estimate its pose, where the pose of an object being a combination of translation and rotation data. Before this can be done, however, it is important to establish how accurate the pose measurements of the CVS are. This was done in Chapter MEME.\@ Here it was found that the pose measurement error, i.e.\ the difference between the true pose and the measured pose, is highly dependant on the pose of the object being tracked relative to the camera. Also, despite using the RANSAC algorithm to filter out outlier data, a large amount of noise is still present within the CVS measurement data set. 
 
-However, there are methods available which will allow a pose error vector to be predicted for a sample pose, i.e.\ for a sample input pose vector, an output pose error vector will be produced that will most likely occur at the given input pose. These methods are commonly knows as machine learning methods.
+These results prove that it is close to impossible to establish the measurement error for any arbitrary input pose vector, since the measurement error is not constant. The high dimensionality and complexity of the measurement error data also makes this task more complex. 
 
-This chapter provides a broad overview of the machine learning methods available, as well as a discussion on the type machine learning method selected. Then the
+One avenue that was investigated, was the use of a machine learning model to predict the pose measurement error that the CVS would make, for any arbitrary input pose measurement vector. 
 
-\section{Prediction Model}
+This Chapter, 
 
-\subsection{Background}
+\section{Prediction Model Design}
 
-Machine learning is not a modern field, with Alan Turing already posing the question, `Can machines think?' [\cite{turing1950computing}] in 1950.~\cite{michalski2013machine} provides a more formal description of machine learning: `A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E'. 
+\subsection{Introduction}
 
+The field of machine learning has produced various methods and algorithms over the many years it has been active, each of them having their own characteristics, strengths and drawbacks. For this project, artificial neural networks (ANN) were considered. It has been found that ANN's are inherently good at handling complex, multi-dimensional data models and finding any non-linear relationships [\cite{tu1996advantages}].
 
+Furthermore,~\cite{xie2011comparison} has found that the radial basis function network (RBFN) sub-family of ANN's handle noisy data sets very well, but is slightly less efficient than normal feed-forward networks (FFN) for classification. However, this is a small price to pay to create an accurate prediction model for the CVS's pose measurement error. 
 
-\subsection{Traditional Neural Network}
-
-\subsection{Radial Basis Function}
-
-\subsection{Model Choice}
-
-\section{Model Training and Validation}
+This section describes the steps taken in designing and testing the error prediction model, starting with the training process.
 
 \subsection{Model Training}
+
+The model training phase is a very important part of the model design process, since it is during this phase that the inter-node weighting factors are determined. The output of the prediction model is highly dependant on these inter-node weights.  
+
+First, the training data selection is important. 
+\subsubsection{Data Selection}
+
+To train a prediction model that will output accurate results, it is important to select training data across a wide spectrum in the region where the working point is most likely to be. In the case of the CVS, pose measurement vectors that contain as many pose combinations as possible, is desirable. Furthermore, it is also advantageous to have the sample vectors be uniformly distributed in a frequency histogram. Lastly, in the case of ANN's, the size of the training data set plays a significant roll in the accuracy of the training procedure: use too many samples and the model becomes over fitted, failing to capture the non-linear relationships, whereas too few samples fail to characterise the system properly. 
+
+The RBFN uses a supervised learning scheme where the desired output, the true CVS pose measurement error in this case, must be known. Therefore, the training data vectors were selected out of the data acquired from the Vicon test discussed in Chapter MEME, which produced pose measurement data vectors for the CVS, as well as pose measurement errors for each of the measurement vectors of the CVS. 
+
+To select a training data set that shows a wide variation in values while being uniformly distributed, it was opted to randomly sample a collection of vectors and test the distribution of the dimension of interest for uniformity using a $\chi^2$ test. If the dimension is uniformly distributed enough, then that collection of pose vectors is added to the training set. The process is repeated until a uniform data set for each dataimension is found. It was opted to select a total of 15 vectors per dimension, giving a total 90 training pose vectors. 
+
+\subsubsection{Training Process}
+
+Memememe
+
+For the training process, a supervised method is used. Here, the desired output is known and the training process attempts to fit an optimal number of radial functions, or nodes, that best describes the output data set for the given input. 
+
+The SciPy library's\footnote{SciPy v0.13.3} `Rbf' function was used. The function is written in such a way where it does not iteratively adjust its nodes centres to better fit the data. Instead, it sets up a linear seat of equations and solves them linearly. The sets of equations is of the form given in Equation mememe
+
+\begin{equation}
+  \label{eq:chap4-rbf-train}
+  Rx = y
+\end{equation}
+
+In Equation~\ref{eq:chap4-rbf-train}, the matrix $R$ is a matrix containing the euclidian norm distance between each node's centre. To 
+
+Data
+Training process - find nodes centres that best cover data, supervised
+Training params selection
+Verify
+
 
 \subsection{Model Validation}
 
 \section{Results}
 
 \section{Conclusion}
+
+

@@ -447,11 +447,10 @@ It can be seen that there is some improvement in all the dimensions. However, in
 
 \subsection{Computer Vision System Accuracy}
 
-Determining the accuracy of a multi-dimensional model is often a complex task, but the fact that the error is normally distributed makes it possible to use the covariance matrix to check the interdimensional variance and dependence. If it is found that the diagonal of the covariance matrix is sufficiently large relative to the off-diagonal elements, the dimensions can be taken as strongly enough independent of one another and the variance along the diagonal can be taken as a measure of the accuracy. 
+Determining the accuracy of a multi-dimensional model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix is sufficiently small enough relative to the diagonal elements, it can be deduced that the dimensions are strong enough independent of one another. The covariance matrix $\bm{\Sigma}$ is given in Equation~\ref{eq:covariance-matrix}. 
 
-The covariance matrix, $\bm{\Sigma}$, was found to be 
-
-\[
+\begin{equation}
+  \label{eq:covariance-matrix}
   \bm{\Sigma} = 
   \begin{bmatrix}
     \bm{3131.7} & 2255.2 & 98.227 & 94.371 &  98.830 & 106.85 \\ 
@@ -461,22 +460,49 @@ The covariance matrix, $\bm{\Sigma}$, was found to be
     98.830 & 30.631 & 106.86 & 10.303 &  \bm{110.54} & 63.381 \\
     106.85 & 1953.7 & 385.23 & 13.792 &  63.381 & \bm{318.17} \\
   \end{bmatrix}
-\]
-
-The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This unfortunately means that there is no clear indication on the accuracy of the system. This is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated in the contour plots of Figure meme. 
-
-From Figure meme it can be seen that the error in a dimension varies when the two other pose dimensions changes. 
-
-The conclusion one can draw from the covariance matrix $\Sigma$ and the plots in Figure meme is that there is that the error data is high dimensional and very complex. This makes it difficult to determine the pose error of the CVS for any given input pose measurement vector. 
-
-However, a probability density function (PDF) can be set up using $\bm{\Sigma}$ that will show what the expected error in the 6 dimensions will be for a given pose. The PDF is given by Equation~\ref{eq:pdf}.
-
-\begin{equation}
-  \label{eq:pdf}
-  p(\bm{\epsilon}) = \frac{1}{\sqrt{{(2\pi)}^k\lvert\bm{\Sigma}\rvert}}e^{-\frac{1}{2}{(\bm{\epsilon} - \bm{\mu})}^T\bm{\Sigma}^{-1}(\bm{\epsilon} - \bm{\mu})}
 \end{equation}
 
-Armed with a PDF and covariance matrix, it is now possible to determine whether the CV system is more accurate than the on-board sensor suite of a drone. 
+The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This dependence is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated in the contour plots of Figure meme. 
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_x}
+    \caption{Contour plot of the error in the $x$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_y}
+    \caption{Contour plot of the error in the $y$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_z}
+    \caption{Contour plot of the error in the $z$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_roll}
+    \caption{Contour plot of the error in the $roll$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_pitch}
+    \caption{Contour plot of the error in the $pitch$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.31\textwidth}
+    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_yaw}
+    \caption{Contour plot of the error in the $yaw$ dimension over the $x-y$ plane.}
+  \end{subfigure}
+  \caption[A collection of contour plots of the translation and rotation vectors relative to one another]{A collection of contour plots of the translation and rotation vectors relative to one another. The units for the translation figures are in metres, and in degrees for the rotation figures. }
+  \label{fig:err-contour}
+\end{figure*}
+
+From Figure meme it can be seen that the error in a dimension varies when the two other pose dimensions changes. These plots, as well as the covariance matrix $\bm{\Sigma}$ indicates that there is no clear indication on the accuracy of the CVS, since its a function of the pose of the calibration board relative to the CVS's camera. 
 
 \section{Conclusion}
 
+In this chapter, the design and layout of a computer vision measurement system (CVS) was discussed. The system consists of hardware and software components and the details of both were discussed. The system was tested in an indoor measurement facility to determine its measurement accuracy. With the ground-truth measurements produced by this indoor system, it was possible to optimise the intrinsic camera parameters and improve the pose data from the CVS.
+
+It was shown that the error data is a function of the pose of the calibration board relative to the CVS's camera. This constant error variation makes difficult to determine the measurement accuracy of a sample pose vector from the CVS.\@ The measurement accuracy of the CVS is very important and cannot be ignored. Therefore, another approach to determine the measurement accuracy was taken and was investigated. 

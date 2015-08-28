@@ -2,63 +2,119 @@
 
 \section{Introduction}
 
+The main objective of this project is to determine the pose estimation accuracy of a quadcopter in flight. Here, the pose refers to a six-dimensional vector describing an objects three-dimensional position and angular orientation. This needs to be done in the outdoors to allow the quadcopter to use its global positioning sensor (GPS). To this end, a computer vision pose measurement system (CVS), which extracts six-dimensional pose data from a calibration object in the system's view, was designed and implemented. Before the CVS was used to make pose measurements, its measurement accuracy was first determined. 
 
-The CVS was to be used as a measurement device to accomplish the objective of determining how accurately a quadcopter can estimate its pose, where the pose of an object being a combination of translation and rotation data. Before this can be done, however, it is important to establish how accurate the pose measurements of the CVS are. This was done in Chapter MEME.\@ Here it was found that the pose measurement error, i.e.\ the difference between the true pose and the measured pose, is highly dependant on the pose of the object being tracked relative to the camera. Also, despite using the RANSAC algorithm to filter out outlier data, a large amount of noise is still present within the CVS measurement data set. 
+In Chapter meme it was found that the pose measurement error of the CVS has high interdimensional dependence, as demonstrated by the covariance matrix of the error and the contour plots in Figure meme, and the data is fairly complex and noisy, despite using the RANSAC algorithm to filter out any outlier data points. This means that the measurement error is constantly changing and varies with the calibration board's current pose relative to the CVS's camera. In the context of this project, it is important to know what the accuracy of a pose measurement sample is, making it necessary to be able to determine the measurement error of any arbitrary pose measurement sample of the CVS.\@ It was decided that machine learning method will be employed to accomplish this. 
 
-These results prove that it is close to impossible to establish the measurement error for any arbitrary input pose vector, since the measurement error is not constant. The high dimensionality and complexity of the measurement error data also makes this task more complex. 
+Machine learning is where a computer model is trained to recognise patterns within a set of input data and output information on those patterns which are of interest to the designer. 
 
-One avenue that was investigated, was the use of a machine learning model to predict the pose measurement error that the CVS would make, for any arbitrary input pose measurement vector. 
+This chapter sets out to 
 
-This Chapter, 
-
-\section{Prediction Model Design}
+\section{Model Design}
 
 \subsection{Introduction}
 
-The field of machine learning has produced various methods and algorithms over the many years it has been active, each of them having their own characteristics, strengths and drawbacks. For this project, artificial neural networks (ANN) were considered. It has been found that ANN's are inherently good at handling complex, multi-dimensional data models and finding any non-linear relationships [\cite{tu1996advantages}].
+\subsection{Background}
 
-Furthermore,~\cite{xie2011comparison} has found that the radial basis function network (RBFN) sub-family of ANN's handle noisy data sets very well, but is slightly less efficient than normal feed-forward networks (FFN) for classification. However, this is a small price to pay to create an accurate prediction model for the CVS's pose measurement error. 
+Designing a machine learning model can consist of three basic steps, the steps being
 
-This section describes the steps taken in designing and testing the error prediction model, starting with the training process.
+\begin{enumerate}
+  \item Select machine learning model type.
+  \item Train the model.
+  \item Validate the model's accuracy. 
+\end{enumerate}
+
+First, the model type is selected. For this project, the radial basis neural network (RBFNN) was selected to perform the measurement error estimation on the CVS pose data. An artificial neural network was selected for this application, since there are complex non-linear interdimensional relationships in the error data, and neural networks excel at handling such data, as stated by~\cite{tu1996advantages}. Furthermore, the radial basis function network architecture was selected for its superior accuracy, compared to feed-forward networks, when handling large, noisy data sets, as determined by~\cite{xie2011comparison}. 
+
+Next, model training takes place. Here, the network is trained to take an input and adjust is internal weights in such a way that the input data is best related to a desired output by using a supervised training scheme, such as the backpropagation procedure. In this case, the network input would be the six-dimensional pose vector produced by the CVS and the network output is the corresponding measurement error of the input pose vectors.  
+
+Finally, to test and validate the accuracy of the trained model, it is tested with another set of input pose data of which the measurement error is already known. These two data sets can be used to select and refine the training parameters of the model. 
 
 \subsection{Model Training}
 
-The model training phase is a very important part of the model design process, since it is during this phase that the inter-node weighting factors are determined. The output of the prediction model is highly dependant on these inter-node weights.  
+Training a machine learning model is perhaps the most crucial aspect of the model design phase. Here the hidden layer of the RBFNN's nodes are initialised and assigned a weighting factor. This weight is selected in such a way that it minimises the difference between the network's output and the training error data by using the backpropagation method, demonstrated in Figure~\ref{fig:chap4-backprogagation}.
 
-First, the training data selection is important. 
-\subsubsection{Data Selection}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/chapter4/backpropagation}
+  \caption{back meme}
+\label{fig:chap4-backprogagation}
+\end{figure}
 
-To train a prediction model that will output accurate results, it is important to select training data across a wide spectrum in the region where the working point is most likely to be. In the case of the CVS, pose measurement vectors that contain as many pose combinations as possible, is desirable. Furthermore, it is also advantageous to have the sample vectors be uniformly distributed in a frequency histogram. Lastly, in the case of ANN's, the size of the training data set plays a significant roll in the accuracy of the training procedure: use too many samples and the model becomes over fitted, failing to capture the non-linear relationships, whereas too few samples fail to characterise the system properly. 
+The backpropagation method works as follows. The hidden nodes are initialised with a weighting factor. The input training data is then fed to the network and the output is compared to the training output. Based on this difference, the different nodes' weighting factors are adjusted. Then, the input is fed to the adjusted network again the new error is compared to the output training data. This process is repeated until the means square error of the output's deviation from the training data falls below a set threshold. 
 
-The RBFN uses a supervised learning scheme where the desired output, the true CVS pose measurement error in this case, must be known. Therefore, the training data vectors were selected out of the data acquired from the Vicon test discussed in Chapter MEME, which produced pose measurement data vectors for the CVS, as well as pose measurement errors for each of the measurement vectors of the CVS. 
+Factors that will affect the network's accuracy are the number of nodes in the hidden layer, as well as the strictness of fit. The number of hidden nodes is a measure of the complexity of the network and reflects the complexity of the data is can process. However, when too many nodes are selected, there is a significant risk that the model will only capture and attempt to model the noise and outlier data in a data set, instead of characterising the underlying relationships between the input and output. This phenomenon is known as overfitting and can be observed when a model with a very small training error is exposed to new input data and the error is a few orders of magnitude larger than for the training data. Here, the model describes the training data set very well, but any data set that is not very similar to the training data set will be handles very poorly. This is why the model validation phase is also a very important aspect of model training. 
 
-To select a training data set that shows a wide variation in values while being uniformly distributed, it was opted to randomly sample a collection of vectors and test the distribution of the dimension of interest for uniformity using a $\chi^2$ test. If the dimension is uniformly distributed enough, then that collection of pose vectors is added to the training set. The process is repeated until a uniform data set for each dataimension is found. It was opted to select a total of 15 vectors per dimension, giving a total 90 training pose vectors. 
+To train the model for this project, two sets of data were used, one for training and another for the model validation. Both of these data sets are from the data sets generated during the Vicon measurement test, where the measurement accuracy of the CVS was determined by comparing its measurements to that of the measurements made by a Vicon system. It includes both the pose data from the CVS and the corresponding measurement error.It was decided to use 300 training samples, giving 50 samples per dimension. 
 
-\subsubsection{Training Process}
+Matlab's\footnote{MATLAB VERSION WHAAAT} Neural Network toolbox\footnote{NN VERSION WHAAAAT} was used to train the RBFNN and get the output for subsequent input data. The function prototype is given by 
 
-Memememe
+\begin{center}
+  \verb|net = newrb(P,T,goal,spread,MN,DF)|
+\end{center}
 
-For the training process, a supervised method is used. Here, the desired output is known and the training process attempts to fit an optimal number of radial functions, or nodes, that best describes the output data set for the given input. 
-
-The SciPy library's\footnote{SciPy v0.13.3} `Rbf' function was used. The function is written in such a way where it does not iteratively adjust its nodes centres to better fit the data. Instead, it sets up a linear seat of equations and solves them linearly. The sets of equations is of the form given in Equation mememe
-
-\begin{equation}
-  \label{eq:chap4-rbf-train}
-  Rx = y
-\end{equation}
-
-In Equation~\ref{eq:chap4-rbf-train}, the matrix $R$ is a matrix containing the euclidian norm distance between each node's centre. To 
-
-Data
-Training process - find nodes centres that best cover data, supervised
-Training params selection
-Verify
-
+Here, $P$ and $T$ are the $3\times6$ input and output training data matrices. The `goal' parameter is the error threshold for the training data, `spread' is the strictness of fit parameter, while $MN$ and $DF$ define the maximum number of hidden nodes and dictate the amount of nodes to increase by between each training iteration. Adjusting the `spread' and $MN$ parameters are the primary ways of adjusting the network's accuracy and output. 
 
 \subsection{Model Validation}
+
+The model validation phase is used to ensure that the RBFNN has been properly trained and that overfitting does not occur. 
+
+The validation data set comes from the same Vicon test the training data comes from. Another 300 samples were used for the data set. 
+
+\subsection{Model Design}
 
 \section{Results}
 
 \section{Conclusion}
+
+%\section{Prediction Model Design}
+
+%\subsection{Introduction}
+
+%The field of machine learning has produced various methods and algorithms over the many years it has been active, each of them having their own characteristics, strengths and drawbacks. For this project, artificial neural networks (ANN) were considered. It has been found that ANN's are inherently good at handling complex, multi-dimensional data models and finding any non-linear relationships [\cite{tu1996advantages}].
+
+%Furthermore,~\cite{xie2011comparison} has found that the radial basis function network (RBFN) sub-family of ANN's handle noisy data sets very well, but is slightly less efficient than normal feed-forward networks (FFN) for classification. However, this is a small price to pay to create an accurate prediction model for the CVS's pose measurement error. 
+
+%This section describes the steps taken in designing and testing the error prediction model, starting with the training process.
+
+%\subsection{Model Training}
+
+%The model training phase is a very important part of the model design process, since it is during this phase that the inter-node weighting factors are determined. The output of the prediction model is highly dependant on these inter-node weights.  
+
+%First, the training data selection is important. 
+%\subsubsection{Data Selection}
+
+%To train a prediction model that will output accurate results, it is important to select training data across a wide spectrum in the region where the working point is most likely to be. In the case of the CVS, pose measurement vectors that contain as many pose combinations as possible, is desirable. Furthermore, it is also advantageous to have the sample vectors be uniformly distributed in a frequency histogram. Lastly, in the case of ANN's, the size of the training data set plays a significant roll in the accuracy of the training procedure: use too many samples and the model becomes over fitted, failing to capture the non-linear relationships, whereas too few samples fail to characterise the system properly. 
+
+%The RBFN uses a supervised learning scheme where the desired output, the true CVS pose measurement error in this case, must be known. Therefore, the training data vectors were selected out of the data acquired from the Vicon test discussed in Chapter MEME, which produced pose measurement data vectors for the CVS, as well as pose measurement errors for each of the measurement vectors of the CVS. 
+
+%To select a training data set that shows a wide variation in values while being uniformly distributed, it was opted to randomly sample a collection of vectors and test the distribution of the dimension of interest for uniformity using a $\chi^2$ test. If the dimension is uniformly distributed enough, then that collection of pose vectors is added to the training set. The process is repeated until a uniform data set for each dataimension is found. It was opted to select a total of 15 vectors per dimension, giving a total 90 training pose vectors. 
+
+%\subsubsection{Training Process}
+
+%Memememe
+
+%For the training process, a supervised method is used. Here, the desired output is known and the training process attempts to fit an optimal number of radial functions, or nodes, that best describes the output data set for the given input. 
+
+%The SciPy library's\footnote{SciPy v0.13.3} `Rbf' function was used. The function is written in such a way where it does not iteratively adjust its nodes centres to better fit the data. Instead, it sets up a linear seat of equations and solves them linearly. The sets of equations is of the form given in Equation mememe
+
+%\begin{equation}
+  %\label{eq:chap4-rbf-train}
+  %Rx = y
+%\end{equation}
+
+%In Equation~\ref{eq:chap4-rbf-train}, the matrix $R$ is a matrix containing the euclidian norm distance between each node's centre. To 
+
+%Data
+%Training process - find nodes centres that best cover data, supervised
+%Training params selection
+%Verify
+
+
+%\subsection{Model Validation}
+
+%\section{Results}
+
+%\section{Conclusion}
 
 

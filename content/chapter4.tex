@@ -37,7 +37,7 @@ Training a machine learning model is perhaps the most crucial aspect of the mode
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{figures/chapter4/backpropagation}
-  \caption{back meme}
+  \caption{back meme, adopted from wikipedia}
 \label{fig:chap4-backprogagation}
 \end{figure}
 
@@ -45,7 +45,7 @@ The backpropagation method works as follows. The hidden nodes are initialised wi
 
 Factors that will affect the network's accuracy are the number of nodes in the hidden layer, as well as the strictness of fit. The number of hidden nodes is a measure of the complexity of the network and reflects the complexity of the data is can process. However, when too many nodes are selected, there is a significant risk that the model will only capture and attempt to model the noise and outlier data in a data set, instead of characterising the underlying relationships between the input and output. This phenomenon is known as overfitting and can be observed when a model with a very small training error is exposed to new input data and the error is a few orders of magnitude larger than for the training data. Here, the model describes the training data set very well, but any data set that is not very similar to the training data set will be handles very poorly. This is why the model validation phase is also a very important aspect of model training. 
 
-To train the model for this project, two sets of data were used, one for training and another for the model validation. Both of these data sets are from the data sets generated during the Vicon measurement test, where the measurement accuracy of the CVS was determined by comparing its measurements to that of the measurements made by a Vicon system. It includes both the pose data from the CVS and the corresponding measurement error.It was decided to use 300 training samples, giving 50 samples per dimension. 
+To train the model for this project, two sets of data were used, one for training and another for the model validation. Both of these data sets are from the data sets generated during the Vicon measurement test, where the measurement accuracy of the CVS was determined by comparing its measurements to that of the measurements made by a Vicon system. It includes both the pose data from the CVS and the corresponding measurement error.It was decided to use 300 training samples, giving 50 samples per dimension. The input and output data were normalised to a range of $[-1, 1]$, since the pose vector contains different measurement units (degrees and metres). All subsequent inputs to and outputs from the network must be normalised and denormalised with the same values.  
 
 Matlab's\footnote{MATLAB VERSION WHAAAT} Neural Network toolbox\footnote{NN VERSION WHAAAAT} was used to train the RBFNN and get the output for subsequent input data. The function prototype is given by 
 
@@ -57,13 +57,17 @@ Here, $P$ and $T$ are the $3\times6$ input and output training data matrices. Th
 
 \subsection{Model Validation}
 
-The model validation phase is used to ensure that the RBFNN has been properly trained and that overfitting does not occur. 
+The model validation phase is used to ensure that the RBFNN has been properly trained and that overfitting does not occur. The validation data set comes from the same Vicon test the training data comes from. Another 300 samples were used for the data set. 
 
-The validation data set comes from the same Vicon test the training data comes from. Another 300 samples were used for the data set. 
-
-\subsection{Model Design}
+The error was determined by feeding the validation input data into the trained network and comparing its output with the validation error data. The mean square error was used as a measure of accuracy. 
 
 \section{Results}
+
+With the training and validation data sets selected, the model design could begin. Different combinations of training parameters for the `newrb' Matlab function were tested. It was found that the `spread' parameter played the largest part in the mean square error during training. This is because the training data changes relatively quickly and contains a fair amount of noise. Therefore, forcing the RBFNN to go through all the points caused the mean square error to go up. It was decided to keep this parameter small to allow the RBFNN to describe the general trend in the data. 
+
+Furthermore, changing the maximum number of nodes also influenced the accuracy of the network. Leaving the $MN$ parameter to its default will let the maximum number of hidden nodes go up to the number of samples, i.e.\ 300 nodes. This makes the network overly complex and it was found that the network performs better with both the training and validation data sets with a lower number of nodes. 
+
+A combination that was found to work well, was a `spread' of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a measn square error of 5\e{3} meme, indicating a significant improvement in accuracy.  
 
 \section{Conclusion}
 

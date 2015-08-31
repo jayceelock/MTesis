@@ -4,11 +4,9 @@
 
 The main objective of this project is to determine the pose estimation accuracy of a quadcopter in flight. Here, the pose refers to a six-dimensional vector describing an objects three-dimensional position and angular orientation. This needs to be done in the outdoors to allow the quadcopter to use its global positioning sensor (GPS). To this end, a computer vision pose measurement system (CVS), which extracts six-dimensional pose data from a calibration object in the system's view, was designed and implemented. Before the CVS was used to make pose measurements, its measurement accuracy was first determined. 
 
-In Chapter meme it was found that the pose measurement error of the CVS has high interdimensional dependence, as demonstrated by the covariance matrix of the error and the contour plots in Figure meme, and the data is fairly complex and noisy, despite using the RANSAC algorithm to filter out any outlier data points. This means that the measurement error is constantly changing and varies with the calibration board's current pose relative to the CVS's camera. In the context of this project, it is important to know what the accuracy of a pose measurement sample is, making it necessary to be able to determine the measurement error of any arbitrary pose measurement sample of the CVS.\@ It was decided that machine learning method will be employed to accomplish this. 
+In Chapter meme it was found that the pose measurement error of the CVS has high interdimensional dependence, as demonstrated by the covariance matrix of the error and the contour plots in Figure meme, and the data is fairly complex and noisy, despite using the RANSAC algorithm to filter out any outlier data points. This means that the measurement error is constantly changing and varies with the calibration board's current pose relative to the CVS's camera. In the context of this project, it is important to know what the accuracy of a pose measurement sample is, making it necessary to be able to determine the measurement error of any arbitrary pose measurement sample of the CVS.\@ It was decided that machine learning method will be employed to accomplish this. Machine learning is where a computer model is trained to recognise patterns within a set of input data and output information on those patterns which are of interest to the designer. 
 
-Machine learning is where a computer model is trained to recognise patterns within a set of input data and output information on those patterns which are of interest to the designer. 
-
-This chapter sets out to 
+This chapter sets out to explain the process behind making a machine learning model that can estimate within reasonable accuracy what the pose measurement error of the CVS is for any arbitrary input measurement vector. 
 
 \section{Model Design}
 
@@ -67,7 +65,7 @@ With the training and validation data sets selected, the model design could begi
 
 Furthermore, changing the maximum number of nodes also influenced the accuracy of the network. Leaving the $MN$ parameter to its default will let the maximum number of hidden nodes go up to the number of samples, i.e.\ 300 nodes. This makes the network overly complex and it was found that the network performs better with both the training and validation data sets with a lower number of nodes. 
 
-A combination that was found to work well, was a `spread' of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a measn square error of 5\e{3} meme bewys, indicating a significant improvement in accuracy.  
+A combination that was found to work well, was a `spread' of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a measn square error of 5\e{3} meme bewys, indicating a significant improvement in accuracy. SIT IN TRAINING AND VALIDATION GRAFIEKE. BESPREEK AKKURAATHEID VAN AFSKATTINGS.  
 
 \section{Conclusion}
 

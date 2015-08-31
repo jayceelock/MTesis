@@ -1,3 +1,4 @@
+\RequirePackage{mmap}
 \documentclass[12pt,oneside,openany,a4paper,%..... Layout
                afrikaans, english,%.............. Global language selection
 	       ]{memoir}
@@ -17,7 +18,7 @@
 
 %==== Math setup ====================================================
 \usepackage{amsmath}%............................ Advanced math (before fonts)
-%\usepackage{amssymb}%............................ AMS Symbol fonts
+\usepackage{amssymb}%............................ AMS Symbol fonts
 
 %==== Font setup (default is Computer Modern) =======================
 \usepackage[T1]{fontenc}%........................ Type 1 fonts
@@ -52,6 +53,14 @@
 % Please insert user defined commands here
 % and NOT in the document itself!
 %
+
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{url}
+%\usepackage{gensymb}
+
+\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 
 \makeatother
 
@@ -109,7 +118,7 @@
 \DeclarationDate{2015/10/27}
 \DeclarationPage%
 											  
-%\include{frontmatter/Chap-Front}
+\include{frontmatter/abstract}
 										     
 \tableofcontents
 \clearpage
@@ -131,11 +140,11 @@
 %   \numberwithin{table}{chapter}
 
 \include{content/chapter1}
-\include{content/chapter2}
-\include{content/chapter3}
-\include{content/chapter4}
-\include{content/chapter5}
-\include{content/chapter6}
+%\include{content/chapter2}
+%\include{content/chapter3}
+%\include{content/chapter4}
+%\include{content/chapter5}
+%\include{content/chapter6}
 				    
 %==== Appendices ====================================================
 \appendix

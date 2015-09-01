@@ -65,7 +65,75 @@ With the training and validation data sets selected, the model design could begi
 
 Furthermore, changing the maximum number of nodes also influenced the accuracy of the network. Leaving the $MN$ parameter to its default will let the maximum number of hidden nodes go up to the number of samples, i.e.\ 300 nodes. This makes the network overly complex and it was found that the network performs better with both the training and validation data sets with a lower number of nodes. 
 
-A combination that was found to work well, was a `spread' of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a measn square error of 5\e{3} meme bewys, indicating a significant improvement in accuracy. SIT IN TRAINING AND VALIDATION GRAFIEKE. BESPREEK AKKURAATHEID VAN AFSKATTINGS.  
+A combination that was found to work well, was a `spread' of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a mean square error of 5\e{3} meme bewys, indicating a significant improvement in accuracy. SIT IN TRAINING AND VALIDATION GRAFIEKE. BESPREEK AKKURAATHEID VAN AFSKATTINGS.  
+
+\begin{figure*}
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/x_train}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/y_train}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/z_train}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/roll_train}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/pitch_train}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/yaw_train}
+    \caption{}
+  \end{subfigure}
+  \caption{A plot of the output of the RBFNN when used with the training pose set.}
+  \label{fig:chap4-rbf-train}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/x_valid}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/y_valid}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/z_valid}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/roll_valid}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/pitch_valid}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.3\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/yaw_valid}
+    \caption{}
+  \end{subfigure}
+  \caption{A plot of the output of the RBFNN when used with the training pose set.}
+  \label{fig:chap4-rbf-train}
+\end{figure*}
 
 \section{Conclusion}
 

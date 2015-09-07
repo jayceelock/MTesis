@@ -2,7 +2,46 @@
 
 \section{Introduction}
 
-\section{Test Design}
+The main objective of this project is to determine the pose estimation accuracy of an airborne quadcopter in the outdoors, where the pose is a six-dimensional translation and rotation vector. This can be done by comparing a quadcopter's on-board pose estimate with the pose measurement of an external measurement tool. 
+
+In Chapters meme and meme, a computer vision pose measurement system (CVS) was designed and tested, and its pose measurement error was determined. It was found that the pose data produced by the CVS is very complex, high dimensional and strongly inter-dimensionally dependant, as showed by the covariance matrix of Equation meme, making it hard to estimate the measurement error for any given pose measurement vector. A radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
+
+The trained RBFNN was used with data gathered from a test flight from a quadcopter. This chapter sets out to discuss the design and details of the tests performed, including the testing procedure, conditions and data processing. Then, the results are given and discussed, followed by a brief conclusionary discussion on the data and results gathered thus far. 
+
+\section{Test Design and Procedure}
+
+\subsection{Introduction}
+
+\subsubsection{Equipment}
+
+The equipment required for the test are given as:
+
+\begin{itemize}
+    \item CVS camera and laptop.
+    \item SunKopter quadcopter.
+    \item Qualified model aeroplane pilot.
+    \item Calibration board.
+    \item 
+\end{itemize}
+
+The details of the CVS has been discussed before in Chapter meme. It consists of a camera, which captures the image data, and a laptop, which records and processes the data. A qualified pilot is required for safety reasons, since the quadcopter will be flown in close proximity to people and equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an A3, $6\times7$ square chessboard pattern calibration board. 
+
+The SunKopter quadcopter is a custom-build quadcopter for the Solar and Thermal Energy Research Group (STERG). 
+
+\subsubsection{Location}
+\subsection{Test Design}
+
+\subsubsection{Nog?}
+
+\subsection{Test Procedure}
+
+\subsubsection{Test Scenarios}
+
+\subsubsection{Test Conditions}
+
+\subsubsection{Nog?}
+
+\subsection{Data Processing}
 
 \section{Results}
 

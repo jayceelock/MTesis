@@ -59,7 +59,22 @@ Here, $P$ and $T$ are the $300\times6$ input and output training data matrices. 
 
 \subsection{Model Validation}
 
-The model validation phase is used to ensure that the RBFNN has been properly trained and that overfitting does not occur. The validation data set comes from the same Vicon test the training data comes from. Another 300 pose measurement samples were used for the validation data set. 
+The model validation phase is used to ensure that the RBFNN has been properly trained and that overfitting does not occur. The validation data set comes from the same Vicon test the training data comes from. Another 300 pose measurement samples were used for the validation data set and they were selected at random. Therefore, given that the training data is uniformly distributed, the validation set should fall within the training data. Figure~\ref{fig:chap4-scatter-tr-v} shows the scatter plots for the translation and rotation vectors for the training and validation sets. 
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/3d_pose_tr_v}
+    \caption{}
+  \end{subfigure}
+~
+  \begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{figures/chapter4/3d_rot_tr_v}
+    \caption{}
+  \end{subfigure}
+  \caption[Scatter plot of the training and validation data. ]{A normalised scatter plot of the translation and rotation data points for the training and validation data sets. }
+  \label{fig:chap4-scatter-tr-v}
+\end{figure*}
 
 The error was determined by feeding the validation input data into the trained network and comparing its output with the validation error data. The mean square error was used as a measure of accuracy. This set was used to adjust the spread and $\mathit{MN}$ training parameters, where the best combination would produce the smallest training and validation mean square errors. 
 
@@ -69,7 +84,7 @@ With the training and validation data sets selected, the model design could begi
 
 Furthermore, changing the maximum number of hidden nodes also influenced the accuracy of the network. Leaving the $MN$ parameter to its default will let the maximum number of hidden nodes go up to the number of training samples, 300 nodes in this case, making the network overly complex and slow. It was found that the network is more accurate with both the training and validation data sets when the hidden nodes number only about 10\% of the number of samples. 
 
-A combination that was found to work well, was a \emph{spread} of 1\e{-3} and 20 hidden nodes. This combination gives a mean square error of approximately 3.0, whereas the default values of 1 and 300 gives a mean square error of 5\e{3} meme bewys, indicating a significant improvement in accuracy.   
+A combination that was found to work well, was a \emph{spread} of 8\e{-1} and 8 hidden nodes. This combination gives a normalised mean square error of approximately 1.9\e{-2} with the validation data set, and 5.1\e{-3} with the training set, whereas the default values of 1 and 300 gives a mean square error of 3.14\e{4} and 7.1\e{-5} for the validation and training sets respectively. The results with the 300 hidden nodes demonstrates the effect of overfitting well: the training set produces very small errors, but gives a very large deviation when used with a validation data set.    
 
 Figure~\ref{fig:chap4-rbf-train} shows results of the RBFNN model when tested with the training data set. It can be seen that the model's estimate very closely resembles the training set's error, indicating that the model is well-trained. 
 
@@ -88,7 +103,7 @@ Figure~\ref{fig:chap4-rbf-train} shows results of the RBFNN model when tested wi
     \includegraphics[width=\textwidth]{figures/chapter4/z_train}
     \caption{}
   \end{subfigure}
-~
+
   \begin{subfigure}{0.3\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter4/roll_train}
     \caption{}
@@ -107,7 +122,7 @@ Figure~\ref{fig:chap4-rbf-train} shows results of the RBFNN model when tested wi
   \label{fig:chap4-rbf-train}
 \end{figure*}
 
-Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the validation data set.
+Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the validation data set. Here it can be seen that the RBFNN's error estimate deviates somewhat from the true error, however it follows the general trend in the data and ignores the noisy outlier data spikes. Furthermore, it generally gives an overly conservative estimate, often overestimating the error for a pose vector. This is not ideal, but is safer than underestimating the error. In general, the translation dimensions are fairly accurate. However, with the exception of the pitch dimension, the rotation dimensions show significant deviations from the true error, reaching up to $\ang{80}$ deviations from the true error. 
 
 \begin{figure*}
   \begin{subfigure}{0.3\textwidth}
@@ -124,7 +139,7 @@ Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the v
     \includegraphics[width=\textwidth]{figures/chapter4/z_valid}
     \caption{}
   \end{subfigure}
-~
+
   \begin{subfigure}{0.3\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter4/roll_valid}
     \caption{}
@@ -143,10 +158,10 @@ Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the v
   \label{fig:chap4-rbf-valid}
 \end{figure*}
 
-Figures~\ref{fig:chap4-rbf-train} and~\ref{fig:chap4-rbf-valid} shows that the model gives failry accurate estimates of the pose measurement error of the CVS. There are fairly large deviations from the true error in the $y$, $z$ and $\psi$ (yaw) dimensions. HOEKOM IS DIT ONAKKURAAT??
+%Figures~\ref{fig:chap4-rbf-train} and~\ref{fig:chap4-rbf-valid} shows that the model gives fairly accurate estimates of the pose measurement error of the CVS. There are fairly large deviations from the true error in the $y$, $z$ and $\psi$ (yaw) dimensions. HOEKOM IS DIT ONAKKURAAT??
 
 \section{Conclusion}
 
-In this chapter, a machine learning model was designed to model and predict the complex and dimensionally dependant error data of the CVS.\@ A radial basis function neural network was selected to do this: it takes a six-dimensional pose measurement vector from the CVS and outputs the corresponding measurement error for the input sample. The network was trained and validated by two different data sets from the same measurement test and produces a mean square error of 3.0 for the validation set, indicating a good fit. 
+In this chapter, a machine learning model was designed to model and predict the complex and dimensionally dependant pose measurement error of the CVS.\@ A radial basis function neural network was selected to do this: it takes a six-dimensional pose measurement vector from the CVS and outputs the corresponding measurement error for the input sample. The network was trained and validated by two different data sets from the same measurement test and produces a mean square error of 1.9\e{-2} for the validation set, indicating a good model fit for the data. 
 
 The trained network is now ready to predict the measurement error for the CVS with pose measurement data generated by a quadcopter in flight. This data can then be used to determine the pose estimation accuracy of a drone in flight. 

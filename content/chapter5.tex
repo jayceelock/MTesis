@@ -2,15 +2,19 @@
 
 \section{Introduction}
 
-The main objective of this project is to determine the pose estimation accuracy of an airborne quadcopter in the outdoors, where the pose is a six-dimensional translation and rotation vector. This can be done by comparing a quadcopter's on-board pose estimate with the pose measurement of an external measurement tool. 
+The main objective of this project is to determine the pose estimation accuracy of an airborne quadcopter in the outdoors, where the pose is a six-dimensional translation and angular orientation vector. This can be done by comparing a quadcopter's on-board pose estimate with the pose measurement of an external measurement tool. 
 
-In Chapters meme and meme, a computer vision pose measurement system (CVS) was designed and tested, and its pose measurement error was determined. It was found that the pose data produced by the CVS is very complex, high dimensional and strongly inter-dimensionally dependant, as showed by the covariance matrix of Equation meme, making it hard to estimate the measurement error for any given pose measurement vector. A radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
+In Chapters meme and meme, a computer vision pose measurement system (CVS) was designed and tested and its pose measurement error was determined. It was found that the pose measurement data produced by the CVS is very complex, high dimensional and strongly inter-dimensionally dependant, as showed by the covariance matrix of Equation meme. This makes it hard to estimate the measurement error for any given pose measurement vector produced by the CVS.\@ 
+
+Machine learning models are known to be able to detect underlying relationships in the data, if properly designed and trained. A radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
 
 The trained RBFNN was used with data gathered from a test flight from a quadcopter. This chapter sets out to discuss the design and details of the tests performed, including the testing procedure, conditions and data processing. Then, the results are given and discussed, followed by a brief conclusionary discussion on the data and results gathered thus far. 
 
 \section{Test Design and Procedure}
 
 \subsection{Introduction}
+
+\subsection{Test Design}
 
 \subsubsection{Equipment}
 
@@ -24,21 +28,35 @@ The equipment required for the test are given as:
     \item 
 \end{itemize}
 
-The details of the CVS has been discussed before in Chapter meme. It consists of a camera, which captures the image data, and a laptop, which records and processes the data. A qualified pilot is required for safety reasons, since the quadcopter will be flown in close proximity to people and equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an A3, $6\times7$ square chessboard pattern calibration board. 
+The details of the CVS has been discussed before in Chapter meme. It consists of a camera, which captures the image data, and a laptop, which records and processes the data. A qualified pilot is required for safety reasons, since the quadcopter will be flown in close proximity to people and equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an A3-sized\footnote{$297mm\times432mm$}, $6\times5$ square chessboard pattern calibration board. 
 
-The SunKopter quadcopter is a custom-build quadcopter for the Solar and Thermal Energy Research Group (STERG). 
+The SunKopter quadcopter is a custom-built quadcopter for the Solar and Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
 
 \subsubsection{Location}
 
-\subsection{Test Design}
+The testing site where the flight tests were conducted is located at the Mariendahl experimental farm, owned and operated by Stellenbosch University (SU). It is also the location of STERG's Helio100 central receiver concentrated solar power (CSP) project. 
 
 \subsubsection{Nog?}
 
 \subsection{Test Procedure}
 
+\subsubsection{Test Conditions and Layout}
+
+The flight tests were conducted on the 26$^{th}$ of June, 2015 at the Helio100 test site at Mariendahl. The weather conditions were close to ideal with very little wind and clear skies. See Appendix MEME for a more detailed weather and wind report recorded on site.
+
+Professional dude
+
+For the test, video data of the SunKopter with a calibration board attached to its underside was recorded, where the pose data will be extracted offline afterwards. The issue of turbulence introduced by a quadcopter flying to close to the ground was considered, since it can negatively affect the flight performance of a quadcopter. A general rule of thumb to prevent ground effects from influencing flight, as stated by~\cite{basson-flight-test}, is to fly a quadcopter the length of one of its props from the ground. The CVS's camera was therefore placed on top of a 2m post, which eliminated ground effects from the flight tests.
+
+A licensed back-up pilot was employed during the test. His responsibility was to perform the manual piloting tasks, such as positioning the SunKopter and switching modes as well as taking over the piloting of the SunKopter and safely land it in case the flight stability is compromised and a catastrophic failure is inevitable.
+
 \subsubsection{Test Scenarios}
 
-\subsubsection{Test Conditions}
+For each flight test, the SunKopter was manually positioned above the centre of the CVS's camera on the post and set to `loiter' mode. In this mode, the SunKopter will attempt to hold the altitude, position and yaw angle it had when it was set to loiter mode, while remaining stable, meaning that the SunKopter will attempt to hold a roll and pitch angle of $\ang{0}$. 
+
+It has been established in Chapter meme that the pose measurement data from the CVS is highly inter-dimensionally dependant, which implies that the accuracy of the pose measurement will depend on the current pose relative to the CVS's camera. As a consequence of this, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
+
+Distances of 1m and 2m from the camera were used. In preliminary testing it was found that distances greater than 2m from the camera, the CVS's starts losing view of the corners on the calibration board and struggles to detect and extract the corner coordinate data from the calibration board, making it impossible to perform the pose estimation. Furthermore, given that a quadcopter is symmetric about both of its axes, the yaw angles were set to $\ang{0}$, $\ang{22.5}$ and $\ang{45}$. 
 
 \subsubsection{Nog?}
 

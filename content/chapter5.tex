@@ -77,6 +77,7 @@ The CVS's camera captures video data at 30 frames per second, while the Pixhawk 
 To synchronise the data, a zero-order-hold was applied to each data set by using the timestamps for each data sample. What this means is that the value of each sample is held constant until it is updated by the next sample. Furthermore, the CVS's pose data was downsampled by selecting a sample from the set that coincides with the timestamps from the SunKopter's pose data set. 
 
 \subsubsection{Data Centring}
+\label{sec:chap5-data-centring}
 
 After the pose data has been extracted from the video data, the CVS's pose estimate and the SunKopter's on-board pose estimate must be recentred to a common axis system. The CVS's axis system is centred around its camera centre, while the SunKopter's pose data is centred around the point where it is launched from. Therefore, to be able to compare the two sets of data, the constant offset vector between the axis systems must be determined. The axis systems and offset vector is demonstrated in Figure~\ref{fig:chap5-flight-test-schem}.
 
@@ -114,9 +115,35 @@ The minimisation was done using the `minimize' function from the SciPy\footnote{
 
 With the two data sets now directly relatable, the pose estimation error of a quadcopter in flight, the SunKopter in this case, can now be determined using the radial basis function neural network (RBFNN) discussed in Chapter meme. 
 
-The input to the network is the CVS's pose data set. The network then outputs its error estimate for every sample, allowing a measurement error band to be drawn around the data. This band can then be used to determine if the quadcopter's pose estimate or the CVS's pose estimate is more accurate: when the quadcopter's estimate falls within the error band, it can be assumed that the quadcopter's pose estimate is more accurate for that sample then the CVS's is, while the opposite holds true if it falls outside the error band. 
+The input to the network is the CVS's pose data set. The network then outputs its error estimate for every sample, allowing a measurement error band to be drawn around the data. This band can then be used to determine if the quadcopter's pose estimate or the CVS's pose estimate is more accurate: when the quadcopter's estimate falls within the error band, it can be assumed that the quadcopter's pose estimate is more accurate for that sample then the CVS's is, while the opposite holds true if it falls outside the error band. It can then be determined which of the two systems produce, on average, the most accurate pose results. However, if it is found that the quadcopter's pose estimate is more accurate, one might be liable to ask if the CVS is still necessary.
+
+Up to this point, any measure of the error in a quadcopter's pose estimation has been unavailable to outdoor quadcopters, except their on-board pose estimates which cannot be used to determine their own accuracy. This means that even if it is found that the quadcopter's pose estimate is more accurate than the CVS's, the CVS pose data will still provide a measure of the quadcopter's pose estimate which was not available previously. The outcome of this comparisson may lead to two outcomes.
+
+If the quadcopter's pose estimate is more accurate than the CVS's, then the pose measurement error of the CVS can be taken as a worst-case measurement, where the quadcopter's pose estimate will always be at least as accurate as the CVS's. Conversely, if it is found that the CVS produces better pose measures, then the quadcopter's pose estimation error will be given by the difference between the CVS and quadcopter's pose data. 
 
 \section{Results}
+
+\subsection{Offset Vector}
+
+Using the procedure described in Section~\ref{sec:chap5-data-centring}, the optimal offset vector relating the quadcopter and CVS's axis systems is given in Equation~\ref{eq:chap5-offset-result}. 
+
+\begin{equation}
+  \label{eq:chap5-offset-result}
+  P_{offset} = 
+  \begin{bmatrix}
+    -6.61m & -0.834m & -4.17m & \ang{6.15} & \ang{62.7} & \ang{-185} \\
+  \end{bmatrix}^T
+\end{equation}
+
+The translation values roughly coincide with the conditions that were recorded on site: the SunKopter was launched some distance from the CVS equipment for safety reasons. The launch site was slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity standpoint, the offset that the optimisation procedure produced is a correct one. 
+
+\subsection{Pose Estimation Error}
+
+Fout histogramme + gem en std afwyking
+Normale resultate
+Test cloud
+
+
 
 \section{Conclusion}
 

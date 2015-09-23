@@ -20,8 +20,24 @@ Finally, Chapter meme is dedicated to discussing how the CVS and the RBFNN was u
 
 \section{Findings and Contributions to Body of Knowledge}
 
+The objectives of this research thesis are discussed in Chapter meme. They are stated here again for convenience and are as follows:
 
+\begin{itemize}
+  \item Design and implement an alternative outdoor pose measurement system.
+  \item Determine the measurement accuracy of that pose measurement system.
+  \item Use the computer vision system to determine the pose estimation accuracy of a quadcopter in flight. 
+\end{itemize}
+
+The main objective is to determine the pose estimation accuracy of a quadcopter in flight in an outdoor environment. To be able to do this, a new pose measurement tool needed to be employed that would work in the outdoors. To this end, a camera-based system was made that makes use of existing computer vision techniques to extract pose information from image data. However, before this system could be used to make real pose measurements, its accuracy first needed to be determined.
+
+This was done by using a Vicon motion-tracking system, whose measurements provided a ground-truth baseline with which the CVS's pose measurements could be compared against. Consequently, the CVS's measurement error data was found to be complex and high-dimensional and highly interdimensionally dependant, as shown by the covariance matrix in Equation meme. This made it necassary to use a machine learning model to predict measurement error for any input pose measurement vector, since the measurement error is not constant and varies according to the current pose of the object relative to the CVS's camera. 
+
+To perform the measurement error prediction, a RBFNN was selected based on its ability to work well with noisy input data and detect and characterise non-linear relationships between the input dimensions. This network was trained and validated with data gathered during the Vicon test and produces a normalised mean square error of meme for the training set and meme for the validations set. These small errors indicate that the network was trained well and overfitting did not occur. The trained RBFNN was then ready predict the measurement error for new pose measurement data.
+
+With the CVS designed and ready to make measurements and the RBFNN trained and ready to determine the error in the CVS data, a real flight test could be conducted where the pose estimation accuracy of a quadcopter in flight was determined. For the 
 
 \section{Shortcomings and Future Work}
 
 \section{Conclusion}
+
+

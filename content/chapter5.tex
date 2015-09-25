@@ -1,10 +1,11 @@
 \chapter{Quadcopter Test}
+\label{chap5}
 
 \section{Introduction}
 
 The main objective of this research project is to determine the pose estimation accuracy of an airborne quadcopter in the outdoors, where the pose refers to a six-dimensional position and orientation vector. This can be done by comparing a quadcopter's on-board pose estimate with the pose measurement of an external measurement tool or device.  
 
-In Chapters meme and meme, a computer vision pose measurement system (CVS) was designed and tested and its pose measurement error was determined. It was found that the pose measurement data produced by the CVS is very complex, high dimensional and strongly inter-dimensionally dependant, as showed by the covariance matrix of Equation meme. This makes it hard to estimate the measurement error for any given pose measurement vector produced by the CVS.\@ 
+In Chapters~\ref{chap3} and~\ref{chap4}, a computer vision pose measurement system (CVS) was designed and tested and its pose measurement error was determined. It was found that the pose measurement data produced by the CVS is very complex, high dimensional and strongly inter-dimensionally dependant, as showed by the covariance matrix of Equation~\ref{eq:covariance-matrix}. This makes it hard to estimate the measurement error for any given pose measurement vector produced by the CVS.\@ 
 
 Machine learning models are known to be able to detect underlying relationships in the data, if properly designed and trained. A radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
 
@@ -28,7 +29,7 @@ The equipment and facilities that were required and used for the flight tests ar
     \item Isolated testing site. 
 \end{itemize}
 
-The details of the CVS are discussed in Chapter meme. It consists of a camera, which captures the image data, and a laptop, which records and processes the data. A qualified pilot is required for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an A3-sized\footnote{$297mm\times432mm$}, $6\times5$ square chessboard pattern calibration board. 
+The details of the CVS are discussed in Chapter~\ref{chap3}. It consists of a camera, which captures the image data, and a laptop, which records and processes the data. A qualified pilot is required for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an A3-sized\footnote{$297mm\times432mm$}, $6\times5$ square chessboard pattern calibration board. 
 
 The SunKopter quadcopter is a custom-built quadcopter for the Solar and Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
 
@@ -50,7 +51,7 @@ A licensed back-up pilot was employed during the test. His responsibility was to
 
 For each flight test, the SunKopter was manually positioned above the centre of the CVS's camera on the post and set to \emph{loiter} mode. In this mode, the SunKopter will attempt to hold the altitude, position and yaw angle it had when it was set to \emph{loiter} mode, while remaining stable, meaning that the SunKopter will attempt to hold a roll and pitch angle of $\ang{0}$. 
 
-It has been established in Chapter meme that the pose measurement data from the CVS is highly inter-dimensionally dependant, which implies that the accuracy of the pose measurement will depend on the SunKopter's current pose relative to the CVS's camera. As a consequence of this, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
+It has been established in Chapter~\ref{chap3} that the pose measurement data from the CVS is highly inter-dimensionally dependant, which implies that the accuracy of the pose measurement will depend on the SunKopter's current pose relative to the CVS's camera. As a consequence of this, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
 
 Distances of 1$m$ and 2$m$ from the camera were used. During preliminary flight tests, it was found that with distances greater than 2$m$ from the camera, the CVS's starts losing view of the corners on the calibration board and struggles to detect and extract the corner coordinate data from the calibration board, making it impossible to perform the pose estimation. Furthermore, given that a quadcopter is symmetric about both of its axes, the yaw angles for the flight tests were set to $\ang{0}$, $\ang{22.5}$ and $\ang{45}$. 
 
@@ -64,7 +65,7 @@ After the video data of the SunKopter with the calibration board attached was re
 
 \subsubsection{Pose Data Extraction}
 
-The first step in the data processing phase is to extract the pose data of the calibration board, and by extension the SunKopter to which it was attached. This was done by using the process discussed in Chapter meme, where OpenCV's chessboard corner detector and PnP problem solver are used to extract six-dimensional pose information of a chessboard pattern calibration board. This process is fairly automated, however the output from the PnP solver required still some conditioning.
+The first step in the data processing phase is to extract the pose data of the calibration board, and by extension the SunKopter to which it was attached. This was done by using the process discussed in Chapter~\ref{chap2}, where OpenCV's chessboard corner detector and PnP problem solver are used to extract six-dimensional pose information of a chessboard pattern calibration board. This process is fairly automated, however the output from the PnP solver required still some conditioning.
 
 The coordinate system for the corner detector and PnP solver used was specified in square units, i.e.\ a $5\times6$ square chessboard would have dimensions of $5\times6$ units. This required the translation vector to be transformed back to SI units by multiplying the PnP solver's output by 0.05, since each square on the chessboard is $5cm\times5cm$. Similarly, the orientation vector is output in radians, which was converted to degrees. 
 
@@ -111,7 +112,7 @@ The minimisation was done using the \emph{minimize} function from the SciPy\foot
 
 \subsubsection{Determining the Pose Estimation Error}
 
-With the two data sets now directly relatable, the pose estimation error of a quadcopter in flight, the SunKopter in this case, can now be determined by using the radial basis function neural network (RBFNN) discussed in Chapter meme and the two sets of recorded pose data.  
+With the two data sets now directly relatable, the pose estimation error of a quadcopter in flight, the SunKopter in this case, can now be determined by using the radial basis function neural network (RBFNN) discussed in Chapter~\ref{chap4} and the two sets of recorded pose data.  
 
 The input to the network is the CVS's pose data set. The network then outputs its error estimate for every sample, allowing a measurement error band to be drawn around the CVS data. This band can then be used to determine if the quadcopter's pose estimate or the CVS's pose estimate is more accurate: when the quadcopter's estimate falls within the error band, it can be assumed that the quadcopter's pose estimate is more accurate for that sample then the CVS's is, while the opposite holds true if it falls outside the error band. It can then be determined which of the two systems produce, on average, the most accurate pose measurements. However, if it is found that the quadcopter's pose estimate is more accurate, one might be liable to ask if the CVS is still necessary.
 
@@ -188,7 +189,7 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
   \label{fig:chap5-results}
 \end{figure*}
 
-The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement, as given by the RBFNN.\@ This means that the pose estimate given by the quadcopter's sensor suite is more accurate then the CVS's, especially with its orientation estimate where the CVS has a far more significant error. The RBFNN has been adequately trained in Chapter meme and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the SunKopter. 
+The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement, as given by the RBFNN.\@ This means that the pose estimate given by the quadcopter's sensor suite is more accurate then the CVS's, especially with its orientation estimate where the CVS has a far more significant error. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the SunKopter. 
 
 Second, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the CVS's camera lost its view of parts of the calibration pattern and OpenCV's pose estimator could therefore not extract the pose data for the calibration board for the frames where all of the corners were not visible. Furthermore, in some parts of the video, the pose estimator still sometime failed to extract pose data even when all of the corners were visible. This was somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data. For the remaining missing frames, it is suspected that poor and uneven lighting conditions during the flight tests led to data not being extracted from some frames. 
 

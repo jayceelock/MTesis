@@ -1,4 +1,5 @@
 \chapter{System Design and Verification}
+\label{chap3}
 
 \section{Introduction}
 
@@ -25,7 +26,6 @@ The CVS is to be used to make pose measurements of a quadcopter in flight. Its p
   \item Make six-dimensional pose measurements.
   \item Provide measurements with an accuracy better than the quadcopter's on-board estimate.
   \item Make reliable, consistent pose measurements.
-  \item Nog?? meme
 \end{itemize}
 
 To meet these requirements, a CVS was designed and implemented. The proposed computer vision measurement system makes use of the following processes and procedures: 
@@ -35,7 +35,6 @@ To meet these requirements, a CVS was designed and implemented. The proposed com
   \item Automated two-dimensional image feature extraction.
   \item Pose data extraction and derivation.
   \item Data noise elimination. 
-  \item Nog?? Meme
 \end{itemize}
 
 \subsection{Software}
@@ -45,7 +44,7 @@ The CVS is computer vision system where a computer extracts information of inter
 
 The OpenCV library was used to extract feature data from a video stream, calibrate the CVS's camera and determine the pose of a calibration pattern by solving the principle n-points (PnP) problem. The entire process takes place as follows. 
 
-First, the camera is calibrated by following the procedure discussed in Chapter meme. Here, a $5\times6$ square chessboard pattern was used for calibration. To summarise the procedure, the OpenCV functions `findChessboardCorners()' and `findConrersSubPix()' are used to detect and extract two-dimensional coordinate data of the corners on the chessboard pattern from a still image. These coordinates, along with their three-dimensional world coordinates, are fed to the `calibrateCamera()' function to produce the camera matrix. The calibration procedure produced the camera matrix $C$, as presented in Equation~\ref{eq:chap2-cam-matrix} and repeated again in Equation~\ref{eq:chap3-cam-matrix} for convenience. 
+First, the camera is calibrated by following the procedure discussed in Chapter~\ref{chap2}. Here, a $5\times6$ square chessboard pattern was used for calibration. To summarise the procedure, the OpenCV functions `findChessboardCorners()' and `findConrersSubPix()' are used to detect and extract two-dimensional coordinate data of the corners on the chessboard pattern from a still image. These coordinates, along with their three-dimensional world coordinates, are fed to the `calibrateCamera()' function to produce the camera matrix. The calibration procedure produced the camera matrix $C$, as presented in Equation~\ref{eq:chap2-cam-matrix} and repeated again in Equation~\ref{eq:chap3-cam-matrix} for convenience. 
 
 \begin{equation}
   \label{eq:chap3-cam-matrix}
@@ -180,7 +179,7 @@ During the data capturing phase, it was desirable to record a variety of pose ve
 
 Each video is approximately 90 seconds long, which equates to close to 2700 pose vector samples per test, though it was decided that only 2400 of these points will be used to compensate for any invalid or inconsistent readings. 
 
-The test produced two sets of measurement data: one ground-truth pose measurement data set from the Vicon system, and one measurement data set from the CVS\@. These data sets allows for the determination of the CVS's measurement error by comparing the two sets of measurement. These sets were also used to provide training and validation data sets for a error prediction model, which is discussed in Chapter MEMEMEMEME.\@
+The test produced two sets of measurement data: one ground-truth pose measurement data set from the Vicon system, and one measurement data set from the CVS\@. These data sets allows for the determination of the CVS's measurement error by comparing the two sets of measurement. These sets were also used to provide training and validation data sets for a error prediction model, which is discussed in Chapter~\ref{chap4}. 
 
 \subsection{Data Processing}
 

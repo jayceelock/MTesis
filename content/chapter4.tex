@@ -1,10 +1,11 @@
 \chapter{Pose Error Estimation}
+\label{chap4}
 
 \section{Introduction}
 
 The main objective of this project is to determine a quadcopter's pose estimation accuracy as given by its on-board sensor suite. Here, the pose refers to a six-dimensional vector describing an object's position and angular orientation. The pose estimation accuracy must be performed in the outdoors to allow the quadcopter access to its global positioning sensor (GPS). To this end, a computer vision pose measurement system (CVS), which extracts six-dimensional pose data from a calibration object in the system's view, was designed and implemented. However, before the CVS could be used to make pose measurements, its measurement accuracy first needed to be determined. 
 
-In Chapter meme it was found that the pose measurement error of the CVS has high interdimensional dependence, as demonstrated by the covariance matrix of the CVS's measurement error data in Equation meme and the contour plots in Figure meme, meaning that the CVS's pose measurements and correseponding measurement errors are constantly changing, varying with the calibration board's current pose relative to the CVS's camera. Also, despite using the RANSAC algorithm to filter out any outlier data points, the pose measurement data is still fairly complex and noisy.
+In Chapter~\ref{chap3} it was found that the pose measurement error of the CVS has high interdimensional dependence, as demonstrated by the covariance matrix of the CVS's measurement error data in Equation~\ref{eq:covariance-matrix} and the contour plots in Figure~\ref{fig:err-contour}, meaning that the CVS's pose measurements and correseponding measurement errors are constantly changing, varying with the calibration board's current pose relative to the CVS's camera. Also, despite using the RANSAC algorithm to filter out any outlier data points, the pose measurement data is still fairly complex and noisy.
 
 In the context of this project, it is important to know what the accuracy of a pose measurement sample is to ensure that it is more accurate than the pose estimate from the quadcopter. This makes it necessary to be able to determine the measurement error of any arbitrary pose measurement sample of the CVS.\@ It was decided that a machine learning method will be employed to accomplish this. Machine learning is where a computer model is trained to recognise patterns within a set of input data and output information on the patterns which are of interest to the machine learning model's designer. 
 

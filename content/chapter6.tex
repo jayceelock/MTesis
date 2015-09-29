@@ -13,11 +13,11 @@ Chapter meme starts th e thesis document off with an introduction to the problem
 
 A review of the current body of knowledge pertaining to the relevant aspects of this research project is given in Chapter meme. It was found that a significant amount of research has already been done in stabilising a UAV and having it hold its position in the air with different control strategies. Furthermore, it was established that the computer vision techniques and libraries available that can extract the pose data for an object from an image, are fairly well understood and widely researched. Finally, this chapter includes a brief review of the different machine learning techniques available that can be trained to make accurate predictions for a given input vector. The different techniques with their strengths and shortcomings are discussed.  
 
-In Chapter meme, all of the design aspects of the computer vision system (CVS) is discussed, which include the hardware and software design as well as the measurement accuracy test and verification process. It was found that the complex nature of the CVS's measurement error necessitates a prediction algorithm to predict what the measurement error would be for any given input pose measurement vector from the CVS. 
+In Chapter meme, all of the design aspects of the computer vision system (CVS) is discussed, which include the hardware and software design as well as the measurement accuracy test and verification process. It was found that the complex nature of the CVS's measurement error necessitates a prediction algorithm to predict what the measurement error would be for any given input pose measurement vector from the CVS.\@ 
 
-Chapter meme is set out to discuss using a radial basis function neural network (RBFNN) to estimate the measurement error for the pose vector produced by the CVS. It discusses the training process used and how the trained network's estimation accuracy was was verified. A RBFNN was trained which produces an nacceptable level of error with its estimates and can be used with new pose measurement data.
+Chapter meme is set out to discuss using a radial basis function neural network (RBFNN) to estimate the measurement error for the pose vector produced by the CVS.\@ It discusses the training process used and how the trained network's estimation accuracy was was verified. A RBFNN was trained which produces an acceptable level of error with its estimates and can be used with new pose measurement data.
 
-Finally, Chapter meme is dedicated to discussing how the CVS and the RBFNN was used with a flight test with a real quadcopter.
+Finally, Chapter meme is dedicated to discussing how the CVS and the RBFNN was used with a flight test with a real quadcopter. A number of flight tests were performed with the Solar and Thermal Energy Research Group's (STERG) SunKopter quadcopter platform. During these tests, both the CVS and the SunKopter recorded the quadcopter's pose information. It was found that the SunKopter's pose estimate fell within the error boundaries of the CVS, meaning that it gives more accurate pose estimates than the CVS does. However, the error boundary of the CVS can still be used as a worst-case pose estimate error measure. 
 
 \section{Findings and Contributions to Body of Knowledge}
 
@@ -29,16 +29,51 @@ The objectives of this research thesis are discussed in Chapter meme. They are s
   \item Use the computer vision system to determine the pose estimation accuracy of a quadcopter in flight. 
 \end{itemize}
 
-The main objective is to determine the pose estimation accuracy of a quadcopter in flight in an outdoor environment. To be able to do this, a new pose measurement tool needed to be employed that would work in the outdoors. To this end, a camera-based system was made that makes use of existing computer vision techniques to extract pose information from image data. However, before this system could be used to make real pose measurements, its accuracy first needed to be determined.
+For the first objective, a computer vision-based system was made which uses the OpenCV library and a single camera to record video data of a calibration object and extract six-dimensional pose data of that object. Such a system is required, since the existing methods are not applicable to the outdoors or were impractical to implement at the time this project was conducted. This system is fairly simple, cheap and easy to use and set up. Preliminary tests have shown that its estimates were within the ballpark estimates, however its pose measurement accuracy had to finely be determined before it could be used to perform any measurements. 
 
-This was done by using a Vicon motion-tracking system, whose measurements provided a ground-truth baseline with which the CVS's pose measurements could be compared against. Consequently, the CVS's measurement error data was found to be complex and high-dimensional and highly interdimensionally dependant, as shown by the covariance matrix in Equation meme. This made it necassary to use a machine learning model to predict measurement error for any input pose measurement vector, since the measurement error is not constant and varies according to the current pose of the object relative to the CVS's camera. 
+The measurement system's pose accuracy was determined by comparing it with the pose measurements of a state-of-the-art ground-truth Vicon motion tracking system. The measurement error is fairly complex and high-dimensional, and this test has shown that is highly interdimensionally dependant, as shown by the covariance matrix in Equation meme and the contour plots in Figure meme. This means that the CVS's pose measurement accuracy is dependant on the measurement object's pose relative to the CVS's camera. 
 
-To perform the measurement error prediction, a RBFNN was selected based on its ability to work well with noisy input data and detect and characterise non-linear relationships between the input dimensions. This network was trained and validated with data gathered during the Vicon test and produces a normalised mean square error of meme for the training set and meme for the validations set. These small errors indicate that the network was trained well and overfitting did not occur. The trained RBFNN was then ready predict the measurement error for new pose measurement data.
+Another method of predicting the CVS's pose measurement error for any given pose vector was required. It was decided that a radial basis function neural network (RBFNN) would be used to perform this error prediction. An RBFNN was selected based on its proven ability to work well with noisy input data and detect any non-linear relationships between the input dimensions. The RBFNN was trained with a uniformly distributed data set and validated and produces acceptably small mean square errors. It was found that the performance of the RBFNN is better in the position dimensions, than in the orientation dimensions. 
 
-With the CVS designed and ready to make measurements and the RBFNN trained and ready to determine the error in the CVS data, a real flight test could be conducted where the pose estimation accuracy of a quadcopter in flight was determined. For the 
+Finally, the CVS and RBFNN were used to determine the pose estimation accuracy of a quadcopter in flight. This was done by performing flight tests with a real quadcopter in the outdoors. The results of the flight tests showed that the quadcopter's own pose estimate is more accurate than that of the CVS, which implies that the CVS's accuracy measure can be used as a worst-case accuracy measure for the quadcopter's estimate, since the CVS's accuracy has very finely been determined before. This result is enough to be incorporated in a heliostat calibration model that is being developed. 
 
 \section{Shortcomings and Future Work}
 
+\subsection{Introduction}
+
+The main research objectives and goals for this thesis have been achieved. However, there are some issues that have been encountered during the whole process. There is also significant potential to take this research further and improve the results. These shortcomings and a few potential avenues of further research discussed in this section. 
+
+\subsection{Lacklustre Pose Measurement System Accuracy}
+
+As part of this research thesis, the CVS's accuracy was determined. It was found that it provides fairly accurate pose estimates in its position dimensions, but has large deviations from the true pose within its orientation dimensions. This is demonstrated in Figure meme, where a large error standard deviation is showed, and Figure meme, where the RBFNN also outputs a large orientation error band. This is a serious shortcoming of the CVS, since it renders 50\% of the data it gathers useless. 
+
+An inspection of the raw orientation data given by the CVS reveals that it remains fairly constant, but there significant noise present in the data, sometimes deviating as much as $\ang{20}$ from the true orientation. This noise would explain the large standard deviation. Similarly, the RBFNN will equally be affected, since the training error data will also contain the noise and attempt to recreate it with a new input data set. 
+
+The RANSAC algorithm has already been employed. However, if another way can be found to smooth or filter out the noisy components, it would greatly improve the accuracy of the CVS in general, especially in the orientation dimensions. 
+
+\subsection{Gaps in the Pose Measurement Data}
+
+It was observed with the flight tests that the CVS's pose measurements contain gaps where no data was recorded. Inspection of the video data showed that for significant sections of the video, the corner detection algorithm could not detect all of the expected corners on the calibration board. 
+
+There are a few reasons this may have occurred. One is that the board was simply too far away and the detector could not get a clear enough view of the corner. Another is that the uneven lighting conditions in a field test caused that the contrast was not great enough to highlight the difference between the white and black tiles on the board. This was somewhat remedied by using an adaptive threshold filter in the corner detector. However, there is still some gaps with the data. 
+
+To permanently fix this issue would require that the calibration board be evenly lit. One suggestion would be to perform the test in night time and use spot lights to control the lighting level on the calibration board. 
+
+\subsection{Improved Hardware}
+
+One avenue of improvement unrelated to the CVS which may increase the pose measurement accuracy of a quadcopter significantly, is to improve the sensor hardware it comes with. More specifically, if a more accurate global positioning system sensor (GPS) can be used, it should show a significant improvement in a quadcopter's localisation results. 
+
+At the moment, the SunKopter comes equipped with a standard GPS uBlox module, which has an expected accuracy of within 3m, which is what can be expected of a normal GPS module. However, recent improvements in the field of differential GPS technology, especially real-time kinematic (RTK) GPS's, have led to smaller, more accurate GPS units becoming available to use with a quadcopter. There already has been some development done in implementing the Piksi RTK GPS in the Pixhawk controller. The Piksi GPS has a reported accuracy level of within a few centimetres, which is a significant improvement over the traditional GPS modules. 
+
+Other sensor improvements can be made, such as more accurate magnetometer, inertial measurement unit (IMU), and so on. However, it is not expected that these sensors will have such a significant effect on the quadcopter's localisation ability as adding a differential GPS unit would. 
+
+\subsection{Implement Results}
+
+The pose estimation accuracy of a quadcopter could not definitively be determined, since it was found that the quadcopter that was tested gave more accurate pose readings than the CVS did. However, the CVS's pose measurement accuracy can still be used as a worst-case pose estimation measure for a quadcopter. 
+
+With the pose estimation accuracy value known, it can be integrated into a calibration model that will be used to calibrate a heliostat. With this done, and some minor modifications to the SunKopter, a functional calibration demonstration with a quadcopter should be possible. This would be a significant result and could lead to cost reductions in heliostats. 
+
+
 \section{Conclusion}
 
-
+Despite the high hopes that was placed on being able to use a computer vision-based pose measurement system to accurately determine the pose estimation accuracy of a quadcopter in flight, it has proven that it is not yet accurate enough. However, even in its shortcoming it has provided an accuracy measure which can be used to improve the current heliostat calibration methods to a point where cheaper components can be used. It is hoped that this potentailly drastic cost reduction will finally be the catalyst that the solar power industry needs to start competing with coal and nuclear powered plants on a global scale, and in particular in South Africa. 

@@ -142,49 +142,58 @@ Before the flight test data was fed to the RBFNN, it was first checked that the 
 
 \begin{figure*}
   \centering
-  \begin{subfigure}{0.9\textwidth}
-    \includegraphics[clip, trim = 120 40 120 0, width=\textwidth]{figures/chapter5/ts_v_tr_pos}
-    \caption{Position data.}
+  \begin{subfigure}{\textwidth}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_xy}
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_xy}
+    \end{subfigure}
+    \caption{}
   \end{subfigure}
-  ~
-  \begin{subfigure}{0.9\textwidth}
-    \includegraphics[clip, trim = 120 40 120 0, width=\textwidth]{figures/chapter5/ts_v_tr_orient}
-    \caption{Orientation data.}
+  \begin{subfigure}{\textwidth}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_rollpitch}
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_rollyaw}
+    \end{subfigure}
+    \caption{}
   \end{subfigure}
   \caption[Scatter plots of flight data vs.\ training data. ]{Scatter plots showing that the flight test data falls within the training limits. }
-  \label{fig:chap5-ts-tr-scatter}
+\label{fig:chap5-ts-tr-scatter}
 \end{figure*}
 
 The results for the flight test are presented in Figure~\ref{fig:chap5-results}. Here, six figures are given which plot the six different pose dimensions. Each plot contains the Suncopter's pose estimate, as well as the expected measurement error margin for the CVS, as given by the RBFNN.\@ It can be observed from the plots for the $z$ and yaw dimensions that they consistently hover around the flight configuration's set point of $\SI{1}{\m}$ and $\ang{0}$, providing a degree of sanity to the measurements. 
   
 \begin{figure*}
   \centering
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/x}
-    \caption{$x$}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
+    \end{subfigure}
+    \caption{}
   \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/roll}
-    \caption{Roll}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/roll}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/pitch}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/yaw}
+    \end{subfigure}
+    \caption{}
   \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/y}
-    \caption{$y$}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/pitch}
-    \caption{Pitch}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/z}
-    \caption{$z$}
-  \end{subfigure}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[clip, trim = 150 0 120 0, width=\textwidth]{figures/chapter5/yaw}
-    \caption{Yaw}
-  \end{subfigure}
-  \caption[Plots of the Suncopter's flight and measurement errors.]{Plots of the Suncopter's pose estimate with the error margins from of the CVS's pose measurement. }
-  \label{fig:chap5-results}
+\caption[Plots of the Suncopter's flight and measurement errors.]{Plots of the Suncopter's pose estimate with the error margins from of the CVS's pose measurement. }
+\label{fig:chap5-results}
 \end{figure*}
 
 The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate then the CVS's measurements, especially with its orientation estimate, where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 

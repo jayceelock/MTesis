@@ -52,7 +52,7 @@ Factors that will affect the network's accuracy are the number of nodes in the h
 
 The strictness of fit measure determines to what extent the model will attempt to fit itself to the training data. Selecting the right parameter is important, since neglecting to replicate the training data adequately defeats the purpose of training the model to fit the data in the first place. However, if this parameter is too strict, the model will attempt to model the outlier and noisy data points as well, which is also undesirable. Therefore, a fine balance needs to be found for the strictness of fit and the number of hidden nodes to produce a satisfactory network.  
 
-To train the model for this project, two sets of data were used, one for training and another for model validation. Both of these sets were taken from the data sets generated during the Vicon measurement test, where the measurement accuracy of the CVS was determined by comparing its measurements to that of the measurements made by a Vicon system. It includes both the pose data from the CVS and its corresponding measurement error. It was decided to use 300 training samples, giving 50 samples per dimension. The training data was selected to be uniformly distributed to place equal importance on the entire measurement spectrum. The uniformity of the data in each dimension was checked with the Chi-square ($\chi^2$) goodness-of-fit test, with the hypothesis being that the set is uniformly distributed. As a rule of thumb, if the P-value for the $\chi^2$ test falls below 5\%, then the hypothesis is statistically insignificant and must therefore be rejected. The training data was selected in such a way that the P-value did not fall below 45\% for the data in each dimension. Furthermore, since the pose vector contains different measurement units (degrees and metres), the input and output training data sets were normalised to a range of $[-1, 1]$. All subsequent inputs to and outputs from the network must be normalised and denormalised with the same values that the training data was normalised with.  
+To train the model for this project, two sets of data were used, one for training and another for model validation. Both of these sets were taken from the data sets generated during the Vicon measurement test, where the measurement accuracy of the CVS was determined by comparing its measurements to that of the measurements made by a Vicon system. It includes both the pose data from the CVS and its corresponding measurement error. It was decided to use 300 training samples, giving 50 samples per dimension. The training data was selected to be uniformly distributed to place equal importance on the entire measurement spectrum. The uniformity of the data in each dimension was checked with the Chi-square ($\chi^2$) goodness-of-fit test, with the hypothesis being that the set is uniformly distributed. As a rule of thumb, if the P-value for the $\chi^2$ test falls below 5\%, then the hypothesis is statistically insignificant and must therefore be rejected. The training data was selected in such a way that the P-value did not fall below 45\% for the data in each dimension. Furthermore, since the pose vector contains different measurement units (degrees and metres), the input and output training data sets were normalised to a range of $[-1, 1]$ and the . All subsequent inputs to and outputs from the network must be normalised and denormalised with the same values that the training data was normalised with.  
 
 Matlab's\footnote{Matlab v8.4.0.150421 (R2014)} Neural Network toolbox\footnote{Neural Network Toolbox v8.2.1} was used to train the RBFNN and get the output for subsequent input data. The function prototype is given by 
 
@@ -67,14 +67,34 @@ Here, $P$ and $T$ are the $300\times6$ input and output training data matrices. 
 A model validation procedure is used to ensure that the RBFNN has been properly trained and that overfitting did not occur during training. The validation set comes from the same Vicon test the training data comes from. Another 300 randomly selected  pose measurement samples were used for the validation data set. Given that the training data is uniformly distributed, the validation set should fall within the training data. Figure~\ref{fig:chap4-scatter-tr-v} displays the scatter plots for the translation and rotation vectors for the training and validation sets and shows that they indeed to overlap to a large degree. 
 
 \begin{figure*}
+  %\centering
+  %\begin{subfigure}{\textwidth}
+    %\includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_pose_tr_v}
+    %\caption{}
+  %\end{subfigure}
+%~
+  %\begin{subfigure}{\textwidth}
+    %\includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_rot_tr_v}
+    %\caption{}
+  %\end{subfigure}
   \centering
   \begin{subfigure}{\textwidth}
-    \includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_pose_tr_v}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_xy}
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_xz}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
-~
+  ~
   \begin{subfigure}{\textwidth}
-    \includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_rot_tr_v}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_rollpitch}
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_rollyaw}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
   \caption[Scatter plots of the training and validation data. ]{Normalised scatter plots of the translation and rotation data points for the training and validation data sets. }
@@ -93,77 +113,63 @@ A training parameter combination that was found to work well was a network with 
 
 Figure~\ref{fig:chap4-rbf-train} shows results of the RBFNN model when tested with the training data set. It can be seen that the model's estimate very closely resembles the training set's error, indicating that the model is well-trained. 
 
-DALK NET WEER 50 SAMPLES?
-
 \begin{figure*}
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/x_train}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_x}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_y}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_z}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/y_train}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_roll}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_pitch}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_yaw}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/z_train}
-    \caption{}
-  \end{subfigure}
-
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/roll_train}
-    \caption{}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/pitch_train}
-    \caption{}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/yaw_train}
-    \caption{}
-  \end{subfigure}
-  \caption[The output of the RBFNN when used with the training set input.]{A plot of the output of the RBFNN for the different dimensions when used with the training data set.}
+  \caption[The output of the RBFNN when used with the training set input.]{Plots of the output of the RBFNN for the different dimensions when used with the training data set.}
   \label{fig:chap4-rbf-train}
 \end{figure*}
 
 Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the validation data set. Here it can be seen that the RBFNN's error estimate deviates somewhat from the true error, however it follows the general trend in the data and ignores the noisy outlier data spikes. Furthermore, it generally gives an overly conservative estimate, often overestimating the error for a pose vector. This is not ideal, but is safer than underestimating the error. In general, the translation dimensions are fairly accurate. However, with the exception of the pitch dimension, the angular orientation dimensions show significant deviations from the true error, deviating up to $\ang{80}$ from the true error. It is suspected that the high amount of noise within the data is to blame for the bad performance in the orientation dimensions. 
 
 \begin{figure*}
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/x_valid}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_x}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_y}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_z}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/y_valid}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_roll}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_pitch}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_yaw}
+    \end{subfigure}
     \caption{}
   \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/z_valid}
-    \caption{}
-  \end{subfigure}
-
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/roll_valid}
-    \caption{}
-    \label{fig:rbfnn-valid-roll}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/pitch_valid}
-    \caption{}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.3\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter4/yaw_valid}
-    \caption{}
-    \label{fig:rbfnn-valid-yaw}
-  \end{subfigure}
-  \caption[The output of the RBFNN with the validation set input.]{A plot of the output for the different dimensions of the RBFNN when used with the validation data set.}
+  \caption[The output of the RBFNN with the validation set input.]{Plots of the output for the different dimensions of the RBFNN when used with the validation data set.}
   \label{fig:chap4-rbf-valid}
 \end{figure*}
 

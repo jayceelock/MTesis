@@ -349,38 +349,38 @@ To check if the error in $\bm{\epsilon}$ is indeed normally distributed, as assu
 Figure~\ref{fig:err-norm} shows the frequency histogram plots of the CVS measurement errors in the six dimensions. A normal distribution, using the averages and standard deviations from the data set, are superimposed to illustrate the normal distribution of the data.
 
 \begin{figure*}
-  \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter3/norm_x}
-    \caption{Histogram of the error in the $x$ dimension with a mean of $-5.17\mu$m and a standard deviation of 293mm.}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_x}
+    \caption[Error histogram in the $x$ dimension.]{Error histogram in the $x$ dimension with of $\mu = \SI{-8.89}{\micro \m}$ and $\sigma = \SI{293}{\mm}$.}
   \end{subfigure}
 ~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[width=\textwidth]{figures/chapter3/norm_y}
-     \caption{Histogram of the error in the $y$ dimension with a mean of $-20.2\mu$m and a standard deviation of 167mm.}
+  \begin{subfigure}{0.48\textwidth}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_y}
+     \caption[Error histogram in the $y$ dimension.]{Error histogram in the $y$ dimension with $\mu = \SI{-10.1}{\micro \m}$ and $\sigma = \SI{167}{\mm}$.}
   \label{fig:norm-y}
   \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[width=\textwidth]{figures/chapter3/norm_z.pdf}
-     \caption{Histogram of the error in the $z$ dimension with a mean of 1.17mm and a standard deviation of 560mm.}
+
+  \begin{subfigure}[t]{0.48\textwidth}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_z.pdf}
+     \caption[Error histogram in the $z$ dimension.]{Error histogram in the $z$ dimension with $\mu = \SI{1.31}{\mm}$ and $\sigma = \SI{32.5}{\mm}$.}
   \label{fig:norm-z}
   \end{subfigure}
 ~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[width=\textwidth]{figures/chapter3/norm_roll.pdf}
-     \caption{Histogram of the error in the $\theta$ dimension with a mean of 4 mili-degrees and a standard deviation of 44.0\degree.}
+  \begin{subfigure}[t]{0.48\textwidth}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_roll.pdf}
+     \caption[Error histogram in the roll dimension.]{Error histogram in the roll dimension with $\mu = $ 2 mili-degrees and $\sigma = \ang{8.6}$.}
   \label{fig:norm-roll}
   \end{subfigure}
-~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[width=\textwidth]{figures/chapter3/norm_pitch.pdf}
-     \caption{Histogram of the error in the $\phi$ dimension with a mean of meme and a standard deviation of meme.}
+
+  \begin{subfigure}{0.48\textwidth}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_pitch.pdf}
+     \caption[Histogram in the pitch dimension.]{Error histogram in the pitch dimension with $\mu = $ 3.8 mili-degrees and $\sigma = \ang{10}$.}
   \label{fig:norm-pitch}
   \end{subfigure}
 ~
-  \begin{subfigure}{0.45\textwidth}
-     \includegraphics[width=\textwidth]{figures/chapter3/norm_yaw.pdf}
-     \caption{Histogram of the error in the $\psi$ dimension with a mean of meme and a standard deviation of meme. }
+  \begin{subfigure}{0.48\textwidth}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_yaw.pdf}
+     \caption[Histogram of the yaw dimension.]{Error histogram in the yaw dimension with $\mu = $ 0.14 mili-degrees and $\sigma = \ang{9.73}$. }
   \label{fig:norm-yaw}
   \end{subfigure}
   \caption[Plots of the frequency histograms of the error data in each dimension.]{Plots of the frequency histograms of the error data in each dimension.}
@@ -423,7 +423,7 @@ All of the above produce an error two-norm of approximately 0.81 (normalised), c
     \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $y$ dimension.}
   \label{fig:estimate-y}
   \end{subfigure}
-~
+
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/z}
     \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $z$ dimension.}
@@ -435,7 +435,7 @@ All of the above produce an error two-norm of approximately 0.81 (normalised), c
     \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\theta$ dimension.}
   \label{fig:estimate-roll}
   \end{subfigure}
-~
+
   \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{figures/chapter3/pitch}
     \caption{The ground-truth Vicon pose estimate, versus the original and improved CV pose estimates in the $\phi$ dimension.}
@@ -474,36 +474,32 @@ The matrix $\bm{\Sigma}$ shows that there are large off-diagonal elements, indic
 
 \begin{figure*}
   \centering
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_x}
-    \caption{Contour plot of the error in the $x$ dimension over the $x-y$ plane.}
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_x}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_y}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_z}
+    \end{subfigure}
+    \caption{Error contour plots for the position dimensions. Units in m.}
   \end{subfigure}
-~
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_y}
-    \caption{Contour plot of the error in the $y$ dimension over the $x-y$ plane.}
+  ~
+  \begin{subfigure}{0.48\textwidth}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_roll}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_pitch}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/contour_yaw}
+    \end{subfigure}
+    \caption{Error contour plots for the orientation dimensions. Units in \textdegree.}
   \end{subfigure}
-~
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_z}
-    \caption{Contour plot of the error in the $z$ dimension over the $x-y$ plane.}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_roll}
-    \caption{Contour plot of the error in the $roll$ dimension over the $x-y$ plane.}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_pitch}
-    \caption{Contour plot of the error in the $pitch$ dimension over the $x-y$ plane.}
-  \end{subfigure}
-~
-  \begin{subfigure}{0.31\textwidth}
-    \includegraphics[clip, trim = 200 50 300 50, width=\textwidth]{figures/chapter3/contour_yaw}
-    \caption{Contour plot of the error in the $yaw$ dimension over the $x-y$ plane.}
-  \end{subfigure}
-  \caption[A collection of contour plots of the translation and rotation vectors relative to one another]{A collection of contour plots of the translation and rotation vectors relative to one another. The units for the translation figures are in metres, and in degrees for the rotation figures. }
+  \caption[A collection of contour plots of the position and orientation vectors relative to one another]{A collection of contour plots of the position and orientation vectors relative to one another.}
   \label{fig:err-contour}
 \end{figure*}
 

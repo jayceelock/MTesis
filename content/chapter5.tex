@@ -7,13 +7,11 @@ The main objective of this research project is to determine the pose estimation 
 
 In Chapter~\ref{chap3} a computer vision pose measurement system (CVS) was designed and tested and its pose measurement error was determined. It was found that the measurement data produced by the CVS is complex, high dimensional and interdimensionally dependant, as showed by the covariance matrix of Equation~\ref{eq:covariance-matrix}. This makes it hard to estimate the measurement error for any given pose measurement vector produced by the CVS.\@ 
 
-Neural networks are known to be able to detect underlying relationships in the data, if properly designed and trained. In Chapter~\ref{chap4} a radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
+Neural networks are known to be able to detect underlying relationships within the data, if properly designed and trained. In Chapter~\ref{chap4} a radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a real test. 
 
 The trained RBFNN was used with data gathered from a test flight from a quadcopter. This chapter sets out to discuss the design and details of the flight tests that were conducted, including the testing procedure, conditions and data processing. Then the results are presented and discussed, followed by a brief discussion on the data and results gathered thus far. 
 
 \section{Test Design and Procedure}
-
-\subsection{Introduction}
 
 Some work was done to ensure that the flight tests were performed where it would produce meaningful results without posing a risk to the safety of bystanders and other equipment. This section discusses the planning that went into the test, as well as the equipment that was used, describes the test location and the test procedure, as well as the data processing.  
 
@@ -31,7 +29,7 @@ The equipment and facilities that were required and used for the flight tests ar
     \item Isolated testing site. 
 \end{itemize}
 
-The details of the CVS are discussed in Chapter~\ref{chap3}. It consists of a camera, which captures the image data, and a laptop which records and processes the data. A certified unmanned aerial vehicle pilot was used for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an ISO A3-sized\footnote{$\SI{297}{\mm}\times\SI{432}{\mm}$}, $6\times5$ square chessboard pattern calibration board. 
+The details of the CVS are discussed in Chapter~\ref{chap3}. It consists of a camera, which captures the image data, and a laptop which records and processes the data. A certified unmanned aerial vehicle pilot was used for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an ISO A3-sized\footnote{Paper size of $\SI{297}{\mm}\times\SI{432}{\mm}$}, $6\times5$ square chessboard pattern calibration board. 
 
 The Suncopter quadcopter is a custom-built quadcopter for the Solar and Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
 
@@ -41,7 +39,7 @@ The flight tests were conducted at the Mariendahl experimental farm owned and op
 
 \subsubsection{Test Conditions and Layout}
 
-The flight tests were conducted on the 26$^{th}$ of June, 2015 at the Helio100 test site at Mariendahl. The weather conditions were close to ideal with very little wind, clear skies and a moderate temperature. The test was conducted at 10AM and the there was still significant condensation present on the ground. See Appendix MEME for a more detailed weather and wind report recorded on site.
+The flight tests were conducted on the 26$^{th}$ of June 2015 at the Helio100 test site at Mariendahl. The weather conditions were close to ideal with very little wind, clear skies and a moderate temperature. The test was conducted at 10AM and the there was still significant condensation present on the ground. %See Appendix MEME for a more detailed weather and wind report recorded on site.
 
 For the test, video data of the Suncopter with a calibration board attached to its underside was recorded, where the pose data will be extracted off-line after the tests have been completed. The issue of turbulence introduced by a quadcopter flying too close to the ground was considered, since it can negatively affect its flight performance. A general rule of thumb to prevent ground effects from influencing a quadcopter's flight, as advised by~\cite{basson-flight-test}, is to fly a quadcopter the length of one of its props from the ground. The CVS's camera was placed on top of a $\SI{2}{\m}$ post, which is significantly higher than the diameter of the Suncopter's props, eliminating ground effects from the flight tests.
 
@@ -51,23 +49,21 @@ A certified pilot was employed during the test. His responsibility was to perfor
 
 For each flight test, the SunKopter was manually positioned above the centre of the CVS's camera on the post and set to \emph{loiter} mode. In this mode, the Suncopter will attempt to hold the altitude, position and yaw angle it had when it was set to \emph{loiter} mode, while remaining stable, meaning that the Suncopter will attempt to hold a roll and pitch angle of $\ang{0}$. 
 
-It has been established in Chapter~\ref{chap3} that the pose measurement data from the CVS is highly interdimensionally dependant, which implies that the accuracy of the pose measurement will depend on the Suncopter's current pose relative to the CVS's camera. As a consequence of this, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
+It has been established in Chapter~\ref{chap3} that the pose measurement data from the CVS is highly interdimensionally dependant, which implies that the accuracy of the pose measurement will depend on the Suncopter's current pose relative to the CVS's camera. As a consequence, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
 
-Distances of $\SI{1}{\m}$ and $\SI{2}{\m}$ from the camera were used. During preliminary flight tests, it was found that with distances greater than $\SI{2}{\m}$ from the camera, the CVS's camera started losing sight of the corners on the calibration board and struggled to detect and extract the corner coordinate data from the calibration board, making it impossible to perform the pose estimation. Furthermore, given that a quadcopter is symmetric about both of its axes, the yaw angles for the flight tests were set to $\ang{0}$, $\ang{22.5}$ and $\ang{45}$. 
+Distances of $\SI{1}{\m}$ and $\SI{2}{\m}$ from the camera were used. During preliminary flight tests, it was found that with distances greater than $\SI{2}{\m}$ from the camera, the CVS's camera started losing sight of the corners on the calibration board and struggled to detect and extract the corner coordinate data from the calibration board, which made it impossible to perform the pose estimation. Furthermore, given that a quadcopter is symmetric about both of its axes, the yaw angles for the flight tests were set to $\ang{0}$, $\ang{22.5}$ and $\ang{45}$. 
 
 Two sets of data was recorded during the flight test: one from the CVS and another from the on-board sensor suite of the Suncopter, which provides orientation and translation data. These two data sets will eventually allow the on-board pose estimation accuracy of the Suncopter to be determined. 
 
 \subsection{Data Processing}
 
-\subsubsection{Introduction}
-
-After the video data of the Suncopter with the calibration board attached was recorded, the data processing stage could begin. There are four different processing phases. They are the pose extraction from the video data, synchronising the data to a common time frame, data recentering around a common centre, and finally determining the pose estimation accuracy of the Suncopter. Each of these phases are discussed in this section. 
+After the video data of the Suncopter with the calibration board attached was recorded, the data processing stage could begin. There are four different processing phases. These are the pose extraction from the video data, synchronising the data to a common time frame, data recentering around a common centre, and finally determining the pose estimation accuracy of the Suncopter. Each of these phases are discussed in this section. 
 
 \subsubsection{Pose Data Extraction}
 
-The first step in the data processing phase is to extract the pose data of the calibration board, and by extension the Suncopter to which it was attached. This was done by using the process discussed in Chapter~\ref{chap2}, where OpenCV's chessboard corner detector and PnP problem solver were used to extract six-dimensional pose information of a chessboard pattern calibration board. This process is fairly automated, however the output from the PnP solver still required some conditioning.
+The first step in the data processing phase is to extract the pose data of the calibration board and, by extension, the Suncopter to which it was attached. This was done by using the process discussed in Chapter~\ref{chap2}, where OpenCV's chessboard corner detector and PnP problem solver were used to extract six-dimensional pose information of a chessboard pattern calibration board. This process is fairly automated, however the output from the PnP solver still required some conditioning.
 
-The coordinate system for the corner detector and PnP solver used was specified in square units, i.e.\ a $5\times6$ square chessboard would have dimensions of $5\times6$ units. This required the position vector to be transformed back to SI units by multiplying the PnP solver's output by $0.05$, since each square on the chessboard is $\SI{5}{\cm}\times\SI{5}{\cm}$. Similarly, the orientation vector is output in radians, which was converted to degrees. 
+The coordinate system for the corner detector and PnP solver used was specified in square units, i.e.\ a $5\times6$ square chessboard would have dimensions of $5\times6$ units. This required the position vector to be transformed back to SI units by multiplying the PnP solver's output by $0.05$, since each square on the chessboard is $\SI{5}{\cm}\times\SI{5}{\cm}$. Similarly, the orientation vector is output in radians, which was then converted to degrees. 
 
 \subsubsection{Data Synchronisation}
 
@@ -78,7 +74,7 @@ To synchronise the data, a zero-order-hold was applied to each data set by using
 \subsubsection{Data Centering}
 \label{sec:chap5-data-centring}
 
-After the pose data has been extracted from the video data, the CVS and Suncopter's pose estimates must be recentred around a common axis system. The CVS's axis system is centred around its camera centre, while the Suncopter's pose data is centred around the point where it is launched from. Therefore, to be able to compare the two sets of data, the constant offset vector between the axis systems must be determined. The axis systems and offset vector is shown in Figure~\ref{fig:chap5-flight-test-schem}.
+After the pose data has been extracted from the video data, the CVS and Suncopter's pose estimates must be recentred around a common axis system. The CVS's axis system is centred around its camera centre, while the Suncopter's pose data is centred around the point from where it is launched. Therefore, to be able to compare the two sets of data, the constant offset vector between the axis systems must be determined. The axis systems and offset vector is shown in Figure~\ref{fig:chap5-flight-test-schem}.
 
 \begin{figure}
   \centering
@@ -87,14 +83,14 @@ After the pose data has been extracted from the video data, the CVS and Suncopte
 \label{fig:chap5-flight-test-schem}
 \end{figure}
 
-Furthermore, any angular offset for the CVS camera or the Suncopter due to uneven ground conditions or camera placement, is also included in the offset vector. This makes the offset vector a six-dimensional position and orientation vector. The offset vector is a constant value and is related to the quadcopter and CVS's pose estimate by the relation given in Equation~\ref{eq:chap5-pose-offset}, where $\bm{P}$ is a six-dimensional pose vector. 
+Furthermore, any angular offset for the CVS camera or the Suncopter due to uneven ground conditions or camera placement is also included in the offset vector. This makes the offset vector a six-dimensional position and orientation vector. The offset vector is a constant value and is related to the quadcopter and CVS's pose estimate by the relation given in Equation~\ref{eq:chap5-pose-offset}, where $\bm{P}$ is a six-dimensional pose vector. 
 
 \begin{equation}
   \label{eq:chap5-pose-offset}
   \bm{P}_{quadcopter} = \bm{P}_{cvs} + \bm{P}_{of\!fset}
 \end{equation}
 
-In Equation~\ref{eq:chap5-pose-offset}, the $\bm{P}_{of\!fset}$ term is the unknown term. The pose data contained within the $\bm{P}_{quadcopter}$ and $\bm{P}_{cvs}$ terms contains noise in each sample, which requires that an optimisation procedure be used to find a offset vector that best relates the two sets of pose data. For the optimisation procedure, the cost function and error term in Equation~\ref{eq:chap5-err-func} was minimised, where the error vector $\bm{e}$ is a function of $\bm{P}_{of\!fset}$ and is given by Equation~\ref{eq:chap5-err-term}. 
+Here, the $\bm{P}_{of\!fset}$ term is the unknown term. The pose data contained within the $\bm{P}_{quadcopter}$ and $\bm{P}_{cvs}$ terms contains noise in each sample, which requires that an optimisation procedure be used to find a offset vector that best relates the two sets of pose data. For the optimisation procedure, the cost function and error term in Equation~\ref{eq:chap5-err-func} was minimised, where the error vector $\bm{e}$ is a function of $\bm{P}_{of\!fset}$ and is given by Equation~\ref{eq:chap5-err-term}. 
 
 \begin{equation}
   \label{eq:chap5-err-func}
@@ -106,7 +102,7 @@ In Equation~\ref{eq:chap5-pose-offset}, the $\bm{P}_{of\!fset}$ term is the unkn
   \bm{e} = \bm{P}_{cvs} + \bm{P}_{of\!fset} - \bm{P}_{quadcopter}
 \end{equation}
 
-The minimisation was done using the \emph{minimize} function from the SciPy\footnote{SciPy v0.13.3} library for the Python language and makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
+The minimisation was done using the \emph{minimize} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language and makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
 
 \subsubsection{Determining the Pose Estimation Error}
 
@@ -132,7 +128,7 @@ Using the procedure described in Section~\ref{sec:chap5-data-centring}, the opti
   \end{bmatrix}^T
 \end{equation}
 
-The position values roughly coincide with the conditions that were recorded on site: the SunKopter was launched some distance from the CVS equipment for safety reasons. Due to uneven ground conditions at the testing site, the launch site was also slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity check point of view, the offset that the optimisation procedure produced looks to be the correct one. 
+The position values roughly coincide with the conditions that were recorded on site: the SunKopter was launched some distance from the CVS equipment for safety reasons. Due to uneven ground conditions at the testing site, the launch site was also slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity check point of view, the offset that the optimisation procedure produced seems to be the correct one. 
 
 \subsection{Pose Estimation Error}
 
@@ -196,10 +192,10 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
 \label{fig:chap5-results}
 \end{figure*}
 
-The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate then the CVS's measurements, especially with its orientation estimate, where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 
+The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate than the CVS's measurements, especially with its orientation estimate where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 
 
-Second, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS's camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera, for example. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
+Second, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS's camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera, for example. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
 
 \section{Conclusion}
 
-In this chapter, the CVS and RBFNN was used to measure the pose of an airborne quadcopter in the outdoors and to find the quadcopter's pose estimation accuracy. It was found that the quadcopter's on-board pose estimate is more accurate than the CVS's.\@ However, the CVS's pose measurement error can still be used to provide a measure of how accurately the quadcopter can estimate its position, since its estimates will at worst be as good as the CVS's.\@ 
+In this chapter, the CVS and RBFNN was used to measure the pose of an airborne quadcopter in the outdoors and to find the quadcopter's pose estimation accuracy. It was found that the quadcopter's on-board pose estimate is more accurate than the CVS's.\@ However, the CVS's pose measurement error can still be used to provide a measure of how accurately the quadcopter can estimate its position, since its estimates will at worst be as accurate as the CVS's.\@ 

@@ -1,44 +1,46 @@
 \begin{abstract}[english]%===================================================
 
-There are a large number of ways available to reduce the cost of a heliostat field in a concentrating solar power plant (CSP) plant. One way is to redesign the heliostat calibration procedure where the heliostats can be calibrated more frequently with comparable accuracy to current methods, without affecting the plant's power output or efficiency. This would reduce the need for precision actuators and sensors for each heliostat.
+The quadcopter unmanned aerial vehicles (UAVs) industry is a fast-growing and maturing industry which produces `dumb', or manually controlled UAVs, or vehicles capable of autonomously carrying out a flight mission without a human pilot. Industry is becoming increasingly interested in brining quadcopters into their respective workforces to automate some processes. However, national governments are worried that if left unregulated, UAV quadcopters may pose a threat to society, particularly if they are to work autonomously in the outdoors. 
 
-The Solar Thermal Energy Research Group (STERG) is attempting to task autonomous unmanned aerial vehicles (UAVs) to perform the calibration. However, the pose estimation accuracy of each UAV is required so that it can be integrated into the calibration model. Here, the pose refers to the six-dimensional vector describing an object's position and orientation. 
+There are a number of improvements that can be made to increase the safety of quadcopters. This research project investigates how well quadcopters can estimate their position and orientation, or pose. If this value is known, it can be integrated into a control model as an error term to improve the performance and safety rating of a quadcopter. 
 
-This project attempts to use a computer vision system to provide the pose estimation accuracy data of a UAV.\@ DISCUSS RESULTATE EN TEKORTKOMINGE SOWEL AS TOEKOMSTIGE WERk.\@
+Indoor measurement tools could not be used, since the quadcopters of interest rely on GPS data, so in this project, a computer vision-based (CV) pose measurement system was investigated, designed and implemented to measure the pose of a quadcopter in the outdoors. The system's measurements were compared to a quadcopter's pose estimates, recorded in an outdoor test flight.
+
+The results are that the quadcopter's pose estimates are more accurate than the CV system's. However, other pose error measures for an outdoor quadcopter are not available. Therefore, the measurement error of the CV system can be taken as a worst-case error measure for the quadcopter's pose estimates as well. This gives a result that can be used and integrated into a quadcopter's control model. 
 
 \end{abstract}
 
 \begin{abstract}[afrikaans]%=================================================
 
-Daar is verskeie geleenthede om die totale koste van 'n gekonsentreerde sonkragaanleg se heliostate te verminder. Een uitweg is om die huidige heliostaatkalibrasieprosedure te herontwerp sodat elke heliostaat meer gereeld gekalibreer kan word sonder 'n verlies in akkuraatheid teenoor die huidige kalibrasiemetodes nie, sowel as om nie die aanleg se kraguitset of effektiwiteit te affekteer nie. Sulke kalibrasiemetode sal lei tot 'n kleiner vraag na die duur motors en ratkaste wat tans benodig word. 
+Die vierbeen onbemandevliegtuigbedryf is snelgroeiende industrie wat vliegtuie produseer wat met die hand of heeltemal outonoom, sonder 'n menslike vlie\"{e}nier se inset, 'n vlugopdrag kan voltooi. Industrie stel al meer belang daarin om sulke onbemande vliegtuie in hul werksmag te integreer om prosesse tot 'n mate to outomeer. W\^{e}reldsregerings is egter bekommerd dat indien die onbemandeveliegtuigbedryf ongereguleerd gelaat word, dat sulke vliegtuie 'n gevaar sal inhou vir die samelweing, veral as hulle gelaat word om in die buitelug te werk.  
 
-Die Solar and Thermal Energy Research Group (STERG) poog om outonome onbemande vliegtuie te gebruik om die kalibrasie uit te voer. Die ses-dimensionele posisie- en ori\"{e}ntasiedata afksattingsakkuraatheid van elke vliegtuig word egter benodig sodat dit in die kalibrasiemodel geintegreer kan word. 
+Daar is verskeie verbeterings wat gemaak kan word aan die tegnologie om die veiligheid te verhoog. Hierdie navorsingsprojeck stel ondersoek in om vas te stel hoe akkuraat 'n onbemande vliegtuig sy posisie en ori\"{e}ntasie kan afskat. Indien hierdie waarde bekend is, kan dit ge\"{i}tegreer word in 'n beheermodel om so 'n vliegtuig se werkverrigting en veiligheid te verbeter. 
 
-Hierdie projek maak gebruik van 'n rekenaarvisiestelsel om ' vliegtuig se afskattingsakkuraatheid te bepaal 
+Binnemuurse meetinstrumente kan nie gebruik word hier nie, aangesien die onbemande vliegtuie van hierdie projek staatmaak op hul GPS lesings. Dus, in hierdie projek is daar 'n rekenaarvisiestelsel ontwerp, getoets en ge\"{i}mplimenteer om 'n vierbeen helikopter se posisie af te skat in die buitelug. Die vierbeen helikopter se afskattingsakkuraatheid was dan gevind deur sy afskatting te vergelyk met di\'{e} van die rekenaarvisiestelsel in 'n buitemuurse vlugtoets.
+
+Die resultate toon dat die vierbeen helikopter se posisieafksattings meer akkuraat is as di\'{e} van die rekenaarvisiestelsel. Ander akkuraatheidsmaatstawe is egter nie beskikbaar nie. Dus kan die metingsfout van die rekenaarvisiestelsel geneem word as die vierbeen helikopter se slegste moontlike metingsfout. Dit gee 'n resultaat wat gebruik en ge\"{i}ntegreer kan word in 'n vierbeen helikopter se beheermodel.
 
 \end{abstract}
 
 \chapter{Acknowledgements}%==================================================
 
-I would like to express my sincere gratitude to the following people:
-
-Dr. WJ Smit
+Besides my supervisor, Dr. WJ Smit, I would like to thank STERG for the opportunity to study with them and the facilities they provided. Furthermore, I'd like to thank CRSES for the funding they provided. 
 
 \chapter{Dedications}%=======================================================
 
 \vfill
 \begin{center}\itshape%
-  I would like to dedicate this thesis to my parents and brothers, whose unwavering support and adoration pushes me to be the best man I can possibly be. 
+  I dedicate this thesis to my parents and brothers, whose unwavering love and support pushes me to be the best man I can possibly be. 
 \end{center}
 \vfill
 
-%\vfill
-%\begin{Afr}
-  %\begin{center}\itshape%
-  %Hierdie tesis word opgedra aan
-  %\end{center}
-%\end{Afr}
-%\vfill
+\vfill
+\begin{Afr}
+  \begin{center}\itshape%
+    Ek dra hierdie tesis op na my ouers, broers, Jay, en hulle onwrikbare liefde en ondersteuning, waarsonder ek nie wees waar ek vandag is nie. 
+  \end{center}
+\end{Afr}
+\vfill
 \clearpage
 	   
 %============================================================================

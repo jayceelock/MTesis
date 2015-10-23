@@ -108,9 +108,11 @@ This section describes the test layout, including the external measurement devic
 \subsection{Test Layout}
 \label{sec:vicon-test-setup}
 
+This section describes the test layout, including the layout for the CVS and Vicon systems. 
+
 \subsubsection{External Measurement Device Layout}
 
-The external measurement system used to record the ground-truth pose data is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software and it does this at a rate of 300Hz. The Vicon only measures the position vector. Therefore, to get a complete pose vector including the orientation, trigonometric relationships between the different translation vectors were used to determine the angular orientation. Given its well-documented measurement accuracy, the measurement results from this system was taken as ground-truth.
+The external measurement system used to record the ground-truth pose data is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and can reach sub-millimetre accuracy in its measurements, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software and it does this at a rate of 300 Hz. The Vicon only measures the position vector. Therefore, to get a complete pose vector including the orientation, trigonometric relationships between the different translation vectors were used to determine the angular orientation. Given its well-documented measurement accuracy, the measurement results from this system was taken as ground-truth.
 
 The Vicon system used for the test is located in the 3D Human Motion Laboratory on Stellenbosch University's Tygerberg medical campus. It consists of eight infrared cameras arranged around a square on the floor in a configuration that maximises the number of infrared markers visible to each camera at any given point in time. Figure~\ref{fig:chap3-vicon-layout} shows a diagram of the Vicon system layout. 
  
@@ -187,7 +189,7 @@ Processing the CVS data involved several steps, the first of which was to make t
 
 \subsubsection{Reducing Vicon Sample Speed}
 
-The Vicon system captures data at 300Hz and the CVS at 30Hz. Therefore, the Vicon's framerate had to be downsampled to match the CVS's framerate so that the two data sets could directly be related. 
+The Vicon system captures data at 300 Hz and the CVS at 30 Hz. Therefore, the Vicon's framerate had to be downsampled to match the CVS's framerate so that the two data sets could directly be related. 
 
 The process involved averaging the Vicon data set in intervals of 10 samples, downsampling the Vicon by a factor of 10 and matching the CVS's framerate. This approach was taken to ensure that no data that might contain valuable information and trends got discarded. 
 
@@ -207,16 +209,16 @@ Before the measurement test took place, the CVS camera was calibrated using Open
 
 This presents a circular optimisation problem: the focal length will affect the perceived error offset, while the error offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
 
-First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector of the calibration board (before it is centred around the Vicon's axis system) as produced by the Vicon system, while $\bar{\bm{P}}$ is the constant error offset vector and the subscripts $c$ and $b$ represent the data sets of the camera and calibration board respectively. $\bm{\epsilon}$ refers to the error vector between the Vicon and CVS's measurements that needs to be determined and $\bm{P}(f)$ is the pose vector measured by the CVS's camera as a function of its focal lengths $f_x$ and $f_y$. The Vicon pose and offset vectors are given by Equations~\ref{eq:chap3-calibration-pose} and~\ref{eq:chap3-offset}.
+First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector of the calibration board (before it is centred around the Vicon's axis system) as produced by the Vicon system, while $\bar{\bm{P}}$ is the constant error offset vector and the subscripts c and b represent the data sets of the camera and calibration board respectively. $\bm{\epsilon}$ refers to the error vector between the Vicon and CVS's measurements that needs to be determined and $\bm{P}(f)$ is the pose vector measured by the CVS's camera as a function of its focal lengths $f_x$ and $f_y$. The Vicon pose and offset vectors are given by Equations~\ref{eq:chap3-calibration-pose} and~\ref{eq:chap3-offset}.
 
 \begin{equation}
  \label{eq:chap3-calibration-pose}
-  \bm{P}^* = \bm{P}^*_b - \bm{P}^*_c
+ \bm{P}^* = \bm{P}^*_\mathrm{b} - \bm{P}^*_\mathrm{c}
 \end{equation}
 
 \begin{equation}
   \label{eq:chap3-offset}
-  \bar{\bm{P}} = \bar{\bm{P}}_b - \bar{\bm{P}}_c
+  \bar{\bm{P}} = \bar{\bm{P}}_\mathrm{b} - \bar{\bm{P}}_\mathrm{c}
 \end{equation}
 
 The equation for the pose estimate from the CVS is given by
@@ -230,21 +232,21 @@ Equation~\ref{eq:chap3-cvs} can be simplified to the form given in Equation~\ref
 
 \begin{equation}
   \label{eq:chap3-pose}
-  \bm{P}(f_x, f_y) = (\bm{P}^*_b - \bar{\bm{P}}_b) - (\bm{P}^*_c - \bar{\bm{P}}_c) + \bm{\epsilon}
+  \bm{P}(f_x, f_y) = (\bm{P}^*_\mathrm{b} - \bar{\bm{P}}_\mathrm{b}) - (\bm{P}^*_\mathrm{c} - \bar{\bm{P}}_\mathrm{c}) + \bm{\epsilon}
 \end{equation}
 
 The next step is then to determine the constant perceived offset for a given focal length combination. The focal length is initialised with the focal lengths found during calibration (approximately 700 pixel units in both directions). The offset can then determined using 
 
 \begin{equation}
   \label{eq:chap3-eq1-offset}
-  \sum\limits_i \bm{P}_i(f) - \sum\limits_i(\bm{P}^*_{b,i} - \bm{P}^*_{c, i}) = i\bar{\bm{P}} + \sum\limits_i\bm{\epsilon}_i.
+  \sum\limits_i \bm{P}_i(f) - \sum\limits_i(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i}) = i\bar{\bm{P}} + \sum\limits_i\bm{\epsilon}_i.
 \end{equation}
 
 At this point, it is assumed that the error vector $\bm{\epsilon}$ is normally distributed around zero, eliminating its sum and leading to Equation~\ref{eq:chap3-eq2-offset}. This assumption will be verified in Section~\ref{sec:err-norm-test}. 
 
 \begin{equation}
   \label{eq:chap3-eq2-offset}
-  i\bar{\bm{P}} = \sum\limits_i \bm{P}_i(f) - \sum\limits_i(\bm{P}^*_{b,i} - \bm{P}^*_{c, i})
+  i\bar{\bm{P}} = \sum\limits_i \bm{P}_i(f) - \sum\limits_i(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})
 \end{equation}
 
 Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on these three dimensions since it was found that including the orientation dimensions added too much variability to the procedure, leading to instability. The error matrix is produced by Equation~\ref{eq:chap3-error-base}.

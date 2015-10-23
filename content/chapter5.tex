@@ -17,6 +17,8 @@ Some work was done to ensure that the flight tests were performed where it would
 
 \subsection{Test Design}
 
+This subsection describes the test design, including the equipment, the location and testing conditions.
+
 \subsubsection{Equipment}
 
 The equipment and facilities that were required and used for the flight tests are as follows:
@@ -31,11 +33,11 @@ The equipment and facilities that were required and used for the flight tests ar
 
 The details of the CVS are discussed in Chapter~\ref{chap3}. It consists of a camera, which captures the image data, and a laptop which records and processes the data. A certified unmanned aerial vehicle pilot was used for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an ISO A3-sized\footnote{Paper size of $\SI{297}{\mm}\times\SI{432}{\mm}$}, $6\times5$ square chessboard pattern calibration board. 
 
-The Suncopter quadcopter is a custom-built quadcopter for the Solar and Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
+The Suncopter quadcopter is a custom-built quadcopter for the Solar Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
 
 \subsubsection{Location}
 
-The flight tests were conducted at the Mariendahl experimental farm owned and operated by Stellenbosch University (SU). It is also the location of the Solar and Thermal Energy Research Group's (STERG) Helio100 central receiver concentrated solar power (CSP) project. The exact location is in an empty grass field relatively far away from any roadways and other buildings. The soil in the field is soft and uneven, which was taken into account during the tests and the data processing. 
+The flight tests were conducted at the Mariendahl experimental farm owned and operated by Stellenbosch University (SU). It is also the location of STERG's Helio100 central receiver concentrating solar power (CSP) project. The exact location is in an empty grass field relatively far away from any roadways and other buildings. The soil in the field is soft and uneven, which was taken into account during the tests and the data processing. 
 
 \subsubsection{Test Conditions and Layout}
 
@@ -47,7 +49,7 @@ A certified pilot was employed during the test. His responsibility was to perfor
 
 \subsection{Test Procedure}
 
-For each flight test, the SunKopter was manually positioned above the centre of the CVS's camera on the post and set to \emph{loiter} mode. In this mode, the Suncopter will attempt to hold the altitude, position and yaw angle it had when it was set to \emph{loiter} mode, while remaining stable, meaning that the Suncopter will attempt to hold a roll and pitch angle of $\ang{0}$. 
+For each flight test, the Suncopter was manually positioned above the centre of the CVS's camera on the post and set to \emph{loiter} mode. In this mode, the Suncopter will attempt to hold the altitude, position and yaw angle it had when it was set to \emph{loiter} mode, while remaining stable, meaning that the Suncopter will attempt to hold a roll and pitch angle of $\ang{0}$. 
 
 It has been established in Chapter~\ref{chap3} that the pose measurement data from the CVS is highly interdimensionally dependant, which implies that the accuracy of the pose measurement will depend on the Suncopter's current pose relative to the CVS's camera. As a consequence, it was decided that several flight tests would be conducted, each with a slightly different distance or yaw angle relative to the CVS's camera. 
 
@@ -67,7 +69,7 @@ The coordinate system for the corner detector and PnP solver used was specified 
 
 \subsubsection{Data Synchronisation}
 
-The CVS's camera captures video data at 30 frames per second, while the Pixhawk on the Suncopter sends data to the ground control station at a frequency of 200Hz, making it necessary to change the time scale of either data set to match one another. The Pixhawk's data packets contain various parameters, such as the battery voltage and altitude, but only the position and orientation data sets are of interest here. However, this data is not sent with every data package coming from the Pixhawk and do not necessarily arrive together either. It is therefore necessary to synchronise the position and orientation data received from the Pixhawk.
+The CVS's camera captures video data at 30 frames per second, while the Pixhawk on the Suncopter sends data to the ground control station at a frequency of 200 Hz, making it necessary to change the time scale of either data set to match one another. The Pixhawk's data packets contain various parameters, such as the battery voltage and altitude, but only the position and orientation data sets are of interest here. However, this data is not sent with every data package coming from the Pixhawk and do not necessarily arrive together either. It is therefore necessary to synchronise the position and orientation data received from the Pixhawk.
 
 To synchronise the data, a zero-order-hold was applied to each data set by using the timestamps from each sample coming from the Suncopter. What this means is that the value of each sample is held constant until it is updated by the next sample. Furthermore, the CVS's pose data was downsampled by selecting a sample from the set that coincides with the timestamps from the Suncopter's pose data set. 
 
@@ -87,19 +89,19 @@ Furthermore, any angular offset for the CVS camera or the Suncopter due to uneve
 
 \begin{equation}
   \label{eq:chap5-pose-offset}
-  \bm{P}_{quadcopter} = \bm{P}_{cvs} + \bm{P}_{of\!fset}
+  \bm{P}_{\mathrm{quadcopter}} = \bm{P}_{\mathrm{CVS}} + \bm{P}_{\mathrm{offset}}
 \end{equation}
 
-Here, the $\bm{P}_{of\!fset}$ term is the unknown term. The pose data contained within the $\bm{P}_{quadcopter}$ and $\bm{P}_{cvs}$ terms contains noise in each sample, which requires that an optimisation procedure be used to find a offset vector that best relates the two sets of pose data. For the optimisation procedure, the cost function and error term in Equation~\ref{eq:chap5-err-func} was minimised, where the error vector $\bm{e}$ is a function of $\bm{P}_{of\!fset}$ and is given by Equation~\ref{eq:chap5-err-term}. 
+Here, the $\bm{P}_{\mathrm{offset}}$ term is the unknown term. The pose data contained within the $\bm{P}_{\mathrm{quadcopter}}$ and $\bm{P}_{\mathrm{CVS}}$ terms contains noise in each sample, which requires that an optimisation procedure be used to find a offset vector that best relates the two sets of pose data. For the optimisation procedure, the cost function and error term in Equation~\ref{eq:chap5-err-func} was minimised, where the error vector $\bm{e}$ is a function of $\bm{P}_{\mathrm{offset}}$ and is given by Equation~\ref{eq:chap5-err-term}. 
 
 \begin{equation}
   \label{eq:chap5-err-func}
-  \text{Cost Function} = \min_{\bm{e}}\sqrt{\displaystyle\sum_{i=1}^{n} \bm{e}(\bm{P}_{of\!fset})_i^2}
+  \text{Cost function} = \min_{\bm{e}}\sqrt{\displaystyle\sum_{i=1}^{n} \bm{e}(\bm{P}_{\mathrm{offset}})_i^2}
 \end{equation}
 
 \begin{equation}
   \label{eq:chap5-err-term}
-  \bm{e} = \bm{P}_{cvs} + \bm{P}_{of\!fset} - \bm{P}_{quadcopter}
+  \bm{e} = \bm{P}_{\mathrm{CVS}} + \bm{P}_{\mathrm{offset}} - \bm{P}_{\mathrm{quadcopter}}
 \end{equation}
 
 The minimisation was done using the \emph{minimize} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language and makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
@@ -116,19 +118,21 @@ The outcome of this comparison may lead to one of the following two outcomes. If
 
 \section{Results}
 
+The results for the offset vector, $P_{\mathrm{offset}}$, and the pose estimation error is presented and discussed in this section. 
+
 \subsection{Offset Vector}
 
-Using the procedure described in Section~\ref{sec:chap5-data-centring}, the optimal offset vector relating the quadcopter and CVS's axis systems is given in Equation~\ref{eq:chap5-offset-result}. 
+Using the procedure described in Section~\ref{sec:chap5-data-centring}, the optimal offset vector relating the quadcopter and CVS's axis systems is given by 
 
 \begin{equation}
   \label{eq:chap5-offset-result}
-  \bm{P}_{of\!fset} = 
+  \bm{P}_{\mathrm{offset}} = 
   \begin{bmatrix}
     \SI{-6.61}{\m} & \SI{-0.834}{\m} & \SI{-4.17}{\m} & \ang{6.15} & \ang{62.7} & \ang{-185} \\
-  \end{bmatrix}^T
+  \end{bmatrix}^T.
 \end{equation}
 
-The position values roughly coincide with the conditions that were recorded on site: the SunKopter was launched some distance from the CVS equipment for safety reasons. Due to uneven ground conditions at the testing site, the launch site was also slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity check point of view, the offset that the optimisation procedure produced seems to be the correct one. 
+The position values roughly coincide with the conditions that were recorded on site: the Suncopter was launched some distance from the CVS equipment for safety reasons. Due to uneven ground conditions at the testing site, the launch site was also slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity check point of view, the offset that the optimisation procedure produced seems to be the correct one. 
 
 \subsection{Pose Estimation Error}
 

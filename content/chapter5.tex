@@ -33,7 +33,59 @@ The equipment and facilities that were required and used for the flight tests ar
 
 The details of the CVS are discussed in Chapter~\ref{chap3}. It consists of a camera, which captures the image data, and a laptop which records and processes the data. A certified unmanned aerial vehicle pilot was used for safety reasons, since the quadcopter will be flown in close proximity to people and other equipment. The calibration board is used in conjunction with the CVS to provide the pose data of the quadcopter. Here, the calibration board is an ISO A3-sized\footnote{Paper size of $\SI{297}{\mm}\times\SI{432}{\mm}$}, $6\times5$ square chessboard pattern calibration board. 
 
-The Suncopter quadcopter is a custom-built quadcopter for the Solar Thermal Energy Research Group's (STERG) research purposes. It is FISIESE SPECS EN MODEL NR EN VERWYS NA SPEC SHEET\@.
+The Suncopter quadcopter is a custom-built quadcopter for the Solar Thermal Energy Research Group's (STERG) research purposes. The Suncopter's physical specifications are given in Table~\ref{tab:chap5-suncopter-specs}. It is equipped with a Pixhawk controller which allows it to be autonomously controlled or controlled via remote control. The Pixhawk's specifications and sensors are listed in Tables~\ref{tab:chap5-pixhawk-specs} and~\ref{tab:chap5-sensor-specs}.
+
+\begin{table}
+  \centering
+  \caption{Suncopter specifications.}
+  \begin{tabular}{lll}
+    \hline
+    \multicolumn{1}{c}{Specification} & \multicolumn{1}{c}{Amount} & \multicolumn{1}{c}{Detail} \\ 
+    \hline
+    Battery & 1 & 6-cell Li-Po \\
+    Controller & 1 & Pixhawk \\
+    Estimated full-charge flight time (no load) & N/A & 45 minutes \\
+    Motors & 4 & T-Motor 4006 \\ 
+    Rotor diameter & N/A & $\SI{68.6}{\mm}$ \\ 
+    Weight (with battery) & N/A & $\SI{4.5}{\kg}$ \\
+    Wingspan (tip to tip) & N/A & $\SI{1.2}{\m}$ \\ 
+    \hline
+  \end{tabular}
+\label{tab:chap5-suncopter-specs}
+\end{table}
+
+\begin{table}
+  \centering
+\caption{Pixhawk specifications.}
+  \begin{tabular}{ll}
+    \hline
+    \multicolumn{1}{c}{Component} & \multicolumn{1}{c}{Specification} \\
+    \hline
+    Manual control & Spektrum DX-7 Radio set \\
+    Memory & 256 KB RAM, 2 MB Flash \\
+    Processor & 168 MHz 32-bit STM32F427 Cortex M4 core \\
+    Telemetry & 3DR 433 MHz Telemetry set \\
+    \hline
+  \end{tabular}
+\label{tab:chap5-pixhawk-specs}
+\end{table}
+
+\begin{table}
+  \centering
+\caption{Pixhawk sensor specifications.}
+  \begin{tabular}{l}
+    \hline
+    \multicolumn{1}{c}{Component} \\
+    \hline
+    3DR uBlox GPS + Compass \\
+    Invensense MPU 6000 3-axis accelerometer / gyroscope \\
+    MEAS MS5611 barometer \\
+    ST Micro L3GD20H 16 bit gyroscope \\ 
+    ST Micro LSM303D 14 bit accelerometer / magnetometer \\
+    \hline
+  \end{tabular}
+\label{tab:chap5-sensor-specs}
+\end{table}
 
 \subsubsection{Location}
 

@@ -91,9 +91,9 @@ Using the relation in Equation~\ref{eq:chap3-2d-to-3d} and the camera matrix $C$
 
 The hardware requirements for the CVS are fairly minimal and its setup equally simple. To allow the software to make six-dimensional pose estimations, the hardware needs to capture image data at an appropriate resolution for OpenCV to be able to detect and extract the two-dimensional feature coordinate data. The camera should preferably not have a lens zoom function in order to keep the focal length constant throughout a measurement session. A computer running the OpenCV and data-processing scripts, as well as a calibration board, are also required. 
 
-The camera that was used is a single Microsoft LifeCamHD webcam capable of capturing 720p high definition video data at a frame rate of 30 frames per second. This camera has a variable zoom feature, however, which was controlled and set to a constant value by using the \emph{uvcdynctrl} webcam control library\footnote{uvcdynctrl v0.2.4}. A stereo camera setup can also be used, however the accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension where the stereo vastly outperforms the single camera. Much like a person with one eye closed, single cameras are notoriously bad at estimating depth, so bad depth estimates for this system is expected. For this implementation, the single camera variant was used, making the system simpler to set up and use, but care must be taken with the depth estimate. In the future, the project can be expanded to a stereo camera system if it is found that the inaccurate depth estimate significantly affects the measurement accuracy.
+The camera that was used is a single Microsoft LifeCamHD webcam capable of capturing 720p high definition video data at a frame rate of 30 frames per second. This camera has a variable zoom feature, however, which was controlled and set to a constant value by using the \emph{uvcdynctrl} webcam control library\footnote{Webcam control library for the Video4Linux driver uvcdynctrl v0.2.4}. A stereo camera setup can also be used, however the accuracy between the single and stereo camera in most respects is rather negligible, except in the depth dimension where the stereo vastly outperforms the single camera. Much like a person with one eye closed, single cameras are notoriously bad at estimating depth, so bad depth estimates for this system is expected. For this implementation, the single camera variant was used, making the system simpler to set up and use, but care must be taken with the depth estimate. In the future, the project can be expanded to a stereo camera system if it is found that the inaccurate depth estimate significantly affects the measurement accuracy.
 
-The calibration board used was a flat, ISO A1-sized\footnote{$\SI{841}{\mm}\times\SI{594}{\mm}$}, $5\times6$-square chessboard pattern calibration board. A large board was selected to allow the squares on it to be large, affording the camera a good view of the corners and improving the data extraction performance. The large board size also allowed for a fairly wide white border around the squares, as per OpenCV's recommendation. 
+The calibration board used was a flat, ISO A1-sized\footnote{Standard paper size $\SI{841}{\mm}\times\SI{594}{\mm}$}, $5\times6$-square chessboard pattern calibration board. A large board was selected to allow the squares on it to be large, affording the camera a good view of the corners and improving the data extraction performance. The large board size also allowed for a fairly wide white border around the squares, as per OpenCV's recommendation. 
 
 A laptop running Linux Mint 17.1 `Rebecca' was used as a ground control station for the quadcopter in subsequent measurement tests. In addition, it was used as a recording device along with the webcam and performed some of the data processing tasks, although a more powerful desktop PC was used to perform the image processing tasks. 
 
@@ -249,11 +249,11 @@ At this point, it is assumed that the error vector $\bm{\epsilon}$ is normally d
   i\bar{\bm{P}} = \sum\limits_i \bm{P}_i(f) - \sum\limits_i(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})
 \end{equation}
 
-Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on these three dimensions since it was found that including the orientation dimensions added too much variability to the procedure, leading to instability. The error matrix is produced by Equation~\ref{eq:chap3-error-base}.
+Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on these three dimensions since it was found that including the orientation dimensions added too much variability to the procedure, leading to instability. The error matrix is produced by
 
 \begin{equation}
   \label{eq:chap3-error-base}
-  \bm{\epsilon} = \bm{P}(f) - \bm{P}^* - \bar{\bm{P}}
+  \bm{\epsilon} = \bm{P}(f) - \bm{P}^* - \bar{\bm{P}}.
 \end{equation}
 
 Using the $3\times n$ error matrix from Equation~\ref{eq:chap3-error-base}, an error vector is generated by summing the error matrix along its columns. The optimum focal lengths were then found by taking the focal length combination that produces the smallest two-norm of the sample error vector $\bm{\epsilon}$. The minimisation equation is given by Equation~\ref{eq:chap3-err-min}.
@@ -421,7 +421,7 @@ It can be seen that there is some improvement in all the dimensions. However, in
 
 \subsection{Computer Vision System Accuracy}
 
-Determining the accuracy of a multi-dimensional data model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it is possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix are sufficiently small relative to the diagonal elements, it can be assumed that the dimensions are strong enough independent of one another. The covariance matrix $\Sigma$ is given by  
+Determining the accuracy of a multi-dimensional data model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it is possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix are sufficiently small relative to the diagonal elements, it can be assumed that the dimensions are strong enough independent of one another. The covariance matrix $\Sigma$ is given by Equation~\ref{eq:covariance-matrix}. 
 
 \begin{equation}
   \label{eq:covariance-matrix}
@@ -433,7 +433,7 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
     2.5\e{-1}      & -3.4\e{-2}     & -4.3\e{-2}      & \bm{7.3\e{1}} &  5.1\e{1}    & -2.1\e{1}      \\
     5.5\e{-2}      & 3.5\e{-2}      & 1.7\e{-2}       & 5.1\e{1}      &  \bm{1\e{2}} & 8.8\e{-1}      \\
     -1.9\e{-1}     & 1.3\e{-1}      & -3.7\e{-3}      & -2.1\e{1}     &  8.8\e{-1}   & \bm{9.5\e{10}} \\
-  \end{bmatrix}.
+  \end{bmatrix}
 \end{equation}
 
 The matrix $\Sigma$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This dependence is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated in the contour plots of Figure~\ref{fig:err-contour}. 

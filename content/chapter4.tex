@@ -65,33 +65,23 @@ Here, $P$ and $T$ are the $300\times6$ input and output training data matrices. 
 A model validation procedure is used to ensure that the RBFNN has been properly trained and that overfitting did not occur during training. The validation set comes from the same Vicon test that the training data comes from. Another 300 randomly selected  pose measurement samples were used for the validation data set. Given that the training data is uniformly distributed, the validation set should fall within the training data. Figure~\ref{fig:chap4-scatter-tr-v} displays the scatter plots for the translation and rotation vectors for the training and validation sets and shows that they indeed to overlap to a large degree. 
 
 \begin{figure*}
-  %\centering
-  %\begin{subfigure}{\textwidth}
-    %\includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_pose_tr_v}
-    %\caption{}
-  %\end{subfigure}
-%~
-  %\begin{subfigure}{\textwidth}
-    %\includegraphics[clip, trim = 100 50 100 0, width=\textwidth]{figures/chapter4/3d_rot_tr_v}
-    %\caption{}
-  %\end{subfigure}
   \centering
   \begin{subfigure}{\textwidth}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_xy}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter4/trv_xy}
     \end{subfigure}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_xz}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter4/trv_xz}
     \end{subfigure}
     \caption{}
   \end{subfigure}
   ~
   \begin{subfigure}{\textwidth}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_rollpitch}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter4/trv_rollpitch}
     \end{subfigure}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 20, width=\textwidth]{figures/chapter4/tr_v_v_pos_rollyaw}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter4/trv_rollyaw}
     \end{subfigure}
     \caption{}
   \end{subfigure}
@@ -114,25 +104,25 @@ Figure~\ref{fig:chap4-rbf-train} shows results of the RBFNN model when tested wi
 \begin{figure*}
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_x}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_x}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_y}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_y}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_z}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_z}
     \end{subfigure}
     \caption{}
   \end{subfigure}
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_roll}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_roll}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_pitch}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_pitch}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/tr_yaw}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_tr_yaw}
     \end{subfigure}
     \caption{}
   \end{subfigure}
@@ -145,25 +135,25 @@ Figure~\ref{fig:chap4-rbf-valid} shows the model's output when tested with the v
 \begin{figure*}
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_x}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_x}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_y}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_y}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_z}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_z}
     \end{subfigure}
     \caption{}
   \end{subfigure}
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_roll}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_roll}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_pitch}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_pitch}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/v_yaw}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter4/scatter_v_yaw}
     \end{subfigure}
     \caption{}
   \end{subfigure}

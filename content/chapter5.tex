@@ -145,7 +145,6 @@ Furthermore, any angular offset for the CVS camera or the Suncopter due to uneve
   \label{eq:chap5-pose-offset}
   \bm{P}_{\mathrm{quadcopter}} = \bm{P}_{\mathrm{CVS}} + \bm{P}_{\mathrm{offset}}
 \end{equation}
-
 Here, the $\bm{P}_{\mathrm{offset}}$ term is the unknown term. The pose data contained within the $\bm{P}_{\mathrm{quadcopter}}$ and $\bm{P}_{\mathrm{CVS}}$ terms contains noise in each sample, which requires that an optimisation procedure be used to find a offset vector that best relates the two sets of pose data. For the optimisation procedure, the cost function and error term in Equation~\ref{eq:chap5-err-func} was minimised, where the error vector $\bm{e}$ is a function of $\bm{P}_{\mathrm{offset}}$ and is given by Equation~\ref{eq:chap5-err-term}. 
 
 \begin{equation}
@@ -157,8 +156,7 @@ Here, the $\bm{P}_{\mathrm{offset}}$ term is the unknown term. The pose data con
   \label{eq:chap5-err-term}
   \bm{e} = \bm{P}_{\mathrm{CVS}} + \bm{P}_{\mathrm{offset}} - \bm{P}_{\mathrm{quadcopter}}
 \end{equation}
-
-The minimisation was done using the \emph{minimize} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language and makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
+The minimisation was done using the \emph{minimize} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language which makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
 
 \subsubsection{Determining the Pose Estimation Error}
 
@@ -185,7 +183,6 @@ Using the procedure described in Section~\ref{sec:chap5-data-centring}, the opti
     \SI{-6.61}{\m} & \SI{-0.834}{\m} & \SI{-4.17}{\m} & \ang{6.15} & \ang{62.7} & \ang{-185} \\
   \end{bmatrix}^T.
 \end{equation}
-
 The position values roughly coincide with the conditions that were recorded on site: the Suncopter was launched some distance from the CVS equipment for safety reasons. Due to uneven ground conditions at the testing site, the launch site was also slanted and located below the post on which the CVS's camera was placed. Thus, from a sanity check point of view, the offset that the optimisation procedure produced seems to be the correct one. 
 
 \subsection{Pose Estimation Error}
@@ -198,19 +195,19 @@ Before the flight test data was fed to the RBFNN, it was first checked that the 
   \centering
   \begin{subfigure}{\textwidth}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_xy}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter5/trts_xy}
     \end{subfigure}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_xy}
+      \includegraphics[clip, trim = 80 0 80 0, width=\textwidth]{figures/chapter5/trts_xy}
     \end{subfigure}
     \caption{}
   \end{subfigure}
   \begin{subfigure}{\textwidth}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_rollpitch}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/trts_rollpitch}
     \end{subfigure}
     \begin{subfigure}{0.48\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/tr_v_ts_rollyaw}
+      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter5/trts_rollyaw}
     \end{subfigure}
     \caption{}
   \end{subfigure}
@@ -227,10 +224,10 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
       \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/y}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/x}
+      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/z}
     \end{subfigure}
     \caption{}
   \end{subfigure}

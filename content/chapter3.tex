@@ -376,7 +376,6 @@ The optimal offset $\bar{\bm{P}}$ was found and is by
     \SI{283.8}{\mm} & \SI{56.16}{\mm} & \SI{-57.44}{\mm} & \ang{179.8} & \ang{-1.305} & \ang{-178.8}
   \end{bmatrix}^T.
 \end{equation}
-
 The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the roll and yaw dimensions can be explained by the differing axis orientations of the CVS camera and Vicon system's, where the axes needed rotating to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension is slightly surprising, since this indicates there was a large constant level of error bias introduced in the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. It turns out this was indeed the case. It turns out this was indeed the case. 
 
 All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. Figure~\ref{fig:estimate} shows the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
@@ -428,7 +427,6 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
     -1.9\e{-1}     & 1.3\e{-1}      & -3.7\e{-3}      & -2.1\e{1}     &  8.8\e{-1}   & \bm{9.5\e{10}} \\
   \end{bmatrix}
 \end{equation}
-
 The matrix $\Sigma$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This dependence is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated in the contour plots of Figure~\ref{fig:err-contour}. 
 
 \begin{figure*}

@@ -51,7 +51,7 @@
   \begin{picture}(1,1.04884165)%
     \put(0,0){\includegraphics[width=\unitlength]{figures/chapter3/vicon_layout.pdf}}%
     \put(0.538,0.44){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Y}}}%
-    \put(0.46230699,0.62794405){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{X}}}%
+    \put(0.46230699,0.61294405){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{X}}}%
     \put(0.60352314,0.65926641){\color[rgb]{0,0,0}\makebox(0,0)[lb]{\smash{Z}}}%
   \end{picture}%
 \endgroup%

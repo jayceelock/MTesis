@@ -24,3 +24,4 @@
 *latexmk
 *.fls
 tesis.pdf
+*.loa

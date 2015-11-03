@@ -105,7 +105,16 @@ The matrix $N$ in Equation~\ref{eq:chap2-cam-matrix} is given by
     0   & 0   & 1   \\
   \end{bmatrix}.
 \end{equation}
-Here, $f_x$ and $f_y$ describe the focal lengths of the camera, while $u_0$ and $v_0$ represent the camera's principal points. The pose matrix $P$ from Equation~\ref{eq:chap2-cam-matrix} is given by
+Here, $f_x$ and $f_y$ describe the focal lengths of the camera, while $u_0$ and $v_0$ represent the camera's principal points. The principal point, also known as the focal point, is where the camera's axis crosses the image plane and is ideally situated in the centre of the camera lens. However, due to manufacturing defects, this is rarely the case. Refer to Figure~\ref{fig:chap2-focal} for a demonstration of what the focal length and principle point parameters represent. 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/chapter2/focal_details}
+  \caption{Diagram showing what the focal length and principle point parameters represent. }
+\label{fig:chap2-focal}
+\end{figure}
+
+The pose matrix $P$ from Equation~\ref{eq:chap2-cam-matrix} is given by
 
 \begin{equation}
   \label{eq:chap2-cam-extrinsic}

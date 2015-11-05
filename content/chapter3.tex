@@ -139,21 +139,25 @@ Before the measurement test commenced, the Vicon system was calibrated using a p
 \label{fig:chap3-cam-vicon-axes}
 \end{figure}
 
-Only three markers need to be visible to the Vicon system's cameras for it to record an object's position vector. However, a fourth asymmetrical auxiliary marker was also placed to provide fail-safe orientation data during the data processing phase. Figures~\ref{fig:chap3-cam-marker-placement} and~\ref{fig:chap3-board-marker-placement} show the marker placements for the camera and the calibration board. These markers were carefully placed by hand in line with one another, but some placement error is inevitable. This placement error offset is taken into account during the data processing phase. 
+Only three markers need to be visible to the Vicon system's cameras for it to record an object's position vector. However, a fourth asymmetrical auxiliary marker was also placed to provide fail-safe orientation data during the data processing phase. Figure~\ref{fig:chap3-vicon-marker-placement} shows the Vicon marker placements for the camera and the calibration board. These markers were carefully placed by hand in line with one another, but some placement error is inevitable. This placement error offset is taken into account during the data processing phase. 
 
-\begin{figure}
-   \centering 
-   \includegraphics[clip, trim = 0 400 0 400, width=0.6\textwidth]{figures/chapter3/cam_1.pdf}
-   \caption[Infrared marker placement on the camera frame.]{Infrared marker placement on the camera frame. Note that only one of the cameras are used in the CVS.}
-\label{fig:chap3-cam-marker-placement}
-\end{figure}
-
-\begin{figure}
-   \centering 
-   \includegraphics[clip, trim = 600 0 400 0, width=0.6\textwidth]{figures/chapter3/bord_2.pdf}
-   \caption{Infrared marker placement on the chessboard.}
-\label{fig:chap3-board-marker-placement}
-\end{figure}
+\begin{figure*}
+  \centering 
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[clip, trim = 0 400 0 400, width=\textwidth]{figures/chapter3/cam_1.pdf}
+    \caption[Infrared marker placement on the camera frame.]{Infrared marker placement on the camera frame. Note that only one of the cameras are used in the CVS.}
+  \label{fig:chap3-cam-marker-placement}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[clip, trim = 600 0 400 0, width=\textwidth]{figures/chapter3/bord_2.pdf}
+    \caption{Infrared marker placement on the chessboard.}
+  \label{fig:chap3-board-marker-placement}
+  \end{subfigure}
+\caption{Diagram of the Vicon marker placement on the calibration board and camera frame.}
+\label{fig:chap3-vicon-marker-placement}
+\end{figure*}
 
 One aspect of the Vicon system to note is that the infrared markers have some high-frequency noise associated with them, which is apparent when inspecting the raw data. This noise is inherent to the marker and can be safely filtered out with a zero-lag, second order Butterworth filter. However, to avoid any unknown filtering factors from affecting the data, the raw, unfiltered data is used throughout this project. 
 
@@ -161,7 +165,7 @@ One aspect of the Vicon system to note is that the infrared markers have some hi
 
 The CVS configuration used during the Vicon test is the exact same as the one described in Section~\ref{sec:chap3-cvs-layout}.
 
-Before the test, the CVS's camera was calibrated to determine its intrinsic parameters, including its focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the Vicon test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera and roughly 15 still images at a resolution of $640\times480$ pixels were taken. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of approximately 0.21 pixel units. It was found that capturing data at a higher resolution did not produce significantly better results and slowed the feature data extraction process down. The focal length was found to be approximately 700 pixel units in both the $x$ and $y$ directions.
+Before the test, the CVS's camera was calibrated to determine its intrinsic parameters, including its focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the Vicon test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera and roughly 15 still images at a resolution of $640\times480$ pixels were taken. All of the test video data was captured at this resolution. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of approximately 0.21 pixel units. It was found that capturing data with a high definition resolution, i.e.\ $720\times1080$ pixels, produced marginally less accurate results and took longer to process. The reason for the worse accuracy came as a surprise and the cause is not known at this time, even in literature. After the camera was calibrated, its focal length was found to be approximately 700 pixel units in both the $x$ and $y$ directions.
 
 In the test, the camera was placed in a stable, aluminium frame and was left untouched throughout the test. The laptop was set to only capture video at $640\times480$ pixels, while zoom and autofocus was disabled to keep the camera's focal length constant. The data extraction and pose estimation took place off-line. 
 
@@ -218,7 +222,7 @@ Since the Vicon's infrared markers were not placed exactly on the calibration bo
 
 This presents a circular optimisation problem: the focal length will affect the perceived error offset, while the error offset will affect the CVS pose estimates, which in turn affects the ideal focal length. To find the offset and optimum focal length, a dual optimisation strategy was implemented.  
 
-First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector of the calibration board (before it is centred around the Vicon's axis system) as produced by the Vicon system, while $\bar{\bm{P}}$ is the constant error offset vector. The subscripts c and b represent the data sets of the camera and calibration board respectively. $\bm{\epsilon}$ refers to the error vector between the Vicon and CVS's measurements that needs to be determined and $\bm{P}(f_x, f_y)$ is the pose vector measured by the CVS's camera as a function of its focal lengths, $f_x$ and $f_y$. The Vicon pose and offset vectors are given by Equations~\ref{eq:chap3-calibration-pose} and~\ref{eq:chap3-offset}.
+First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the six-dimensional pose vector of the calibration board (after it was centred around the Vicon's axis system) as produced by the Vicon system, while $\bar{\bm{P}}$ is the constant error offset vector. The subscripts c and b represent the data sets of the camera and calibration board respectively. $\bm{\epsilon}$ refers to the error vector between the Vicon and CVS's measurements that needs to be determined and $\bm{P}(f_x, f_y)$ is the pose vector measured by the CVS's camera as a function of its focal lengths, $f_x$ and $f_y$. The Vicon pose and offset vectors are given by Equations~\ref{eq:chap3-calibration-pose} and~\ref{eq:chap3-offset}. Figure~\ref{fig:chap3-p-star} shows the relation for the $\bm{P}^*$ vector and Figure~\ref{fig:chap3-p-bar} shows the marker placement error offset for the $\bar{\bm{P}}$ vector for a corner on the calibration board. 
 
 \begin{equation}
  \label{eq:chap3-calibration-pose}
@@ -229,6 +233,22 @@ First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the 
   \label{eq:chap3-offset}
   \bar{\bm{P}} = \bar{\bm{P}}_\mathrm{b} - \bar{\bm{P}}_\mathrm{c}
 \end{equation}
+
+\begin{figure*}
+  \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=0.8\textwidth]{figures/chapter3/P_star}
+    \caption{Diagram showing the relation between the pose vector between the camera and board within the Vicon axis system.}
+    \label{fig:chap3-p-star}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=0.7\textwidth]{figures/chapter3/P_bar}
+    \caption{Diagram showing the marker placement error offset in the calibration board. }
+    \label{fig:chap3-p-bar}
+  \end{subfigure}
+\caption{Diagrams showing the relationships between the pose vectors given by the Vicon and CVS.}
+\end{figure*}
+
 The equation for the pose estimate from the CVS is given by
 
 \begin{equation}
@@ -339,7 +359,7 @@ From Figure~\ref{fig:err-convergence} it can be concluded that the optimisation 
 \subsection{Test for Zero Average Error}
 \label{sec:err-norm-test}
 
-To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mean value as assumed in Equation~\ref{eq:chap3-eq2-offset}, a $\chi^2$ (chi-squared) test could have been used. However, it was found that the sample size of the data set was too large, where the large number of samples can lead to the $\chi^2$ test to think the data contains skewness and it is known that skewness in the data can have a large impact on the $\chi^2$ probability estimate. Therefore, a graphical approach was taken. This was done by drawing frequency histograms of the error matrix $\bm{\epsilon}$ in all six dimensions, along with a normal distributions drawn using each dimension's mean and standard deviation. This is done to check if the error data is normally distributed, since this will allow additional tools to be used and justify future assumptions. The plots are given in Figure~\ref{fig:err-norm}.
+To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mean value as assumed in Equation~\ref{eq:chap3-eq2-offset}, a $\chi^2$ (chi-squared) test could have been used. However, it was found that the sample size of the data set was too large, where the large number of samples can lead to the $\chi^2$ test to think the data contains skewness and it is known that skewness in the data can have a large impact on the $\chi^2$ probability estimate~\citep{wackerly2007mathematical}. Therefore, a graphical approach was taken. This was done by drawing frequency histograms of the error matrix $\bm{\epsilon}$ in all six dimensions, along with a normal distributions drawn using each dimension's mean and standard deviation. This is done to check if the error data is normally distributed, since this will allow additional tools to be used and justify future assumptions. The plots are given in Figure~\ref{fig:err-norm}.
 
 \begin{figure*}
   \begin{subfigure}{0.48\textwidth}
@@ -386,9 +406,7 @@ In all, the frequency histogram and normal distribution plots of the errors in F
 
 \subsection{Optimum Focal Lengths and Offset}
 
-As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $f_x$ and $f_y$ were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres.
-
-The optimal offset $\bar{\bm{P}}$ was found to be 
+As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $f_x$ and $f_y$ were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset, $\bar{\bm{P}}$, was found to be 
 
 \begin{equation}
   \label{eq:chap3-offset-value}
@@ -399,36 +417,40 @@ The optimal offset $\bar{\bm{P}}$ was found to be
 \end{equation}
 The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed rotating to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension is initially surprising, since this indicates there was a large constant level of error bias introduced in the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
 
-All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised) for a focal length combination of 694 for $f_x$ and 701 for $f_y$, showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figure~\ref{fig:estimate} shows the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
+All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised) for a focal length combination of 694 for $f_x$ and 701 for $f_y$, showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
 
-\begin{figure*}
-  \begin{subfigure}{0.48\textwidth}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/x}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/y}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/z}
-    \end{subfigure}
-    \caption{Comparison plots in the position dimensions.}
-  \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/roll}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/pitch}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width=\textwidth]{figures/chapter3/yaw}
-    \end{subfigure}
-    \caption{Comparison plots in the orientation dimensions.}
-  \end{subfigure}
-  \caption[Plots comparing the Vicon's measurements with the CVS's original and improved measurements. ]{Plots comparing the Vicon's pose measurements with the CVS's original estimate, as well as the estimate with the optimal focal length combination.}
-  \label{fig:estimate}
-\end{figure*}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/x}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $x$ dimension.}
+  \label{fig:estimate-x}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/y}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $y$ dimension.}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/z}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $z$ dimension.}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/roll}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $roll$ dimension.}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/pitch}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $pitch$ dimension.}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/yaw}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $yaw$ dimension.}
+  \label{fig:estimate-yaw}
+\end{figure}
 
 It can be seen that there is some improvement in all the dimensions. However, in some cases the improvement in one section of the data set, is negated by worse estimates in another. This can be attributed to the optimisation process, where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $roll$ dimension. However, as the reduction in the two-norm magnitude of the error proves, there is an overall reduction in the error with the optimised data set. It can therefore be concluded that the optimisation procedure did indeed function as expected, producing a focal length combination which led to a more accurate pose estimate from the CVS. 
 

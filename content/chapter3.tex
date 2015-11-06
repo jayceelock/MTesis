@@ -273,7 +273,26 @@ In Equation~\ref{eq:chap3-eq1-offset}, $i$ is the pose vector sample number and 
   \label{eq:chap3-eq2-offset}
   \bar{\bm{P}} = \frac{1}{N} \left (\sum\limits_{i=1}^N \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^N(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})\right)
 \end{equation}
-Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on the three position dimensions since it was found that the orientation dimensions contain a large amount of noise and including them added too much variability to the procedure, leading to instability. The error matrix is produced by
+Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on the three position dimensions since it was found that the orientation dimensions contain a large amount of noise and including them added too much variability to the procedure, leading to instability. Figure~\ref{fig:chap3-bad-optimisation} demonstrates this by comparing two images taken during the Vicon test: one using the optimum focal length calculated using only the position dimensions and the other using all six dimensions. 
+
+\begin{figure*}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chapter3/3_dim_optimisation}
+    \caption{Axis system drawn with focal length calculated from using the position dimensions.}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/chapter3/6_dim_optimisation}
+    \caption{Axis system drawn with focal length calculated from using all six dimensions.}
+  \end{subfigure}
+  \caption{Images demonstrating the optimisation procedure's sensitivity to the orientation dimensions.}
+  \label{fig:chap3-bad-optimisation}
+\end{figure*}
+
+In Figure~\ref{fig:chap3-bad-optimisation}, the CVS drew axes onto the calibration board by using the pose it calculated. It can be seen that the axes differ from one another, indicating that the optimisation is sensitive when using the orientation dimensions in the optimisation procedure. 
+
+The error matrix is produced by
 
 \begin{equation}
   \label{eq:chap3-error-base}

@@ -27,7 +27,12 @@ Designing a machine learning model can be performed in three basic steps. These 
   \item Validate the trained model's accuracy. 
 \end{enumerate}
 
-First, the model type is selected. As stated previously, the CVS's pose measurement data is fairly complex, interdimensionally dependant and high dimensional. A neural network was therefore selected as a machine learning model basis. It has previously been shown by~\cite{tu1996advantages} that neural networks excel at handling complicated data and detecting and extracting complex, non-linear relationships within the input data. Furthermore, the radial basis function neural network (RBFNN) was selected as the network topology. RBFNN's provide superior results when compared to traditional feed-forward networks when noisy data sets are used, as shown by~\cite{xie2011comparison}. The data is not time dependant, making the recurrent neural network topology unnecessarily complex and costly for this application.  
+First, the model type is selected. As stated previously, the CVS's pose measurement data is fairly complex, interdimensionally dependant and high dimensional. A neural network was therefore selected as a machine learning model basis. It has previously been shown by~\cite{tu1996advantages} that neural networks excel at handling complicated data and detecting and extracting complex, non-linear relationships within the input data. Furthermore, the radial basis function neural network (RBFNN) was selected as the network topology. RBFNN's provide superior results when compared to traditional feed-forward networks when noisy data sets are used, as shown by~\cite{xie2011comparison}. The data is not time dependant, making the recurrent neural network topology unnecessarily complex and costly for this application. An RBFNN is described by the relation given by Equation~\ref{eq:chap2-rbf} and is repeated again in Equation~\ref{eq:chap4-rbf}.
+
+\begin{equation}
+  \label{eq:chap4-rbf}
+  f(\bm{x}_i) = \sum\limits_{j = 1}^{M}\lambda_j \phi(|| \bm{x}_i - \bm{x}_j ||).
+\end{equation}
 
 Next, model training takes place. Here the network is trained to take an input and adjust is internal weights in such a way that the input data is best translated to the desired output by using a supervised training scheme, such as the backpropagation procedure. In this case, the network input would be the six-dimensional pose vector produced by the CVS and the network output is the corresponding measurement error of the input pose vectors.  
 
@@ -37,7 +42,7 @@ The design process is iterative, where steps 2 and 3, and perhaps 1, can be repe
 
 \subsection{Network Training}
 
-Training a machine learning model is perhaps the most crucial aspect of the model design phase. Here, the nodes of the RBFNN are initialised and assigned a weighting factor. The weightings are then adjusted and optimised through a supervised training method called backprogagation, demonstrated in Figure~\ref{fig:chap4-backprogagation}.
+Training a machine learning model is perhaps the most crucial aspect of the model design phase. Here, the nodes of the RBFNN are initialised and assigned a weighting factor. The weightings are then adjusted and optimised through a supervised training method called backprogagation, demonstrated in Figure~\ref{fig:chap4-backprogagation}. The number of radial bases can also be optimised to produce the best results, but in this case it is preselected. 
 
 \begin{figure}
   \centering
@@ -87,7 +92,7 @@ A model validation procedure is used to ensure that the RBFNN has been properly 
     \end{subfigure}
     \caption{}
   \end{subfigure}
-  \caption[Scatter plots of the training and validation data. ]{Normalised scatter plots of the translation and rotation data points for the training and validation data sets. }
+  \caption[Scatter plots of the training and validation data. ]{Normalised scatter plots of the translation and rotation data points for the training and validation data sets. Note that the two data sets overlap. This is done on purpose to ensure that the RBFNN does not extrapolate values when the validation set is used as input. }
   \label{fig:chap4-scatter-tr-v}
 \end{figure*}
 

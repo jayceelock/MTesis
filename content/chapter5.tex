@@ -132,7 +132,7 @@ After the pose data has been extracted from the video data, the CVS and Suncopte
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{figures/chapter5/mep}
+  \includegraphics[width=0.8\textwidth]{figures/chapter5/test_flight_schem}
   %\def\svgwidth{200pt}
   %\input{figures/chapter5/test_flight_schem.pdf_tex}
   \caption[Shematic of the test flight layout.]{Schematic of the test flight, the quadcopter and CVS's respective axis systems and the offset vector between them.}
@@ -154,7 +154,7 @@ Here, the $\bm{P}_{\mathrm{offset}}$ term is the unknown term. The pose data con
 
 \begin{equation}
   \label{eq:chap5-err-term}
-  \bm{e} = \bm{P}_{\mathrm{CVS}} + \bm{P}_{\mathrm{offset}} - \bm{P}_{\mathrm{quadcopter}}
+  \bm{e}_i = \bm{P}_{\mathrm{CVS}, i} + \bm{P}_{\mathrm{offset}, i} - \bm{P}_{\mathrm{quadcopter}, i}
 \end{equation}
 The minimisation was done using the \emph{minimize()} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language, which makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
 

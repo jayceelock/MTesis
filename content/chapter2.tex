@@ -233,11 +233,11 @@ There are different RNN configurations available. These include the Hopfield net
 
 \subsubsection{Radial Basis Function Network}
 
-The radial basis function network (RBFN) is a type of neural network and is a sub-family of the RNN family, as stated by~\cite{wilamowski1996implementation}. 
+The radial basis function neural network (RBFNN) is a type of neural network and is a sub-family of the RNN family, as stated by~\cite{wilamowski1996implementation}. 
 
-The RBFN topology is fixed to a three-layer architecture, with one input layer, one hidden layer and one output layer. The input layer provides the input. The hidden layer then remaps these inputs to make them linearly separable, where the output layer does the separation and outputs the data~\citep{xie2011comparison}.  
+The RBFNN topology is fixed to a three-layer architecture, with one input layer, one hidden layer and one output layer. The input layer provides the input. The hidden layer then remaps these inputs to make them linearly separable, where the output layer does the separation and outputs the data~\citep{xie2011comparison}.  
 
-Despite belonging to the same family of ANN, there are a number of significant differences between the RBFN and RNN.\@ Firstly, the three-layer RBFNs are simpler than multi-layered RNNs, making the training process for RBFNs generally faster than that of an RNN.\@ Secondly, and most importantly, as stated by~\citeauthor{xie2011comparison}, is the difference in how the RBFN and RNN classifies the data: the RBFN data clusters are separated by a hyper sphere, whereas RNNs use arbitrarily shaped hyper surfaces. See Figure~\ref{fig:chap2-classifier} for a visualisation of these class separation strategies. This makes RBFNs an attractive option to interpolate multidimensional data.
+Despite belonging to the same family of ANN, there are a number of significant differences between the RBFNN and RNN.\@ Firstly, the three-layer RBFNNs are simpler than multi-layered RNNs, making the training process for RBFNNs generally faster than that of an RNN.\@ Secondly, and most importantly, as stated by~\citeauthor{xie2011comparison}, is the difference in how the RBFNN and RNN classifies the data: the RBFNN data clusters are separated by a hyper sphere, whereas RNNs use arbitrarily shaped hyper surfaces. See Figure~\ref{fig:chap2-classifier} for a visualisation of these class separation strategies. This makes RBFNNs an attractive option to interpolate multidimensional data.
 
 \begin{figure*}
   \centering
@@ -255,13 +255,13 @@ Despite belonging to the same family of ANN, there are a number of significant d
 \label{fig:chap2-classifier}
 \end{figure*}
 
-\citeauthor{xie2011comparison} further determined that RBFNs are well suited to interpolate noisy data where the data surfaces contain regular valleys and peaks. In contrast, normal ANNs and RNNs are more efficient for classification problems and for well-conditioned, regularly spaced data. 
+\citeauthor{xie2011comparison} further determined that RBFNNs are well suited to interpolate noisy data where the data surfaces contain regular valleys and peaks. In contrast, normal ANNs and RNNs are more efficient for classification problems and for well-conditioned, regularly spaced data. 
 
 As described by~\cite{skala2012radial}, the function on each node is given by 
 
 \begin{equation}
   \label{eq:chap2-rbf}
-  f(\bm{x}_i) = \sum\limits_{j = 1}^{N}\lambda_j \phi(|| \bm{x}_i - \bm{x}_j ||).
+  f(\bm{x}_i) = \sum\limits_{j = 1}^{M}\lambda_j \phi(|| \bm{x}_i - \bm{x}_j ||).
 \end{equation}
 Therein, $\lambda_j$ is the node weighting factor and $\bm{x}_j$ are the kernel centres which are determined during the model training phase. The function $\phi$ is the radial function of the euclidian norm of the distance between the node centre and the input vector. This radial function is variable and the designer can select the function which best describes the data, although a Gaussian radial function, i.e.\ $\phi(\bm{r}_{ij}) = e^{-(\frac{\bm{r}_{ij}}{\epsilon})^2}$, $\bm{r}_{ij} = || \bm{x}_i - \bm{x}_j ||$, is commonly used.  
 

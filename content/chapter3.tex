@@ -265,13 +265,13 @@ The next step is then to determine the constant perceived offset for a given foc
 
 \begin{equation}
   \label{eq:chap3-eq1-offset}
-  N\bar{\bm{P}} = \sum\limits_{i=1}^N \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^N(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i}) + \sum\limits_{i=1}^N\bm{\epsilon}_i.
+  M\bar{\bm{P}} = \sum\limits_{i=1}^M \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^M(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i}) + \sum\limits_{i=1}^M\bm{\epsilon}_i.
 \end{equation}
-In Equation~\ref{eq:chap3-eq1-offset}, $i$ is the pose vector sample number and $N$ the number of samples in the data set. At this point, it is assumed that the error vector $\bm{\epsilon}$ has a mean of zero, eliminating its sum and leading to Equation~\ref{eq:chap3-eq2-offset}. This assumption is made in the hope that the CVS will on average produce a small error and is verified in Section~\ref{sec:err-norm-test}. 
+In Equation~\ref{eq:chap3-eq1-offset}, $i$ is the pose vector sample number and $M$ the number of samples in the data set. At this point, it is assumed that the error vector $\bm{\epsilon}$ has a mean of zero, eliminating its sum and leading to Equation~\ref{eq:chap3-eq2-offset}. This assumption is made in the hope that the CVS will on average produce a small error and is verified in Section~\ref{sec:err-norm-test}. 
 
 \begin{equation}
   \label{eq:chap3-eq2-offset}
-  \bar{\bm{P}} = \frac{1}{N} \left (\sum\limits_{i=1}^N \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^N(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})\right)
+  \bar{\bm{P}} = \frac{1}{M} \left (\sum\limits_{i=1}^M \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^M(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})\right)
 \end{equation}
 Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error $\bm{\epsilon}$ from Equation~\ref{eq:chap3-pose} by varying the focal lengths $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the vector's two-norm. The optimisation is based only on the three position dimensions since it was found that the orientation dimensions contain a large amount of noise and including them added too much variability to the procedure, leading to instability. Figure~\ref{fig:chap3-bad-optimisation} demonstrates this by comparing two images taken during the Vicon test: one using the optimum focal length calculated using only the position dimensions and the other using all six dimensions. 
 

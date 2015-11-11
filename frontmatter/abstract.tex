@@ -1,22 +1,22 @@
 \begin{abstract}[english]%===================================================
-The quadcopter unmanned aerial vehicles (UAVs) industry is a fast-growing and maturing industry which produces `dumb', or manually controlled UAVs, or vehicles capable of autonomously carrying out a flight mission without a human pilot. Industry is becoming increasingly interested in brining quadcopters into their respective workforces to automate some processes. However, national governments are worried that if left unregulated, UAV quadcopters may pose a threat to society, particularly if they are to work autonomously in the outdoors. 
+The quadcopter industry is a fast-growing and maturing industry which produces `dumb' (or manually controlled) unmanned aerial vehicles (UAVs). They are also commonly equipped with controllers which make them able to autonomously carry out a flight mission without a human pilot. Industry is becoming increasingly interested in integrating quadcopters into their respective workforces in an attempt to automate some processes. However, national governments are worried that if left unregulated, UAV quadcopters may pose a safety and security threat to society, particularly if they are to work autonomously in the outdoors. 
 
-There are a number of improvements that can be made to increase the safety of quadcopters. This research project investigates how well quadcopters can estimate their position and orientation, or pose. If this value is known, it can be integrated into a control model as an error term to improve the performance and safety rating of a quadcopter. 
+There are a number of improvements that can be made to increase the safety of quadcopters. This research project investigates how well quadcopters can estimate their position and orientation, or pose. If this is known, it can be integrated into a control model as an error term to improve the performance and safety rating of a quadcopter. 
 
-Indoor measurement tools could not be used, since the quadcopters of interest rely on GPS data, so in this project, a computer vision-based (CV) pose measurement system was investigated, designed and implemented to measure the pose of a quadcopter in the outdoors. The system's measurements were compared to a quadcopter's pose estimates, recorded in an outdoor test flight.
+Indoor measurement tools cannot be used, since the quadcopters of interest rely on GPS data. Therefore, in this project a computer vision-based (CV) pose measurement system was investigated, designed and implemented to measure the pose of a quadcopter in the outdoors. The system's measurements were compared to a quadcopter's pose estimates, recorded during an outdoor test flight.
 
 The results are that the quadcopter's pose estimates are more accurate than the CV system's. However, other pose error measures for an outdoor quadcopter are not available. Therefore, the measurement error of the CV system can be taken as a worst-case error measure for the quadcopter's pose estimates as well. This gives a result that can be used and integrated into a quadcopter's control model. 
 
 \end{abstract}
 
 \begin{abstract}[afrikaans]%=================================================
-Die vierbeen onbemandevliegtuigbedryf is snelgroeiende industrie wat vliegtuie produseer wat met die hand of heeltemal outonoom, sonder 'n menslike vlie\"{e}nier se inset, 'n vlugopdrag kan voltooi. Industrie stel al meer belang daarin om sulke onbemande vliegtuie in hul werksmag te integreer om prosesse tot 'n mate to outomeer. W\^{e}reldsregerings is egter bekommerd dat indien die onbemandeveliegtuigbedryf ongereguleerd gelaat word, dat sulke vliegtuie 'n gevaar sal inhou vir die samelweing, veral as hulle gelaat word om in die buitelug te werk.  
+Die vierbeen onbemandevliegtuigbedryf is snelgroeiende industrie wat vliegtuie produseer wat met die hand of heeltemal outonoom, sonder 'n menslike vlie\"{e}nier se inset, 'n vlugopdrag kan voltooi. Industrie stel toenemend belang daarin om sulke onbemande vliegtuie in hul werksmag te integreer om prosesse tot 'n mate to outomeer. W\^{e}reldsregerings is egter bekommerd dat indien die onbemandeveliegtuigbedryf ongereguleerd gelaat word, sulke vliegtuie 'n gevaar sal inhou vir die samelweing, veral as hulle gelaat word om outonoom in die buitelug te werk.
 
-Daar is verskeie verbeterings wat gemaak kan word aan die tegnologie om die veiligheid te verhoog. Hierdie navorsingsprojeck stel ondersoek in om vas te stel hoe akkuraat 'n onbemande vliegtuig sy posisie en ori\"{e}ntasie kan afskat. Indien hierdie waarde bekend is, kan dit ge\"{i}tegreer word in 'n beheermodel om so 'n vliegtuig se werkverrigting en veiligheid te verbeter. 
+Daar is verskeie verbeterings wat gemaak kan word om die tegnologie se veiligheid te verhoog. Hierdie navorsingsprojeck stel ondersoek in om vas te stel hoe akkuraat 'n onbemande vliegtuig sy posisie en ori\"{e}ntasie kan afskat. Indien hierdie waarde bekend is, kan dit ge\"{i}tegreer word in 'n beheermodel om so 'n vliegtuig se werkverrigting en veiligheid te verhoog. 
 
 Binnemuurse meetinstrumente kan nie gebruik word hier nie, aangesien die onbemande vliegtuie van hierdie projek staatmaak op hul GPS lesings. Dus, in hierdie projek is daar 'n rekenaarvisiestelsel ontwerp, getoets en ge\"{i}mplimenteer om 'n vierbeen helikopter se posisie af te skat in die buitelug. Die vierbeen helikopter se afskattingsakkuraatheid was dan gevind deur sy afskatting te vergelyk met di\'{e} van die rekenaarvisiestelsel in 'n buitemuurse vlugtoets.
 
-Die resultate toon dat die vierbeen helikopter se posisieafksattings meer akkuraat is as di\'{e} van die rekenaarvisiestelsel. Ander akkuraatheidsmaatstawe is egter nie beskikbaar nie. Dus kan die metingsfout van die rekenaarvisiestelsel geneem word as die vierbeen helikopter se slegste moontlike metingsfout. Dit gee 'n resultaat wat gebruik en ge\"{i}ntegreer kan word in 'n vierbeen helikopter se beheermodel.
+Die resultate toon dat die vierbeen helikopter se posisieafksattings meer akkuraat is as di\'{e} van die rekenaarvisiestelsel. Ander akkuraatheidsmaatstawe is egter nie beskikbaar nie. Die metingsfout van die rekenaarvisiestelsel kan dus geneem word as die vierbeen helikopter se slegste moontlike metingsfout. Dit gee 'n resultaat wat gebruik en ge\"{i}ntegreer kan word in 'n vierbeen helikopter se beheermodel.
 
 \end{abstract}
 
@@ -35,7 +35,7 @@ Besides my supervisor, Dr. WJ Smit, I would like to thank STERG for the opportun
 \vfill
 \begin{Afr}
   \begin{center}\itshape%
-    Ek dra hierdie tesis op na my ouers, broers, Jay, en hulle onwrikbare liefde en ondersteuning, waarsonder ek nie wees waar ek vandag is nie. 
+    Ek dra hierdie tesis op na my ouers, broers, Jay, en hulle onwrikbare liefde en ondersteuning, waarsonder ek nie sou wees waar ek vandag is nie. 
   \end{center}
 \end{Afr}
 \vfill

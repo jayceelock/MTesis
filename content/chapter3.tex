@@ -344,13 +344,13 @@ Several sets of data were produced during the data processing phase. The results
 
 \subsection{Evidence of Convergence}
 
-To show that the optimisation procedure worked as expected, minimising the error in each pose dimension, the error after each iteration of the procedure is plotted. These plots are given in Figure~\ref{fig:err-convergence} and shows the error over 15 iterations of optimisation.  
+To show that the optimisation procedure worked as expected, minimising the error in each dimension, the error after each iteration of the process is plotted. These plots are given in Figure~\ref{fig:err-convergence} and shows the error over 15 iterations of the optimisation procedure.  
 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 60 0 140 0, width=\textwidth]{figures/chapter3/err_x}
+      \includegraphics[clip, trim = 60 0 140 20, width=\textwidth]{figures/chapter3/err_x}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
       \includegraphics[clip, trim = 60 0 140 0, width=\textwidth]{figures/chapter3/err_y}
@@ -360,6 +360,7 @@ To show that the optimisation procedure worked as expected, minimising the error
     \end{subfigure}
     \caption{Error convergence plots for the position dimensions.}
   \end{subfigure}
+  ~
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
       \includegraphics[clip, trim = 100 0 120 0, width=\textwidth]{figures/chapter3/err_roll}
@@ -376,16 +377,16 @@ To show that the optimisation procedure worked as expected, minimising the error
   \label{fig:err-convergence}
 \end{figure*}
 
-The graphs in Figure~\ref{fig:err-convergence} show that the error gets reduced in the $x$ and $z$ dimensions, while it gets slightly worse in the $y$ dimension and remains largely unchanged in all of the orientation dimensions. 
+The graphs of Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$ and $z$ dimensions, while it increases slightly in the $y$ dimension and remains largely unchanged in all of the orientation dimensions. 
 
-The errors in the orientation dimensions remain unchanged since it was opted not to give them any weight in the optimisation process. However, it can be seen that in iteration number 6, the $roll$, $pitch$ and $z$ dimensions experience a dramatic reduction in their error norm, while the other dimensions experience a spike. Since it happens only for a single iteration, it can be considered an anomaly within the optimisation procedure which gets reversed with the next iteration. It is most likely that the error got stuck in a local minimum for that single iteration.  
+The errors in the orientation dimensions remain unchanged since it was opted not to give them any weight in the optimisation process. However, it can be seen that in iteration number 6, the $roll$, $pitch$ and $z$ dimensions experience a dramatic reduction in their error norm, while the other dimensions experience a spike. Since it happens only for a single iteration, it can be considered an anomaly within the optimisation procedure which is corrected  with the next iteration. It is most likely that the error got stuck in a local minimum for that single iteration.  
 
 From Figure~\ref{fig:err-convergence} it can be concluded that the optimisation procedure does indeed converge, albeit very slowly. 
 
 \subsection{Test for Zero Average Error}
 \label{sec:err-norm-test}
 
-To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mean value as assumed in Equation~\ref{eq:chap3-eq2-offset}, a $\chi^2$ (chi-squared) test could have been used. However, it was found that the sample size of the data set was too large, where the large number of samples can lead to the $\chi^2$ test to think the data contains skewness and it is known that skewness in the data can have a large impact on the $\chi^2$ probability estimate~\citep{wackerly2007mathematical}. Therefore, a graphical approach was taken. This was done by drawing frequency histograms of the error matrix $\bm{\epsilon}$ in all six dimensions, along with a normal distributions drawn using each dimension's mean and standard deviation. This is done to check if the error data is normally distributed, since this will allow additional tools to be used and justify future assumptions. The plots are given in Figure~\ref{fig:err-norm}.
+To verify whether the error in $\bm{\epsilon}$ is indeed distributed around a zero mean value as assumed in Equation~\ref{eq:chap3-eq2-offset}, a $\chi^2$ (chi-squared) test could have been used. However, it was found that the sample size of the data set was too large, where the large number of samples can mislead the $\chi^2$ test to believe the data contains skewness and it is known that skewness in the data can have a large impact on the $\chi^2$ probability estimate~\citep{wackerly2007mathematical}. Therefore, a graphical approach was taken. This was done by drawing frequency histograms of the error, $\bm{\epsilon}$, in all six dimensions, along with a normal distributions drawn using each dimension's mean and standard deviation. This is done to check if the error data is normally distributed, since this will allow additional tools to be used and justify future assumptions. The plots are given in Figure~\ref{fig:err-norm}.
 
 \begin{figure*}
   \begin{subfigure}{0.48\textwidth}
@@ -394,7 +395,7 @@ To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mea
   \end{subfigure}
 ~
   \begin{subfigure}{0.48\textwidth}
-     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_roll.pdf}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_roll}
      \caption{$\mu = $ 2 mili-degrees, $\sigma = \ang{8.6}$.}
   \label{fig:norm-roll}
   \end{subfigure}
@@ -406,19 +407,19 @@ To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mea
   \end{subfigure}
 ~
   \begin{subfigure}{0.48\textwidth}
-     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_pitch.pdf}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_pitch}
      \caption{$\mu = $ 3.8 mili-degrees, $\sigma = \ang{10}$.}
   \label{fig:norm-pitch}
   \end{subfigure}
 
   \begin{subfigure}{0.48\textwidth}
-     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_z.pdf}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_z}
      \caption{$\mu = \SI{1.31}{\mm}$, $\sigma = \SI{32.5}{\mm}$.}
   \label{fig:norm-z}
   \end{subfigure}
 ~
 \begin{subfigure}{0.48\textwidth}
-     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_yaw.pdf}
+     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_yaw}
      \caption{$\mu = $ 0.14 mili-degrees, $\sigma = \ang{9.73}$. }
   \label{fig:norm-yaw}
   \end{subfigure}
@@ -426,13 +427,13 @@ To check if the error in $\bm{\epsilon}$ is indeed distributed around a zero mea
   \label{fig:err-norm}
 \end{figure*}
 
-From Figure~\ref{fig:err-norm} it can be seen that all the plots are roughly centred around zero and are very nearly normally distributed. The $z$ dimension displays the largest standard deviation of approximately $\SI{32.2}{\mm}$ followed closely by the $x$ dimension's error. The reason behind this are the bad depth estimates that a single camera system provides. The standard deviations of the other dimensions are within the range that was expected of the system. However, at first glance, the CVS's does not seem to be as accurate as hoped. 
+From Figure~\ref{fig:err-norm} it can be seen that all the plots are roughly centred around zero and are very nearly normally distributed. The $z$ dimension displays the largest standard deviation of approximately $\SI{32.2}{\mm}$ followed closely by the $x$ dimension. The reason behind this are the bad depth estimates that a single camera system provides. The standard deviations of the other dimensions are within the range that was expected of the system. However, at first glance, the CVS's does not seem to be as accurate as initially hoped. 
 
-In all, the frequency histogram and normal distribution plots of the errors in Figure~\ref{fig:err-norm} show that the assumption made in Equation~\ref{eq:chap3-eq2-offset} (that the errors are distributed around zero) is indeed a valid one. Furthermore, the error data looks to be roughly normally distributed. 
+In all, the frequency histogram and normal distribution plots of the errors in Figure~\ref{fig:err-norm} show that the assumption made in Equation~\ref{eq:chap3-eq2-offset} (that the errors are distributed around zero) is indeed a valid one. Furthermore, the error data looks to be roughly normally distributed allowing other statistical tools to be used on the data set. 
 
 \subsection{Optimum Focal Lengths and Offset}
 
-As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $f_x$ and $f_y$ were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset, $\bar{\bm{P}}$, was found to be 
+As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $\hat{f}_x$ and $\hat{f}_y$, were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset, $\bar{\bm{P}}$, was found to be 
 
 \begin{equation}
   \label{eq:chap3-offset-value}
@@ -441,9 +442,9 @@ As a result of the focal length and offset optimisation procedure, the optimal f
     \SI{283.8}{\mm} & \SI{56.16}{\mm} & \SI{-57.44}{\mm} & \ang{179.8} & \ang{-1.305} & \ang{-178.8}
   \end{bmatrix}^T.
 \end{equation}
-The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed rotating to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension is initially surprising, since this indicates there was a large constant level of error bias introduced in the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
+The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed to be rotated to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension was surprising initially, since this indicated that there was a large constant level of error bias introduced to the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
 
-All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised) for a focal length combination of 694 for $f_x$ and 701 for $f_y$, showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
+All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
 
 \begin{figure}
   \centering
@@ -478,7 +479,7 @@ All of the above produce an error two-norm of approximately 1.01 (normalised), c
   \label{fig:estimate-yaw}
 \end{figure}
 
-It can be seen that there is some improvement in all the dimensions. However, in some cases the improvement in one section of the data set, is negated by worse estimates in another. This can be attributed to the optimisation process, where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $roll$ dimension. However, as the reduction in the two-norm magnitude of the error proves, there is an overall reduction in the error with the optimised data set. It can therefore be concluded that the optimisation procedure did indeed function as expected, producing a focal length combination which led to a more accurate pose estimate from the CVS. 
+It can be seen that there is some improvement in all of the dimensions. However, in some cases the improvement in one section of the data set is negated by worse estimates in another. This can be attributed to the optimisation process, where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $roll$ dimension. However, as the reduction in the two-norm magnitude of the error proves, there is an overall reduction in the error with the optimised data set. It can therefore be concluded that the optimisation procedure did indeed function as expected, producing a focal length combination which led to a more accurate pose estimate from the CVS. 
 
 \subsection{Computer Vision System Accuracy}
 
@@ -488,6 +489,12 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
   \label{eq:covariance-matrix}
   \Sigma = 
   \begin{bmatrix}
+    %\bm{2.1\e{-3}} &  1.4\e{-6}      &  6.4\e{-5}       &  2.5\e{-1}      &  5.5\e{-2}    &  -1.9\e{-1}      \\ 
+    %1.4\e{-6}      &  \bm{2.6\e{-4}} &  2.5\e{-4}       &  -3.4\e{-2}     &  3.5\e{-2}    &   1.3\e{-1}      \\
+    %6.4\e{-5}      &  2.5\e{-4}      &  \bm{1.1\e{-3}}  &  -4.3\e{-2}     &  1.7\e{-2}    &  -3.7\e{-3}      \\
+    %2.3\e{-1}      &  -4.3\e{-2}     &  -4.4\e{-2}      &  \bm{7.3\e{1}}  &  5.1\e{1}     &  -2.1\e{1}       \\
+    %5.5\e{-2}      &  1.6\e{-2}      &  1.7\e{-2}       &   5.1\e{1}      &  \bm{1\e{2}}  &  8.8\e{-1}       \\
+    %-1.8\e{-1}     &  -3.7\e{-3}     &  -3.7\e{-3}      &   -2.1\e{1}     &  8.8\e{-1}    &  \bm{9.5\e{10}}  \\
     \bm{2.1\e{-3}} & 1.4\e{-6}      & 6.4\e{-5}       & 2.3\e{-1}     &  5.5\e{-2}   & -1.8\e{-1}     \\ 
     1.4\e{-6}      & \bm{2.6\e{-4}} & 2.5\e{-4}       & -4.3\e{-2}    &  1.6\e{-2}   & -3.7\e{-3}     \\
     6.4\e{-5}      & 2.5\e{-4}      & \bm{1.1\e{-3}}  & -4.4\e{-2}    &  1.7\e{-2}   & -3.7\e{-3}     \\
@@ -496,7 +503,7 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
     -1.9\e{-1}     & 1.3\e{-1}      & -3.7\e{-3}      & -2.1\e{1}     &  8.8\e{-1}   & \bm{9.5\e{10}} \\
   \end{bmatrix}.
 \end{equation}
-The matrix $\Sigma$ shows that there are large off-diagonal elements, indicating that there is strong interdimensional dependence. This dependence is further demonstrated when examining the change in the error in a dimension with respect to the other dimensions. This is demonstrated by the contour plots of Figure~\ref{fig:err-contour}. 
+The matrix $\Sigma$ displays large off-diagonal elements, indicating that there is strong interdimensionally dependant relationships. This dependence is further demonstrated when examining the change in a dimension's error with respect to the other dimensions, demonstrated by the contour plots of Figure~\ref{fig:err-contour}. 
 
 \begin{figure*}
   \centering
@@ -529,13 +536,10 @@ The matrix $\Sigma$ shows that there are large off-diagonal elements, indicating
   \label{fig:err-contour}
 \end{figure*}
 
-From Figure~\ref{fig:err-contour} it can be seen that the error in a dimension varies when the two other pose dimensions changes. 
-
-These plots, as well as the covariance matrix, $\Sigma$, show that there is no clear indication on the accuracy of the CVS, since its a function of the pose of the calibration board relative to the CVS's camera. 
+It can be seen from Figure~\ref{fig:err-contour} that the error in a dimension varies when the two other pose dimensions change. These plots, as well as the covariance matrix $\Sigma$, shows that there is no clear indication on the CVS's accuracy, since it is a function of the pose of the calibration board relative to the CVS's camera. 
 
 \section{Conclusion}
 
-In this chapter, the design and layout of a computer vision measurement system (CVS) was discussed. The system consists of hardware and software components and the details of both were discussed. The system was tested in an indoor measurement facility to determine its measurement accuracy. With the ground-truth measurements produced by this indoor system, it was possible to optimise the intrinsic camera parameters and improve the pose data from the CVS.
+In this chapter, the design and layout of a computer vision measurement system (CVS) was discussed. The system consists of hardware and software components and the details of both were discussed. The system was tested in an indoor measurement facility to determine its measurement accuracy. With the ground-truth measurements produced by this indoor system, it was possible to optimise the intrinsic camera parameters and improve the accuracy of the CVS's pose measurement data.
 
 The CVS's pose measurement error is not constant over all of the poses and it is therefore necessary to model this error as a function of the calibration board's pose relative to the CVS's camera. 
-%It was shown that the error data is a function of the pose of the calibration board relative to the CVS's camera. This constant error variation makes difficult to determine the measurement accuracy of a sample pose vector from the CVS.\@ The measurement accuracy of the CVS is very important and cannot be ignored. Therefore, another approach to determine the measurement accuracy was taken and was investigated. 

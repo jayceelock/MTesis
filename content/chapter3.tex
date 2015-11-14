@@ -170,7 +170,7 @@ The CVS configuration used during the Vicon test is the exact same as the one de
 
 Before the test, the CVS's camera was calibrated to determine its intrinsic parameters, including its focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the Vicon test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera and roughly 15 still images at a resolution of $640\times480$ pixels were taken. All of the test video data was captured at this resolution. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of approximately 0.21 pixel units. 
 
-This project is an initial study into using low-cost cameras to make pose measurements and involved much video processing. It was found that HD video data ($720\times1280$ for the CVS's webcam) produced marginally more accurate pose measurements. However, it was opted to capture video data at a lower resolution of $640\times480$ to increase the speed at which pose data is extracted from the video data. For example, a single HD image takes approximately SIT TYD IS VAN OPTIMISE\_FOCAL.PY, HD video data can be used for measurements at the conclusion of this project. 
+This project is an initial study into using low-cost cameras to make pose measurements and involved much video processing. It was found that HD video data ($720\times1280$ for the CVS's webcam) produced marginally more accurate pose measurements. However, it was opted to capture video data at a lower resolution of $640\times480$ to increase the speed at which pose data is extracted from the video data. For example, a single run of the optimisation procedure (discussed in more detail later) using HD video data takes approximately 6.5 hours, while the SD run takes less than 2 hours to complete. Since these data extraction scripts were run multiple times during the CVS's design and testing, using SD video data led to large time savings. HD video data can be used for measurements at the conclusion of this project after the CVS has been finalised.  
 
 During the test, the CVS camera was placed in a stable aluminium frame and left untouched throughout the test. The laptop was set to capture video at $640\times480$ pixels, while zoom and autofocus was disabled to keep the camera's focal length constant. Data extraction and pose estimation took place off-line. 
 
@@ -391,36 +391,36 @@ To verify whether the error in $\bm{\epsilon}$ is indeed distributed around a ze
 \begin{figure*}
   \begin{subfigure}{0.48\textwidth}
     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_x}
-    \caption{$\mu = \SI{-8.89}{\micro \m}$, $\sigma = \SI{29.3}{\mm}$.}
+    \caption{$\mu = \SI{-0.556}{\mm}$, $\sigma = \SI{32.5}{\mm}$.}
   \end{subfigure}
 ~
   \begin{subfigure}{0.48\textwidth}
      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_roll}
-     \caption{$\mu = $ 2 mili-degrees, $\sigma = \ang{8.6}$.}
+     \caption{$\mu = \ang{0.251}$, $\sigma = \ang{3.27}$.}
   \label{fig:norm-roll}
   \end{subfigure}
 
   \begin{subfigure}{0.48\textwidth}
      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_y}
-     \caption{$\mu = \SI{-10.1}{\micro \m}$, $\sigma = \SI{16.7}{\mm}$.}
+     \caption{$\mu = \SI{0.207}{\mm}$, $\sigma = \SI{12.6}{\mm}$.}
   \label{fig:norm-y}
   \end{subfigure}
 ~
   \begin{subfigure}{0.48\textwidth}
      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_pitch}
-     \caption{$\mu = $ 3.8 mili-degrees, $\sigma = \ang{10}$.}
+     \caption{$\mu = \ang{0.914}$, $\sigma = \ang{5.99}$.}
   \label{fig:norm-pitch}
   \end{subfigure}
 
   \begin{subfigure}{0.48\textwidth}
      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_z}
-     \caption{$\mu = \SI{1.31}{\mm}$, $\sigma = \SI{32.5}{\mm}$.}
+     \caption{$\mu = \SI{-0.253}{\mm}$, $\sigma = \SI{20.8}{\mm}$.}
   \label{fig:norm-z}
   \end{subfigure}
 ~
 \begin{subfigure}{0.48\textwidth}
      \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_yaw}
-     \caption{$\mu = $ 0.14 mili-degrees, $\sigma = \ang{9.73}$. }
+     \caption{$\mu = \ang{0.320}$, $\sigma = \ang{8.11}$. }
   \label{fig:norm-yaw}
   \end{subfigure}
   \caption[Frequency histograms of the error data in each dimension.]{Frequency histograms of the error data in each dimension. Each dimension's mean value ($\mu$) and standard deviation ($\sigma$) is given in the captions. }
@@ -485,22 +485,23 @@ It can be seen that there is some improvement in all of the dimensions. However,
 
 Determining the accuracy of a multi-dimensional data model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it is possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix are sufficiently small relative to the diagonal elements, it can be assumed that the dimensions are strong enough independent of one another. The covariance matrix, $\Sigma$, is given by  
 
+\setlength{\arraycolsep}{3pt}
 \begin{equation}
   \label{eq:covariance-matrix}
   \Sigma = 
   \begin{bmatrix}
-    %\bm{2.1\e{-3}} &  1.4\e{-6}      &  6.4\e{-5}       &  2.5\e{-1}      &  5.5\e{-2}    &  -1.9\e{-1}      \\ 
-    %1.4\e{-6}      &  \bm{2.6\e{-4}} &  2.5\e{-4}       &  -3.4\e{-2}     &  3.5\e{-2}    &   1.3\e{-1}      \\
-    %6.4\e{-5}      &  2.5\e{-4}      &  \bm{1.1\e{-3}}  &  -4.3\e{-2}     &  1.7\e{-2}    &  -3.7\e{-3}      \\
-    %2.3\e{-1}      &  -4.3\e{-2}     &  -4.4\e{-2}      &  \bm{7.3\e{1}}  &  5.1\e{1}     &  -2.1\e{1}       \\
-    %5.5\e{-2}      &  1.6\e{-2}      &  1.7\e{-2}       &   5.1\e{1}      &  \bm{1\e{2}}  &  8.8\e{-1}       \\
-    %-1.8\e{-1}     &  -3.7\e{-3}     &  -3.7\e{-3}      &   -2.1\e{1}     &  8.8\e{-1}    &  \bm{9.5\e{10}}  \\
-    \bm{2.1\e{-3}} & 1.4\e{-6}      & 6.4\e{-5}       & 2.3\e{-1}     &  5.5\e{-2}   & -1.8\e{-1}     \\ 
-    1.4\e{-6}      & \bm{2.6\e{-4}} & 2.5\e{-4}       & -4.3\e{-2}    &  1.6\e{-2}   & -3.7\e{-3}     \\
-    6.4\e{-5}      & 2.5\e{-4}      & \bm{1.1\e{-3}}  & -4.4\e{-2}    &  1.7\e{-2}   & -3.7\e{-3}     \\
-    2.5\e{-1}      & -3.4\e{-2}     & -4.3\e{-2}      & \bm{7.3\e{1}} &  5.1\e{1}    & -2.1\e{1}      \\
-    5.5\e{-2}      & 3.5\e{-2}      & 1.7\e{-2}       & 5.1\e{1}      &  \bm{1\e{2}} & 8.8\e{-1}      \\
-    -1.9\e{-1}     & 1.3\e{-1}      & -3.7\e{-3}      & -2.1\e{1}     &  8.8\e{-1}   & \bm{9.5\e{10}} \\
+    %\bm{2.1\e{-3}} & 1.4\e{-6}      & 6.4\e{-5}       & 2.3\e{-1}     &  5.5\e{-2}   & -1.8\e{-1}     \\ 
+    %1.4\e{-6}      & \bm{2.6\e{-4}} & 2.5\e{-4}       & -4.3\e{-2}    &  1.6\e{-2}   & -3.7\e{-3}     \\
+    %6.4\e{-5}      & 2.5\e{-4}      & \bm{1.1\e{-3}}  & -4.4\e{-2}    &  1.7\e{-2}   & -3.7\e{-3}     \\
+    %2.5\e{-1}      & -3.4\e{-2}     & -4.3\e{-2}      & \bm{7.3\e{1}} &  5.1\e{1}    & -2.1\e{1}      \\
+    %5.5\e{-2}      & 3.5\e{-2}      & 1.7\e{-2}       & 5.1\e{1}      &  \bm{1\e{2}} & 8.8\e{-1}      \\
+    %-1.9\e{-1}     & 1.3\e{-1}      & -3.7\e{-3}      & -2.1\e{1}     &  8.8\e{-1}   & \bm{9.5\e{10}} \\
+    \bm{1.05\e{-3}}  &  2.10\e{-4}       &  8.91\e{-6}       &  4.64\e{-2}       &  4.14\e{-2}      &  2.06\e{-2}  \\
+    2.10\e{-4}       &  \bm{1.60\e{-4}}  &  7.31\e{-5}       &  9.12\e{-3}       &  3.30\e{-2}      & -1.66\e{-2}  \\
+    8.91\e{-4}       &  7.31\e{-5}       &  \bm{4.32\e{-4}}  & -2.39\e{-3}       &  3.25\e{-2}      & -8.08\e{-3}  \\
+    4.64\e{-2}       &  9.11\e{-3}       & -2.39\e{-3}       &  \bm{-1.07\e{1}}  &  7.22\e{0}       &  1.26\e{0}   \\
+    4.14\e{-2}       &  3.30\e{-2}       &  3.34\e{-2}       &  7.22\e{0}        &  \bm{3.59\e{1}}  &  2.91\e{0}   \\
+    2.06\e{-2}       &  1.66\e{-2}       & -8.08\e{-3}       &  1.26\e{0}        &  2.91\e{0}       &  6.59\e{1}   \\
   \end{bmatrix}.
 \end{equation}
 The matrix $\Sigma$ displays large off-diagonal elements, indicating that there is strong interdimensionally dependant relationships. This dependence is further demonstrated when examining the change in a dimension's error with respect to the other dimensions, demonstrated by the contour plots of Figure~\ref{fig:err-contour}. 
@@ -509,26 +510,26 @@ The matrix $\Sigma$ displays large off-diagonal elements, indicating that there 
   \centering
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_x}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_x}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_y}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_y}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_z}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_z}
     \end{subfigure}
     \caption{Error contour plots for the position dimensions. Units in m.}
   \end{subfigure}
   ~
   \begin{subfigure}{0.48\textwidth}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_roll}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_roll}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_pitch}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_pitch}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 70 0 190 0, width=\textwidth]{figures/chapter3/contour_yaw}
+      \includegraphics[clip, trim = 20 0 150 0, width=\textwidth]{figures/chapter3/contour_yaw}
     \end{subfigure}
     \caption{Error contour plots for the orientation dimensions. Units in \textdegree.}
   \end{subfigure}

@@ -7,13 +7,13 @@ The main objective of this research project is to determine the pose estimation 
 
 In Chapter~\ref{chap3}, a computer vision pose measurement system (CVS) was designed and tested and its pose measurement error was determined. It was found that the measurement data produced by the CVS is complex, high dimensional and interdimensionally dependant, as shown by the covariance matrix of Equation~\ref{eq:covariance-matrix}. This makes it hard to estimate the measurement error for any given pose measurement vector produced by the CVS.\@ 
 
-Neural networks excel at detecting underlying relationships within data if they are properly designed and trained. In Chapter~\ref{chap4} a radial basis function neural network (RBFNN) was trained to be able to do this, since they have been proven to work well with complex, noisy and non-linear data. The accuracy of the trained RBFNN was verified by an additional data set and is ready to be used in a flight test with a quadcopter. 
+Neural networks excel at detecting underlying relationships within data if they are properly designed and trained. Radial basis function neural networks (RBFNN) have been shows to work well with noisy, complex and non-linear data and in Chapter~\ref{chap4} two RBFNNs were trained to be able to estimate the CVS's measurement error. The accuracy of the trained RBFNNs were verified by an additional data set and they are ready to be used in a flight test with a quadcopter. 
 
-The trained RBFNN was used with data gathered from a test flight from a quadcopter. This chapter sets out to discuss the design and details of the flight tests that were conducted, including the testing procedure, conditions and data processing. Then the results are presented and discussed, followed by a brief discussion on the data and results gathered thus far. 
+The trained RBFNNs were used with data gathered from a test flight from a quadcopter. This chapter sets out to discuss the design and details of the flight tests that were conducted, including the testing procedure, conditions and data processing. Then the results are presented and discussed, followed by a brief discussion on the data and results gathered thus far. 
 
 \section{Flight Test Design and Procedure}
 
-Work was done to ensure that the flight tests were performed where it would produce meaningful results without posing a safety risk to surrounding bystanders and equipment. This section discusses the planning that went into the flight test,, as well as the equipment that was used. It also describes the test location and procedure, as well as the data processing involved.  
+Work was done to ensure that the flight tests were performed where it would produce meaningful results without posing a safety risk to surrounding bystanders and equipment. This section discusses the planning that went into the flight test, as well as the equipment that was used. It also describes the test location and procedure, as well as the data processing involved.  
 
 \subsection{Flight Test Design}
 
@@ -125,6 +125,8 @@ The CVS's camera captures video data at 30 frames per second, while the Pixhawk 
 
 Since the CVS's data was recorded at a reliable, steady rate of 30 Hz, a zero-order-hold was applied to the CVS's data to synchronise it with the quadcopter's data set. This was done by keeping a value in the CVS data set constant until the next timestamp in the quadcopter data set is reached. At this point, the CVS's data is updated to value it has at that time and is held constant until the next timestamp is reached. This process simultaneously downsamples and synchronises the CVS data.  
 
+Both data sets were recorded on the same laptop, and therefore share a common time source. However, their start and end points differ. To synchronise these points, the creation time of the video file was used as a start point and cut off at the frame the quadcopter started streaming data. The video was cut at the timestamp of the quadcopter's final data packet. 
+
 \subsubsection{Data Centering}
 \label{sec:chap5-data-centring}
 
@@ -189,7 +191,7 @@ The position values roughly coincide with the conditions that were recorded on s
 
 Several different flight tests were conducted with different flight conditions. However, for convenience, only the results from the $\SI{1}{\m}$ altitude and $\ang{0}$ yaw case are presented and discussed. There is nothing special about this case and the data results from all the flight tests produce roughly the same results.  
 
-Before the flight test data was fed to the RBFNN, it was first checked that the test data fell within the training data limits. This is done to ensure that the RBFNN is not exposed to data it was not trained for and produce inaccurate results. Figure~\ref{fig:chap5-ts-tr-scatter} shows scatter plots for the test and training data dimensions and shows that the test data falls comfortably within the training data set limits.  
+Before the flight test data was fed to the RBFNNs, it was first checked that the test data fell within the training data limits. This is done to ensure that the RBFNN is not exposed to data it was not trained for and produce inaccurate results. Figure~\ref{fig:chap5-ts-tr-scatter} shows scatter plots for the test and training data dimensions and shows that the test data falls comfortably within the training data set limits.  
 
 \begin{figure*}
   \centering
@@ -247,9 +249,15 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
 \label{fig:chap5-results}
 \end{figure*}
 
-The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate than the CVS's measurements, especially with its orientation estimate where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 
+The first important aspect of Figure~\ref{fig:chap5-results} to note is that the quadcopter's position estimates fall largely outside the CVS's error boundary given by the RBFNNs. This implies that the CVS's position measurements are more accurate than the quadcopter's. Both the position and orientaiton RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position of the quadcopter lies within the CVS's error boundaries. The quadcopter's position estimation accuracy can consequently be determined by comparing the two sets of measurement data. Figure MEME shows a set of frequnecy histogram plots; one for each dimension. Each plot shows the frequency of the deviation between the CVS and quadcopter measurements
 
-Secondly, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
+It can be seen from Figure MEME that the error deviation, i.e.\ the difference between the CVS and quadcopter's measurements, are normally distributed about a mean of zero. 
+
+The second important aspect of Figure~\ref{fig:chap5-results} is that the quadcopter's orientation estimates fall within the CVS's error boundaries, implying that the quadcopter's orientation estimates are more accurate then the CVS's. However, since the orientation RBFNN has been well-trained with small training and validation MSEs, there is a high level of certainty that the true orientation pose lies within the 
+
+%The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate than the CVS's measurements, especially with its orientation estimate where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 
+
+%Secondly, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
 
 \section{Conclusion}
 

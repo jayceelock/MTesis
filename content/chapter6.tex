@@ -47,14 +47,20 @@ The work done for this project have been presented in part at the SolarPACES 201
 
 The main research objectives and goals that have been set for this thesis have been achieved. However, there are some issues that have been encountered during the porject. There is also potential to take this research further to improve and implement the results. These shortcomings and a few potential avenues of further research are discussed here. 
 
-\subsection{Lacklustre Pose Measurement System Accuracy}
-HERNOEM EN NOEM HD KAMERA MEME
+\subsection{Improved Measurement System Accuracy}
+NOEM DOTS
 
-As part of this research project, the CVS's measurement accuracy was determined. It was found that it gives fairly accurate pose estimates in its position measurements, but has large deviations from the true pose within its orientation measurements. This is demonstrated in Figure~\ref{fig:err-norm}, where large standard deviations in the error data are shown, as well as in Figure~\ref{fig:chap4-rbf-valid}, where the RBFNN outputs a large error band in the orientation data. This is a serious shortcoming of the CVS, since this high level of error effectively renders the orientation data unusable. 
+In this project a computer vision-based pose measurement system was designed and tested. It was found that it produces fairly accurate measurement results and, in conjunction with a neural network measurement error estimator, can be used to measure the pose of a chessboard pattern calibration board. This is a first design iteration and there are several improvements that can be made to improve the system's accuracy. 
 
-An inspection of the CVS's raw orientation data reveals that it remains fairly consistent, but there is significant noise present in the data, sometimes deviating as much as $\ang{20}$ from the true orientation. This noise would explain the large standard deviations observed in the data. Similarly, the RBFNN will be equally affected, since the training error data will also contain the noise and the network will attempt to fit the model to the noisy data during training and replicate it when presented with a new input data set. 
+One change to the CVS which can be implemented is to use high-definition (HD) video data can be used. It is expected that using an HD camera would improve the CVS's pose measurements, since there are more pixels available and the CVS would be able to determine the chessboard's corner coordinates to a finer degree of accuracy. This upgrade is ready to be implemented, since the CVS's current camera has an HD resolution option, i.e.\ $720\times1280$ pixels. The reason for using the lower resolution during the system design phase is that the pose estimation for HD video data took approximately 3.5 times longer than for the low resolution video data. This is due to the higher number of pixels in the HD video (3 times more pixels in this case).
 
-The RANSAC algorithm has already been employed to remove outlier data points. However, if another way can be found to smooth or filter out the noisy components, it would greatly improve the accuracy of the CVS in general, especially in the orientation dimensions. 
+
+
+%As part of this research project, the CVS's measurement accuracy was determined. It was found that it gives fairly accurate pose estimates in its position measurements, but has large deviations from the true pose within its orientation measurements. This is demonstrated in Figure~\ref{fig:err-norm}, where large standard deviations in the error data are shown, as well as in Figure~\ref{fig:chap4-rbf-valid}, where the RBFNN outputs a large error band in the orientation data. This is a serious shortcoming of the CVS, since this high level of error effectively renders the orientation data unusable. 
+
+%An inspection of the CVS's raw orientation data reveals that it remains fairly consistent, but there is significant noise present in the data, sometimes deviating as much as $\ang{20}$ from the true orientation. This noise would explain the large standard deviations observed in the data. Similarly, the RBFNN will be equally affected, since the training error data will also contain the noise and the network will attempt to fit the model to the noisy data during training and replicate it when presented with a new input data set. 
+
+%The RANSAC algorithm has already been employed to remove outlier data points. However, if another way can be found to smooth or filter out the noisy components, it would greatly improve the accuracy of the CVS in general, especially in the orientation dimensions. 
 
 \subsection{Gaps in the Pose Measurement Data}
 
@@ -64,7 +70,7 @@ There are a few reasons this may have occurred. One is that the board was simply
 
 A suggestion to permanently fix this issue would be to ensure that the calibration board be evenly lit throughout the test. One possibility would be to perform the test at night time and use spot lights to control the lighting level on the calibration board. 
 
-\subsection{Improved Hardware}
+\subsection{Improved Sensor Hardware}
 
 One avenue of improvement unrelated to the CVS, which may increase the pose measurement accuracy of a quadcopter significantly, is to improve the sensor hardware it is equipped with. More specifically, if a more accurate GPS sensor can be used, it should show a significant improvement in a quadcopter's localisation results. 
 
@@ -80,7 +86,7 @@ With the pose estimation error of a quadcopter now determined, it can be impleme
 
 \section{Conclusion}
 
-
+This project has designed and tested a computer vision-based pose measurement system CVS and used to determine the pose estimation accuracy of an outdoor quadcopter in flight. Despite being in its first design iteration, the CVS performed well and produces accurate measurement results which were used to determine a quadcopter's pose estimation accuracy. This accuracy measure was not available previously and can be implemented into a real quadcopter to evaluate and improve its performance. This would be a great advancement into making quadcopters safer and make them more attractive to governments and industry alike. 
 
 %Despite the high hopes that were placed on being able to use a computer vision-based pose measurement system to accurately determine the pose estimation accuracy of a quadcopter in flight, it has been shown that it is not yet accurate enough. However, even in its shortcoming it has provided an error measure for a quadcopter's pose estimates which was not available previously. This error term can be implemented into a quadcopter, creating a `bubble of uncertainty' around the quadcopter. This would be great advancement into making quadcopters safer to use and make it more attractive to government and industry alike. 
 

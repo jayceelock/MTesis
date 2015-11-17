@@ -60,7 +60,14 @@ The strictness of fit measure determines to what extent the network will attempt
 
 To train the network of this project, two sets of data was used; one set for training and another for validation. Both of these sets were taken from the data generated during the Vicon measurement test where the measurement accuracy of the CVS was determined. It includes both the pose data from the CVS and its corresponding measurement error. It was decided to use 300 training samples, giving 50 samples per dimension. The training data was selected to be uniformly distributed to place emphasis on the entire measurement spectrum. The uniformity of the data in each dimension was verified with the Chi-square ($\chi^2$) goodness-of-fit test, with the hypothesis being that the set is uniformly distributed. As a rule of thumb, if the P-value for the $\chi^2$ test falls below 5 \%, then the hypothesis is statistically insignificant and must therefore be rejected. The training data was selected such that the P-value did not fall below 45 \% for the data in each dimension. 
 
-Since the pose vector contains different measurement units (degrees and metres), the input and output training data sets were normalised to a range of $[-1, 1]$. All subsequent inputs to and outputs from the network must be normalised and denormalised with the same values that the training data was normalised with. To further accommodate the inherent differences between position and orientation data, two RBFNNs were trained: one to estimate the position measurement error and another to estimate the orientation estimation error. Both networks still take 6 dimensional CVS pose measurements as inputs. MAYBE SIT PRENT IN MEMEME
+Since the pose vector contains different measurement units (degrees and metres), the input and output training data sets were normalised to a range of $[-1, 1]$. All subsequent inputs to and outputs from the network must be normalised and denormalised with the same values that the training data was normalised with. To further accommodate the inherent differences between position and orientation data, two RBFNNs were trained: one to estimate the position measurement error and another to estimate the orientation estimation error. Both networks still take 6 dimensional CVS pose measurements as inputs. Figure~\ref{fig:chap4-two-networks} shows the layout for the dual network configuration.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/chapter4/two_network}
+  \caption{A figure showing the configuration for the dual RBFNN configuration.}
+  \label{fig:chap4-two-networks}
+\end{figure}
 
 Matlab's\footnote{Matlab v8.4.0.150421 (R2014)} Neural Network toolbox\footnote{Neural Network Toolbox v8.2.1} was used to train the RBFNNs and get the output for subsequent input data. The function prototype is given by 
 

@@ -392,6 +392,7 @@ To verify whether the error in $\bm{\epsilon}$ is indeed distributed around a ze
   \begin{subfigure}{0.48\textwidth}
     \includegraphics[clip, trim = 120 0 120 0, width=\textwidth]{figures/chapter3/norm_x}
     \caption{$\mu = \SI{-0.556}{\mm}$, $\sigma = \SI{32.5}{\mm}$.}
+    \label{fig:chap3-err-norm-x}
   \end{subfigure}
 ~
   \begin{subfigure}{0.48\textwidth}
@@ -427,9 +428,9 @@ To verify whether the error in $\bm{\epsilon}$ is indeed distributed around a ze
   \label{fig:err-norm}
 \end{figure*}
 
-From Figure~\ref{fig:err-norm} it can be seen that all the plots are roughly centred around zero and are very nearly normally distributed. The $z$ dimension displays the largest standard deviation of approximately $\SI{32.2}{\mm}$ followed closely by the $x$ dimension. The reason behind this are the bad depth estimates that a single camera system provides. The standard deviations of the other dimensions are within the range that was expected of the system. However, at first glance, the CVS's does not seem to be as accurate as initially hoped. 
+From Figure~\ref{fig:err-norm} it can be seen that all the plots are roughly centred around zero and are very nearly normally distributed. The $x$ dimension displays the largest standard deviation of $\SI{32.2}{\mm}$ followed by the $z$ dimension. This implies that the $x$ dimension's estimates are the least accurate. However, upon closer inspection of Figure~\ref{fig:chap3-err-norm-x}, it can be argued that the $x$ dimension's error is uniformly distributed and not normally distributed like the other dimensions are. This would make the standard deviation an invalid measure of error. The standard deviations of the other dimensions are within the range that was expected of the system. 
 
-In all, the frequency histogram and normal distribution plots of the errors in Figure~\ref{fig:err-norm} show that the assumption made in Equation~\ref{eq:chap3-eq2-offset} (that the errors are distributed around zero) is indeed a valid one. Furthermore, the error data looks to be roughly normally distributed allowing other statistical tools to be used on the data set. 
+In all, the frequency histogram and normal distribution plots of the errors in Figure~\ref{fig:err-norm} show that the assumption made in Equation~\ref{eq:chap3-eq2-offset} (that the errors are distributed around zero) is indeed a valid one. Furthermore, with the exception of the $x$ dimension, the error data looks to be roughly normally distributed allowing other statistical tools to be used on the data set. 
 
 \subsection{Optimum Focal Lengths and Offset}
 

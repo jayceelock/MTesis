@@ -251,7 +251,12 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
 
 An important aspect of the plots in Figure~\ref{fig:chap5-results} to take note of is that sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
 
-From Figure~\ref{fig:chap5-results} it can be seen that all of the quadcopter's position estimates, as well as its roll and pitch estimates, fall largely outside the CVS's error boundary given by the RBFNNs. This implies that the CVS's position, roll and pitch measurements are more accurate than the quadcopter's. Both the position and orientation RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position and orientation of the quadcopter lies within the CVS's error boundaries. The quadcopter's position and orientation estimation accuracy can consequently be determined by comparing the two sets of measurement data. Figure~\ref{fig:chap5-err-hist} shows a set of frequency histogram plots; one for each dimension. Each plot shows the frequency of the deviation between the CVS and quadcopter measurements
+From Figure~\ref{fig:chap5-results} it can be seen that all of the quadcopter's position estimates, as well as its roll and pitch estimates, fall largely outside the CVS's error boundary given by the RBFNNs. This implies that the CVS's position, roll and pitch measurements are more accurate than the quadcopter's. Both the position and orientation RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position and orientation of the quadcopter lies within the CVS's error boundaries. The quadcopter's position, roll and pitch estimation accuracy can consequently be determined by comparing the two sets of measurement data. 
+
+The quadcopter's $yaw$ estimates fall inside the CVS's error boundaries for the most part, implying that the quadcopter's estimates are more accurate than the CVS's. This is not unexpected, since Figure~\ref{fig:err-norm} has shown that the CVS performs the worst in the $yaw$ dimension. In this case, the CVS's error boundary can be used as a worst-case pose estimate error for the quadcopter, since the quadcopter's estimate will not be worse than the CVS's.
+
+
+Figure~\ref{fig:chap5-err-hist} shows a set of frequency histogram plots; one for each dimension. Each plot shows the frequency of the deviation between the CVS and quadcopter measurements.
 
 \begin{figure*}
   \centering
@@ -287,8 +292,6 @@ From Figure~\ref{fig:chap5-results} it can be seen that all of the quadcopter's 
 \end{figure*}
 
 It can be seen from Figure~\ref{fig:chap5-err-hist} that the error deviation, i.e.\ the difference between the CVS and quadcopter's measurements, are normally distributed about a mean of zero. All three of the position dimensions display similar levels of deviation from the CVS's measurements, with a 1-sigma level of approximately $\SI{150}{\mm}$ for all three. The pitch and yaw dimensions' have a 1-sigma level of deviation of $\ang{3.27}$ and $\ang{1.9}$ respectively. These standard deviations give an indication of the quadcopter's pose estimation accuracy. 
-
-The quadcopter's yaw estimate largely falls within the CVS's error boundaries. It can therefore safely be assumed that the quadcopter's yaw estimates are more accurate than the CVS's. The CVS's error boundary can be used as a worst-case pose estimate error for the quadcopter, since the quadcopter's estimate will not be worse than the CVS's.
 
 %The second important aspect of Figure~\ref{fig:chap5-results} is that the quadcopter's orientation estimates fall within the CVS's error boundaries, implying that the quadcopter's orientation estimates are more accurate then the CVS's. However, since the orientation RBFNN has been well-trained with small training and validation MSEs, there is a high level of certainty that the true orientation pose lies within the 
 

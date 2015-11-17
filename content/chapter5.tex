@@ -249,23 +249,54 @@ The results for the flight test are presented in Figure~\ref{fig:chap5-results}.
 \label{fig:chap5-results}
 \end{figure*}
 
-The first important aspect of Figure~\ref{fig:chap5-results} to note is that the quadcopter's position estimates fall largely outside the CVS's error boundary given by the RBFNNs. This implies that the CVS's position measurements are more accurate than the quadcopter's. Both the position and orientaiton RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position of the quadcopter lies within the CVS's error boundaries. The quadcopter's position estimation accuracy can consequently be determined by comparing the two sets of measurement data. Figure MEME shows a set of frequnecy histogram plots; one for each dimension. Each plot shows the frequency of the deviation between the CVS and quadcopter measurements
+An important aspect of the plots in Figure~\ref{chap5-results} to take note of is that sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
+
+From Figure~\ref{fig:chap5-results} it can be seen that all of the quadcopter's position estimates, as well as its roll and pitch estimates, fall largely outside the CVS's error boundary given by the RBFNNs. This implies that the CVS's position, roll and pitch measurements are more accurate than the quadcopter's. Both the position and orientation RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position and orientation of the quadcopter lies within the CVS's error boundaries. The quadcopter's position and orientation estimation accuracy can consequently be determined by comparing the two sets of measurement data. Figure~\ref{fig:chap5-err-hist} shows a set of frequency histogram plots; one for each dimension. Each plot shows the frequency of the deviation between the CVS and quadcopter measurements
 
 \begin{figure*}
   \centering
   \begin{subfigure}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{figures/chapter5/err_x}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_x}
+    \caption{$\mu = \SI{61}{\micro \m}$, $\sigma = \SI{140}{\mm}$}
   \end{subfigure}
+  ~
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_roll}
+    \caption{$\mu = 4.3$ mili-degrees, $\ang{3.27}$}
+  \end{subfigure}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_y}
+    \caption{$\mu = \SI{600}{\micro \m}$, $\sigma = \SI{150}{\mm}$}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_pitch}
+    \caption{$\mu = 6.5$ mili-degrees, $\sigma = \ang{1.9}$}
+  \end{subfigure}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_z}
+    \caption{$\mu = \SI{-105}{\micro \m}$, $\sigma = \SI{160}{\mm}$}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_yaw}
+    \caption{$\mu = 3.4$ mili-degrees, $\sigma = \ang{2.6}$}
+  \end{subfigure}
+  \caption{Set of frequency histograms displaying the quadcopter's pose estimate deviation from the CVS's measurements.}
+\label{fig:chap5-err-hist}
 \end{figure*}
 
-It can be seen from Figure MEME that the error deviation, i.e.\ the difference between the CVS and quadcopter's measurements, are normally distributed about a mean of zero. 
+It can be seen from Figure~\ref{fig:chap5-err-hist} that the error deviation, i.e.\ the difference between the CVS and quadcopter's measurements, are normally distributed about a mean of zero. All three of the position dimensions display similar levels of deviation from the CVS's measurements, with a 1-sigma level of approximately $\SI{150}{\mm}$ for all three. The pitch and yaw dimensions' have a 1-sigma level of deviation of $\ang{3.27}$ and $\ang{1.9}$ respectively. These standard deviations give an indication of the quadcopter's pose estimation accuracy. 
 
-The second important aspect of Figure~\ref{fig:chap5-results} is that the quadcopter's orientation estimates fall within the CVS's error boundaries, implying that the quadcopter's orientation estimates are more accurate then the CVS's. However, since the orientation RBFNN has been well-trained with small training and validation MSEs, there is a high level of certainty that the true orientation pose lies within the 
+The quadcopter's yaw estimate largely falls within the CVS's error boundaries. It can therefore safely be assumed that the quadcopter's yaw estimates are more accurate than the CVS's. The CVS's error boundary can be used as a worst-case pose estimate error for the quadcopter, since the quadcopter's estimate will not be worse than the CVS's.
+
+%The second important aspect of Figure~\ref{fig:chap5-results} is that the quadcopter's orientation estimates fall within the CVS's error boundaries, implying that the quadcopter's orientation estimates are more accurate then the CVS's. However, since the orientation RBFNN has been well-trained with small training and validation MSEs, there is a high level of certainty that the true orientation pose lies within the 
 
 %The first important aspect to note of the plots in Figure~\ref{fig:chap5-results} is that the quadcopter's estimate largely falls within the error boundaries for the CVS's pose measurement. This implies that the pose estimate given by the quadcopter's sensor suite is more accurate than the CVS's measurements, especially with its orientation estimate where the CVS has a large area of uncertainty. The RBFNN has been adequately trained in Chapter~\ref{chap4} and Figure~\ref{fig:chap5-ts-tr-scatter} shows that the test data falls within the training data limits, giving a degree of certainty that the quadcopter's true position falls within the extreme CVS pose measurement errors. It therefore follows that the measurement error of the CVS can be taken as a worst-case pose estimation error for the Suncopter. 
 
-%Secondly, there are sections in the CVS error estimate plots which are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit. 
 
 \section{Conclusion}
 
-In this chapter, the CVS and RBFNN was used to measure the pose of an airborne quadcopter in the outdoors and to find the quadcopter's pose estimation accuracy. It was found that the quadcopter's on-board pose estimate is more accurate than the CVS's.\@ However, the CVS's pose measurement error can still be used to provide a measure of how accurately the quadcopter can estimate its position, since its estimates will, at worst, be as accurate as the CVS's.\@ 
+In this chapter, the CVS and RBFNNs were used to measure the pose of an airborne quadcopter in the outdoors and to determine the quadcopter's pose estimation accuracy. It was found that the quadcopter's position estimation accuracy in all three dimensions is approximately $\SI{150}{\mm}$ and $\ang{3.27}$ and $\ang{1.9}$ for the roll and pitch dimensions respectively. However, in the $yaw$ dimension the quadcopter is more accurate. In this case, the measure of accuracy that can be used is the error boundary given by the orientation RBFNN. This provides a worst-case error estimate that can be used. 
+
+%It was found that the quadcopter's on-board pose estimate is more accurate than the CVS's.\@ However, the CVS's pose measurement error can still be used to provide a measure of how accurately the quadcopter can estimate its position, since its estimates will, at worst, be as accurate as the CVS's.\@ 

@@ -484,7 +484,7 @@ It can be seen that there is some improvement in all of the dimensions. However,
 
 \subsection{Computer Vision System Accuracy}
 
-Determining the accuracy of a multi-dimensional data model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it is possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix are sufficiently small relative to the diagonal elements, it can be assumed that the dimensions are strong enough independent of one another. The covariance matrix, $\Sigma$, is given by  
+Determining the accuracy of a multi-dimensional data model is often a complex task, but since it was found that the error $\bm{\epsilon}$ is normally distributed about zero, it is possible to use the covariance matrix to check the interdimensional variance and dependence. If the off-diagonal elements of the covariance matrix are sufficiently small relative to the diagonal elements, it can be assumed that the dimensions are strong enough independent of one another. The covariance matrix, $\Sigma$, is given by Equation~\ref{eq:covariance-matrix}. 
 
 \setlength{\arraycolsep}{2pt}
 \footnotesize
@@ -492,13 +492,13 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
   \label{eq:covariance-matrix}
   \Sigma = 
   \begin{bmatrix}
-    \bm{1.05\e{-3}}  &  2.10\e{-4}       &  8.91\e{-6}       &  4.64\e{-2}       &  4.14\e{-2}      &  2.06\e{-2}  \\
-    2.10\e{-4}       &  \bm{1.60\e{-4}}  &  7.31\e{-5}       &  9.12\e{-3}       &  3.30\e{-2}      & -1.66\e{-2}  \\
-    8.91\e{-4}       &  7.31\e{-5}       &  \bm{4.32\e{-4}}  & -2.39\e{-3}       &  3.25\e{-2}      & -8.08\e{-3}  \\
-    4.64\e{-2}       &  9.11\e{-3}       & -2.39\e{-3}       &  \bm{-1.07\e{1}}  &  7.22\e{0}       &  1.26\e{0}   \\
-    4.14\e{-2}       &  3.30\e{-2}       &  3.34\e{-2}       &  7.22\e{0}        &  \bm{3.59\e{1}}  &  2.91\e{0}   \\
-    2.06\e{-2}       &  1.66\e{-2}       & -8.08\e{-3}       &  1.26\e{0}        &  2.91\e{0}       &  6.59\e{1}   \\
-  \end{bmatrix}.
+    \bm{1.05\e{-3}}  &  2.10\e{-4}       &  8.91\e{-6}       &  4.64\e{-2}       &  4.14\e{-2}      &  2.06\e{-2}       \\
+    2.10\e{-4}       &  \bm{1.60\e{-4}}  &  7.31\e{-5}       &  9.12\e{-3}       &  3.30\e{-2}      & -1.66\e{-2}       \\
+    8.91\e{-4}       &  7.31\e{-5}       &  \bm{4.32\e{-4}}  & -2.39\e{-3}       &  3.25\e{-2}      & -8.08\e{-3}       \\
+    4.64\e{-2}       &  9.11\e{-3}       & -2.39\e{-3}       &  \bm{-1.07\e{1}}  &  7.22\e{0}       &  1.26\e{0}        \\
+    4.14\e{-2}       &  3.30\e{-2}       &  3.34\e{-2}       &  7.22\e{0}        &  \bm{3.59\e{1}}  &  2.91\e{0}        \\
+    2.06\e{-2}       &  1.66\e{-2}       & -8.08\e{-3}       &  1.26\e{0}        &  2.91\e{0}       &  \bm{6.59\e{1}}   \\
+  \end{bmatrix}
   \end{equation}
 \normalsize
 

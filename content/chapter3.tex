@@ -1,30 +1,30 @@
-\chapter{Measurement System Design}
+\chapter{Pose Measurement System Design}
 \label{chap3}
 
 \section{Introduction}
 
 The goal of this project is to determine the pose estimation accuracy of a quadcopter flying in the outdoors. In this context, the pose is a six-dimensional position and orientation vector.
 
-In order to determine a quadcopter's pose estimation accuracy, two sets of data are required: the first is the quadcopter's own pose estimate and the second its true pose, as measured by an accurate external measurement tool. There are accurate measurement tools available for the outdoor environment, which include laser and sonar systems. However, they are fairly expensive systems. It was therefore decided to investigate an alternative method of measuring a quadcopter's true pose in the outdoors.
+In order to determine a quadcopter's pose estimation accuracy, two sets of data are required: the first is the quadcopter's own pose estimate and the second its true pose, as measured by an accurate external measurement tool. There are accurate measurement tools available for the outdoor environment, which include laser and sonar systems. However, these are fairly expensive systems. It was therefore decided to investigate an alternative method of measuring a quadcopter's true pose in the outdoors.
 
 A computer vision-based system was investigated and later implemented. Using a computer vision system (CVS) for measurement is an attractive option due to it being simple, cheap, compact and easy to operate. However, the measurement accuracy of these systems differ between platforms. Therefore, a method of reliably determining a CVS's pose measurement accuracy must also be developed before it can be used to make pose measurements of a quadcopter. 
 
 This chapter sets out to provide detail on the design process of the CVS.\@ First, the design and layout of the CVS is discussed. Then, the method employed to determine the pose measurement accuracy is provided. Finally the results of the entire process, from testing to data processing, are discussed.
 
-\section{Computer Vision System Layout}
+\section{System Layout}
 \label{sec:chap3-cvs-layout}
 
 The CVS has both hardware and software components, both of which are important to making accurate pose measurements. In this section, the layout and design of the CVS, including its hardware and software components, are discussed, providing a broad overview of the system's make-up and how it functions. 
 
 \subsection{System Overview and Requirements}
 
-The CVS is meant to measure the pose of a quadcopter in flight. It does this by using a calibrated camera to track a calibration board stuck to the object whose pose is to be measured (the quadcopter in this case). It then follows the next steps to determine the object's pose. These steps are explained in more detail in this section. 
-
+The CVS is meant to measure the pose of a quadcopter in flight. It does this by using a calibrated camera to track a calibration board stuck to the object whose pose is to be measured (the quadcopter in this case). It then follows the next steps to determine the object's pose. 
 \begin{enumerate}
   \item Detect and track the feature data of the calibration board, e.g.\ corners or dots on a flat board. 
   \item Extract two-dimensional coordinates of the features.
   \item Use a Principle n-Points solver with two-dimensional coordinates to determine the six-dimensional pose of the object relative to the camera. 
 \end{enumerate}
+These steps are explained in more detail in this section. 
 
 The CVS's pose measurements must be accurate enough that it can be used as reference pose data when comparing it to a quadcopter's on-board pose data, thereby determining the pose accuracy of a quadcopter. The CVS has to meet the following requirements:
 
@@ -40,7 +40,7 @@ A CVS was designed and implemented to meet these requirements. The proposed comp
   \item Camera parameter estimation and calibration.
   \item Automated two-dimensional image feature detection.
   \item Pose data extraction and derivation.
-  \item Data outlier elimination and reduction. 
+  \item Outlier data elimination and reduction. 
 \end{itemize}
 
 \subsection{Software}
@@ -50,7 +50,7 @@ The CVS is a system which extracts pose information from an arbitrary image. The
 
 OpenCV was used to calibrate the CVS's camera, extract object feature data from video data and determine the pose of a calibration pattern by solving the principle n-points (PnP) problem. The entire process is described next. 
 
-First, the camera is calibrated by following the procedure discussed in Chapter~\ref{chap2}. Here, an ISO A1\footnote{Standard paper size $\SI{841}{\mm}\times\SI{594}{\mm}$} $5\times6$ square chessboard pattern was used for calibration. This size and number of blocks were selected to allow the squares to be as large as possible to make it easier for the CVS to detect the corners when the board is held approximately $\SI{1.5}{\m}$ away and allow for a wide white border to be drawn around the squares, as per OpenCV's recommendations. 
+First, the camera was calibrated by following the procedure discussed in Chapter~\ref{chap2}. Here, an ISO A1\footnote{Standard paper size $\SI{841}{\mm}\times\SI{594}{\mm}$} $5\times6$ square chessboard pattern was used for calibration. This size and number of blocks were selected to allow the squares to be as large as possible to make it easier for the CVS to detect the corners when the board is held approximately $\SI{1.5}{\m}$ away and allow for a wide white border to be drawn around the squares, as per OpenCV's recommendations. 
 
 Next, the feature data is extracted from the images containing the calibration board. To summarise the procedure, the OpenCV functions \emph{findChessboardCorners()} and \emph{findCornersSubPix()} are used to detect and extract two-dimensional coordinate data of the corners on the chessboard pattern from a still image. These coordinates, along with their three-dimensional world coordinates, are fed to the \emph{calibrateCamera()} function to produce the camera matrix. The world coordinates are predefined by the programmer and contain the real world location of the corner coordinates (see Figure~\ref{fig:chap2-calib-pattern} for a more detailed explanation). The calibration procedure produces the camera matrix, $C$, as presented in Equation~\ref{eq:chap2-cam-matrix} and repeated in Equation~\ref{eq:chap3-cam-matrix} for convenience. 
 
@@ -84,7 +84,7 @@ In Equation~\ref{eq:chap3-cam-matrix}, the matrix $N$ is given by Equation~\ref{
     r_{31} & r_{23} & r_{33} & t_3 \\
   \end{bmatrix}
 \end{equation}
-After the camera has calibrated, the matrix C is known and can be used by OpenCV's PnP problem solver to extract the camera's pose data relative to the calibration board. This procedure is based on the relation given in Equation~\ref{eq:chap3-2d-to-3d}, which relates the three-dimensional world coordinate vector, $\bm{X}_w$, to its two-dimensional image projection, $\bm{x}_c$.  
+After the camera has calibrated, the matrix, $C$, is known and can be used by OpenCV's PnP problem solver to extract the camera's pose data relative to the calibration board. This procedure is based on the relation given in Equation~\ref{eq:chap3-2d-to-3d}, which relates the three-dimensional world coordinate vector, $\bm{X}_w$, to its two-dimensional image projection, $\bm{x}_c$.  
 
 \begin{equation}
    \label{eq:chap3-2d-to-3d}
@@ -119,7 +119,7 @@ This section describes the test layout, including the layout for the CVS and Vic
 
 \subsubsection{External Measurement Device Layout}
 
-The external measurement system used to record the ground-truth pose data is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and its measurements can reach sub-millimetre accuracy, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software. It does this at a rate of 300 Hz. The Vicon only measures the position vector. Therefore, to get a pose vector including orientation data, trigonometric relationships between the translation vectors were used to determine the angular orientation. Given its well-documented measurement accuracy, the measurement results from this system were taken as ground-truth.
+The external measurement system used to record the ground-truth pose data is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and its measurements can reach sub-millimetre accuracy, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software. It does this at a rate of 300 Hz. The Vicon only measures the position vector. Therefore, to get a pose vector including orientation data, trigonometric relationships between the position vectors were used to determine the angular orientation. Given its well-documented measurement accuracy, the measurement results from the Vicon were taken as ground-truth.
 
 The Vicon system used for the test is located in the 3D Human Motion Laboratory on Stellenbosch University's Tygerberg medical campus. It consists of eight infrared cameras arranged around a square on the floor in a configuration that maximises the number of infrared markers visible to each camera at any given point in time. Figure~\ref{fig:chap3-vicon-layout} shows a diagram of the Vicon system layout. 
  
@@ -158,7 +158,7 @@ Only three markers need to be visible to the Vicon system's cameras for it to re
     \caption{Infrared marker placement on the chessboard.}
   \label{fig:chap3-board-marker-placement}
   \end{subfigure}
-\caption{Diagram of the Vicon marker placement on the calibration board and camera frame.}
+  \caption[Viconmarker placement on the calibration board and camera frame.]{Diagram of the Vicon marker placement on the calibration board and camera frame.}
 \label{fig:chap3-vicon-marker-placement}
 \end{figure*}
 
@@ -170,7 +170,7 @@ The CVS configuration used during the Vicon test is the exact same as the one de
 
 Before the test, the CVS's camera was calibrated to determine its intrinsic parameters, including its focal lengths in the $x$ and $y$ directions. Calibration was done with the same board and camera that was used during the Vicon test, against a white, well-lit background. The board was moved to different positions and orientations within view of the camera and roughly 15 still images at a resolution of $640\times480$ pixels were taken. All of the test video data was captured at this resolution. The camera was then calibrated with this set of images and OpenCV's camera calibration module to produce a camera matrix that gives a reprojection error of approximately 0.21 pixel units. 
 
-This project is an initial study into using low-cost cameras to make pose measurements and involved much video processing. It was found that HD video data ($720\times1280$ for the CVS's webcam) produced marginally more accurate pose measurements. However, it was opted to capture video data at a lower resolution of $640\times480$ to increase the speed at which pose data is extracted from the video data. For example, a single run of the optimisation procedure (discussed in more detail later) using HD video data takes approximately 6.5 hours, while the SD run takes less than 2 hours to complete. Since these data extraction scripts were run multiple times during the CVS's design and testing, using SD video data led to large time savings. HD video data can be used for measurements at the conclusion of this project after the CVS has been finalised.  
+This project is an initial study into using low-cost cameras to make pose measurements and involved much video processing. It was found that HD video data ($720\times1280$ for the CVS's webcam) produced marginally more accurate pose measurements. However, it was opted to capture video data at a lower resolution of $640\times480$ to increase the speed at which pose data is extracted from the video data. For example, a single run of the optimisation procedure (discussed in more detail later) using HD video data takes approximately 6.5 hours, while the SD run takes less than 2 hours to complete. Since these data extraction scripts were run multiple times during the CVS's design and testing, using SD video data led to large time savings.  
 
 During the test, the CVS camera was placed in a stable aluminium frame and left untouched throughout the test. The laptop was set to capture video at $640\times480$ pixels, while zoom and autofocus was disabled to keep the camera's focal length constant. Data extraction and pose estimation took place off-line. 
 
@@ -187,7 +187,7 @@ Figure~\ref{fig:chap3-pic-sys-layout} shows a picture of the complete test setup
 
 Data capture for both systems was initialised when the Vicon system started recording data. At the same time, the calibration board was tilted forward, which allowed the data sets from both systems to be synchronised to a common timeframe during the data processing phase. 
 
-During the test it was desirable to record a variety of pose vector combinations to ensure a diverse cloud of data in both measurement sets. This was done by moving the calibration board around the CVS camera's full field of vision and depth of view by hand, while varying the board's rotation angles.  
+During the test it was desirable to record a variety of pose vector combinations to ensure a diverse cloud of data in both measurement sets. This was done by moving the calibration board around the CVS camera's full field of vision and depth of view by hand, while varying the board's orientation.  
 
 Each video is approximately 90 seconds long, equating to approximately 2700 measurement samples per test, though it was decided that only 2400 of these points will be used since approximately 300 samples gave invalid readings. An invalid reading is given when the CVS could not detect all of the corner features on the calibration board and as a result could not estimate the board's pose for that image sample.  
 
@@ -197,7 +197,7 @@ The measurement test produced two sets of data: one measurement set from the Vic
 
 During the measurement test, the CVS only recorded video data, leaving the feature data extraction and pose estimation to be performed off-line during the data processing phase. 
 
-The Vicon system's data requires little processing, since most of the data is generated in real-time and is optimised by the Vicon software. However, some work was done to fix invalid measurements that were introduced when not enough Vicon cameras had a clear view of the infrared markers for a few consecutive frames. These measurements would normally be discarded, but since the measurements are time dependant, they were corrected by means of interpolation instead.
+The Vicon system's data required little processing, since most of the data was generated in real-time and was optimised by the Vicon software. However, some work was done to fix invalid measurements that were introduced when not enough Vicon cameras had a clear view of the infrared markers for a few consecutive frames. These measurements would normally be discarded, but since the measurements are time dependant, they were corrected by means of interpolation instead.
 
 Processing the CVS data involved several steps, the first of which was to make the data sets directly relatable by centering both data sets around a common axis system. Furthermore, the marker placement, measurement bias and other error offsets, e.g.\ the placement and orientation offset error between the Vicon markers and chessboard and camera frame surfaces, were determined while simultaneously optimising the camera matrix's focal lengths to produce the most accurate CVS pose measurement results. Each of these aspects are discussed here in more detail.
 
@@ -252,7 +252,7 @@ First, the optimisation algorithm is formulated. Suppose $\bm{P}^*$ denotes the 
     \caption{Diagram showing the marker placement error offset in the calibration board. }
     \label{fig:chap3-p-bar}
   \end{subfigure}
-\caption{Diagrams showing the relationships between the pose vectors given by the Vicon and CVS.}
+\caption{Diagrams of the relationships between the pose vectors given by the Vicon and CVS.}
 \end{figure*}
 
 The equation for the pose estimate from the CVS is given by
@@ -267,7 +267,7 @@ Equation~\ref{eq:chap3-cvs} indicates that the CVS's pose measurements, $\bm{P}(
   \label{eq:chap3-pose}
   \bm{P}(f_x, f_y) = (\bm{P}^*_\mathrm{b} - \bar{\bm{P}}_\mathrm{b}) - (\bm{P}^*_\mathrm{c} - \bar{\bm{P}}_\mathrm{c}) + \bm{\epsilon}
 \end{equation}
-The next step is then to determine the constant perceived offset for a given focal length combination. The focal length is initialised with the focal lengths found during calibration (approximately 700 pixel units). By summing the samples, the offset, $\bm{\bar{P}}$, can be determined with  
+The next step is then to determine the constant perceived offset for a given focal length combination. The focal length is initialised with the focal lengths found during calibration (approximately 700 pixel units). By summing the samples, the offset, $\bar{\bm{P}}$, can be determined with  
 
 \begin{equation}
   \label{eq:chap3-eq1-offset}
@@ -279,7 +279,7 @@ In Equation~\ref{eq:chap3-eq1-offset}, $i$ is the pose vector sample number and 
   \label{eq:chap3-eq2-offset}
   \bar{\bm{P}} = \frac{1}{M} \left (\sum\limits_{i=1}^M \bm{P}_i(f_x, f_y) - \sum\limits_{i=1}^M(\bm{P}^*_{\mathrm{b},i} - \bm{P}^*_{\mathrm{c}, i})\right)
 \end{equation}
-Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error vector, $\bm{\epsilon}$, of Equation~\ref{eq:chap3-pose} by varying the focal lengths, $f_x$ and $f_y$. The minimum focal lengths were found by setting up a $3\times n$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, where $n$ is the number of samples in the data set, and find the optimal focal length combination by minimising the matrix's two-norm. The optimisation is based only on the three position dimensions since it was found that the orientation dimensions contain a large amount of noise and including them in the optimisation added too much variability to the procedure, leading to instability. Figure~\ref{fig:chap3-bad-optimisation} demonstrates this by comparing two images taken during the Vicon test: one using the optimum focal length calculated using only the position dimensions and the other using all six dimensions. 
+Using the constant $\bar{\bm{P}}$ produced by Equation~\ref{eq:chap3-eq2-offset}, it is now possible to minimise the error vector, $\bm{\epsilon}$, of Equation~\ref{eq:chap3-pose} by varying the focal lengths, $f_x$ and $f_y$. The optimum focal lengths were found by setting up a $3\times M$ cell error matrix, consisting of the three translation dimensions, ${[x\;y\;z]}^T$, and find the optimal focal length combination by minimising the matrix's two-norm. The optimisation is based only on the three position dimensions since it was found that the orientation dimensions contain a large amount of noise and including them in the optimisation added too much variability to the procedure, leading to instability. Figure~\ref{fig:chap3-bad-optimisation} demonstrates this by comparing two images taken during the Vicon test: one using the optimum focal length calculated using only the position dimensions and the other using all six dimensions. 
 
 \begin{figure*}
   \begin{subfigure}[t]{0.48\textwidth}
@@ -311,7 +311,7 @@ Using the $3\times n$ error matrix from Equation~\ref{eq:chap3-error-base}, an e
   \label{eq:chap3-err-min}
   \min_{\hat{f}_x, \hat{f}_y}\left \Vert \sum_i  \bm{\epsilon}_i \right \Vert,
 \end{equation}
-where $\hat{f}_x$ and $\hat{f}_y$ refer to the optimum focal lengths. With the optimal focal length now determined, the procedure is repeated again from Equation~\ref{eq:chap3-pose}, finding a new offset for the new focal length combination. The optimisation procedure is iterated a number of times, minimising the total error norm. After the optimum focal length combination was found, that combination was used in the camera matrix that extracted the pose data from the video data.
+where $\hat{f}_x$ and $\hat{f}_y$ refer to the optimum focal lengths. With the optimal focal lengths now determined, the procedure is repeated again from Equation~\ref{eq:chap3-pose}, finding a new offset for the new focal length combination. The optimisation procedure is iterated a number of times, minimising the total error norm. After the optimum focal length combination was found, that combination was used in the camera matrix that extracted the pose data from the video data.
 
 The optimisation procedure is summarised in Algorithm~\ref{alg:optimal}. 
 
@@ -340,7 +340,7 @@ The optimisation procedure is summarised in Algorithm~\ref{alg:optimal}.
 
 \section{Results}
 
-Several sets of data were produced during the data processing phase. The results are presented and discussed in this section. They include evidence of error convergence for the optimisation procedure, as well as proofs that the error $\bm{\epsilon}$ is indeed distributed around zero and also roughly normally distributed. Lastly, the new focal length combination is given and discussed, followed by the pose measurement accuracy results of the CVS. 
+Several sets of data were produced during the data processing phase. The results are presented and discussed in this section. They include evidence of error convergence for the optimisation procedure, as well as proof that the error $\bm{\epsilon}$ is indeed distributed around zero and also roughly normally distributed. Lastly, the new focal length combination is given and discussed, followed by the pose measurement accuracy results of the CVS. 
 
 \subsection{Evidence of Convergence}
 
@@ -531,7 +531,7 @@ The matrix $\Sigma$ displays large off-diagonal elements, indicating that there 
     \end{subfigure}
     \caption{Error contour plots for the orientation dimensions. Units in \textdegree.}
   \end{subfigure}
-  \caption[A collection of contour plots of the position and orientation vectors relative to one another]{A collection of contour plots of the position and orientation vectors relative to one another.}
+  \caption[Contour plots of the position and orientation vectors relative to one another]{A collection of contour plots of the position and orientation vectors relative to one another.}
   \label{fig:err-contour}
 \end{figure*}
 

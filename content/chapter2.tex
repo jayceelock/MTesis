@@ -16,12 +16,12 @@ A quadcopter is an autonomous aerial vehicle (UAV) in a four-arm frame configura
 \label{fig:chap2-quad}
 \end{figure}
 
-Quadcopters move freely in three-dimensional space and have six degrees of freedom: three in the position space ($x, y, z$) and three in the orientation space ($\theta, \phi, \psi$), where the orientation is defined by the Eulerian aeroplane angle scheme, i.e.\ roll, pitch and yaw angles. The rotors on each axis of the frame rotate in the same direction and each axis' rotors spin in opposite directions relative to one another. Refer to Figure~\ref{fig:chap2-quad-rotation} for a diagram demonstrating this. 
+Quadcopters move freely in three-dimensional space and have six degrees of freedom: three in position space ($x, y, z$) and three in orientation space ($\theta, \phi, \psi$), where the orientation is defined by the Eulerian aeroplane angle scheme, i.e.\ roll, pitch and yaw angles. The rotors on each axis of the frame rotate in the same direction and each axis' rotors spin in opposite directions relative to one another. Refer to Figure~\ref{fig:chap2-quad-rotation} for a diagram demonstrating this. 
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{figures/chapter2/quad_axis.pdf}
-  \caption[Diagram presenting the opposing axis rotations directions.]{A diagram presenting the opposing axis rotation directions. The thickness of the arrows represent the power output of the motor.~\citep{quad-rotation-pic}}
+  \caption[Diagram presenting the opposing axis rotations directions.]{A diagram presenting the opposing axis rotation directions. The thickness of the arrows represent the power output of the motor~\citep{quad-rotation-pic}.}
 \label{fig:chap2-quad-rotation}
 \end{figure}
 
@@ -47,7 +47,7 @@ In an attempt to create a more accurate quadcopter model that will allow a quadc
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{figures/chapter2/pounds_quad-model.jpg}
-  \caption[A diagram of the quadcopter model, including the blade flapping dynamics.]{A diagram of the quadcopter model which includes the blade flapping dynamics discussed by~\cite{Pounds2010c}.}
+  \caption[Diagram of the quadcopter model.]{A diagram of the quadcopter model which includes the blade flapping dynamics discussed by~\cite{Pounds2010c}.}
 \label{fig:chap2-quad-model}
 \end{figure}
 
@@ -71,7 +71,7 @@ Hover control refers to a quadcopter's ability to hover and remain stable at a s
 
 \cite{bouabdallah2004pid}, as part of their OS4 project, compared the modern linear quadratic regulator (LQR) and classic PID controller, with respect to the control performance (disturbance rejection, reference tracking, etc.) of a quadcopter.
 
-They found that the PID controller produced better results than the LQR in terms of reference tracking and dynamic performance. This is a surprising result, since LQR controllers would normally excel at controlling an unstable, underactuated plant such as a quadcopter platform. They suspect that the reason for this surprising result is that they neglected the effects of actuator dynamics, such as blade and rotor flapping, in their quadcopter model and the PID was better at handling plant uncertainties. They expect that an LQR controller will outperform a PID controller if a more accurate model is used which takes aerodynamic effects into account. 
+They found that the PID controller produced better results than the LQR in terms of reference tracking and dynamic performance. This is a surprising result, since LQR controllers normally excel at controlling an unstable, underactuated plant such as a quadcopter platform. They suspect that the reason for this surprising result is that they neglected the effects of actuator dynamics, such as blade and rotor flapping, in their quadcopter model and the PID was better at handling plant uncertainties. They expect that an LQR controller will outperform a PID controller if a more accurate model is used which takes aerodynamic effects into account. 
 
 Some researchers have also investigated controlling a quadcopter using an H-infinity (H$_{\inf}$) control structure and a model predictive controller (MPC). Most notably,~\cite{raffo2010integral} have done extensive research on this topic. MPCs are modern computationally efficient controllers that drive a plant's state to a reference state within predefined constraints (eg.\ motor saturation, model dynamics, etc.), while a properly designed, non-linear H$_{\inf}$ controller is very good at rejecting disturbances (eg.\ wind gusts, motor vibrations, etc.) and are robust to model uncertainties. They opted to combine the two controllers in an intelligent manner to extract the best performance from their quadcopter. 
 
@@ -131,7 +131,7 @@ The pose matrix, $P$, from Equation~\ref{eq:chap2-cam-matrix} is given by
 \end{equation}
 In the matrix $P$, $R$ is a $3\times3$ cell matrix describing the orientation of the camera and $\bm{T}$ is a three-dimensional vector describing the position of the camera. The pose information in $P$ is given relative to some reference object or plane. 
 
-The two-dimensional image projection of an object in three-dimensional world space are related through $C$ with the relation given in Equation~\ref{eq:chap2-2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
+The two-dimensional image projection of an object in three-dimensional world space is related through $C$ with the relation given in Equation~\ref{eq:chap2-2d-to-3d}. The camera matrix is commonly determined through some camera calibration procedure. One such a procedure is discussed in Section~\ref{sec:chap2-cam-calibration}.
 
 \begin{equation}
   \label{eq:chap2-2d-to-3d}
@@ -144,7 +144,7 @@ In Equation~\ref{eq:chap2-2d-to-3d}, $\bm{x}_c$ is a homogeneous image vector $[
 \subsection{Camera Calibration}
 \label{sec:chap2-cam-calibration}
 
-A properly calibrated camera is an important part of any computer vision system, since the accuracy of the data extracted from an image strongly depends on the accuracy of the calibration procedure and results. The goal of the calibration procedure is to produce $C$ (as given in Equation~\ref{eq:chap2-cam-matrix}), as well as finding the camera's distortion coefficients introduced by low-quality or fish-eye lenses. There are various camera calibration procedures available: from the two-step calibration described by~\cite{melen1994geometrical} to the classical approach given by~\cite{slama1980manual} where a non-linear error function is minimised. However, the minimisation problem presented by~\citeauthor{slama1980manual} is computationally inefficient and slow, while~\citeauthor{melen1994geometrical}'s method does not account for image distortion and correction. A popular calibration method is the four-step method proposed by~\cite{heikkila1997four} as an extension to the two-step method which, was the prevalent calibration procedure at the time.
+A properly calibrated camera is an important part of any computer vision system, since the accuracy of the data extracted from an image strongly depends on the accuracy of the calibration procedure and results. The goal of the calibration procedure is to produce the matrix $C$ (as given in Equation~\ref{eq:chap2-cam-matrix}), as well as finding the camera's distortion coefficients introduced by low-quality or fish-eye lenses. There are various camera calibration procedures available: from the two-step calibration described by~\cite{melen1994geometrical} to the classical approach given by~\cite{slama1980manual} where a non-linear error function is minimised. However, the minimisation problem presented by~\citeauthor{slama1980manual} is computationally inefficient and slow, while~\citeauthor{melen1994geometrical}'s method does not account for image distortion and correction. A popular calibration method is the four-step method proposed by~\cite{heikkila1997four} as an extension to the two-step method which was the prevalent calibration procedure at the time.
 
 The \emph{calibrateCamera()} function of the OpenCV\footnote{Open-source computer vision library, OpenCV v2.4.8. Source-code available at github.com/Itseez/opencv} computer vision library \citep{bradski2000opencv} makes use of the four-step method. The details of this method is beyond the scope of this research project, however, a broad overview of the steps and equipment required to calibrate a camera is provided. 
 
@@ -157,11 +157,11 @@ To perform the calibration and find the camera matrix, OpenCV requires two sets 
 \label{fig:chap2-calib-pattern}
 \end{figure}
 
-In the case of the chessboard pattern, acquiring the two-dimensional pixel coordinates of the corners is accomplished by using OpenCV's \emph{findChessboardCorners()} and \emph{findCornerSubPix()} functions, which makes use of the corner detection algorithm described by~\cite{harris1988combined}. The three-dimensional world coordinates of the features are fed into the calibration function according to an axis-system and measurement unit defined by the programmer. These coordinates can be as simple as a vector containing the feature coordinates in square units, where, for example, the corner from Figure~\ref{fig:chap2-calib-pattern} will be represented as $(3, 2, 0, 1)$ in homogeneous coordinates (note that $z$ will be zero since the board is flat). 
+In the case of the chessboard pattern, acquiring the two-dimensional pixel coordinates of the corners is accomplished by using OpenCV's \emph{findChessboardCorners()} and \emph{findCornerSubPix()} functions, which make use of the corner detection algorithm described by~\cite{harris1988combined}. The three-dimensional world coordinates of the features are fed into the calibration function according to an axis-system and measurement unit defined by the programmer. These coordinates can be as simple as a vector containing the feature coordinates in square units, where, for example, the corner from Figure~\ref{fig:chap2-calib-pattern} will be represented as $(3, 2, 0, 1)$ in homogeneous coordinates (note that $z$ will be zero since the board is flat). 
 
-Next, for the best calibration results, OpenCV recommends that camera calibration takes place within a well-lit room with a white background, using a calibration pattern with a wide white border in clear view of the camera and at different positions and orientations relative to the camera. These recommendations are mainly to increase the contrast between the black features and the white background on the calibration pattern and make it easier for OpenCV to accurately find each feature's pixel coordinates. Furthermore, the more diverse the position and orientation data is, the more accurate the estimate for the intrinsic camera parameters will be. 
+For the best calibration results, OpenCV recommends that camera calibration takes place within a well-lit room with a white background, using a calibration pattern with a wide white border in clear view of the camera and at different positions and orientations relative to the camera. These recommendations are mainly to increase the contrast between the black features and the white background on the calibration pattern and make it easier for OpenCV to accurately find each feature's pixel coordinates. Furthermore, the more diverse the position and orientation data is, the more accurate the estimate for the intrinsic camera parameters will be. 
 
-Once the two-dimensional and three-dimensional data sets are known, OpenCV's \emph{calibrateCamera()} function can determine the camera matrix, $C$. 
+Once the two-dimensional and three-dimensional data sets are known, Open\-CV's \emph{calibrateCamera()} function can determine the camera matrix, $C$. 
 
 \subsection{Principle n-Points Problem}
 
@@ -171,7 +171,7 @@ It was found that iterative methods produce very accurate results, but can becom
 
 The OpenCV library has implementations of both the P3P and ePnP methods, as well as its own solution based on Levenberg-Marquardt optimisation, as described by~\cite{levenberg1944method} and~\cite{marquardt1963algorithm}, where the pose that minimises the reprojection error - that is the sum of the squared distances between the actual two-dimensional points and the projected two-dimensional points - is determined and selected~\citep{opencv-levenberg}. 
 
-OpenCV's \emph{solvePnP()} function can be used to determine the pose of a camera relative to a calibration pattern. This can be accomplished as follows. During the camera calibration procedure, the intrinsic parameter matrix $N$ of Equation~\ref{eq:chap2-cam-intrinsic} is determined. Then, using a calibration pattern, a set of three-dimensional feature coordinates and its corresponding two-dimensional projection is obtained. Following from Equation~\ref{eq:chap2-2d-to-3d}, with the matrix $C$, the two-dimensional image projection vector, $\bm{x}_c$, and the three-dimensional object coordinate vector, $\bm{X}_w$, the pose matrix, $P$, can be found. This matrix then contains the position and orientation data for the camera relative to the calibration pattern. 
+OpenCV's \emph{solvePnP()} function can be used to determine the pose of a camera relative to a calibration pattern. This can be accomplished as follows. During the camera calibration procedure, the intrinsic parameter matrix, $N$, of Equation~\ref{eq:chap2-cam-intrinsic} is determined. Then, using a calibration pattern, a set of three-dimensional feature coordinates and their corresponding two-dimensional projection is obtained. Following from Equation~\ref{eq:chap2-2d-to-3d}, with the matrix $C$, the two-dimensional image projection vector, $\bm{x}_c$, and the three-dimensional object coordinate vector, $\bm{X}_w$, the pose matrix, $P$, can be found. This matrix contains the position and orientation data for the camera relative to the calibration pattern. 
 
 \subsection{Random Sample Consensus}
 
@@ -202,7 +202,7 @@ Normally, an ANN consists of a multitude of artificial `neurons', or nodes, numb
 
 Each network has two special layers called the input and output layers. The input layer accepts information from which the ANN's designer wants data extracted. The output layer is responsible for producing the output which contains the information on how the network responded to the input excitation data. In-between these extreme layers lie the so-called `hidden' layers. These layers form the majority of the network and are responsible for interpreting the input data and producing the network's output. 
 
-The connections between the hidden nodes are represented by a weighting factor which are determined during a training process. These weights define how much influence the nodes have over another, i.e.\ if a weight is positive, it excites another node, whereas if its negative, it suppresses the node. The input information traverses the hidden layers, activating the next node with the highest connection weighting. The output data is then determined by which of the nodes were traversed in the hidden layers. The connections between the hidden node layers are mostly responsible for the output and different connection schemes provide different performance characteristics. 
+The connections between the hidden nodes are represented by a weighting factor which are determined during a training process. These weights define how much influence the nodes have over another, i.e.\ if a weight is positive, it excites another node, whereas if it is negative, it suppresses the node. The input information traverses the hidden layers, activating the next node with the highest connection weighting. The output data is then determined by which of the nodes were traversed in the hidden layers. The connections between the hidden node layers are mostly responsible for the output and different connection schemes provide different performance characteristics. 
 
 Consider a simple example: you wish to create an ANN to recognise whether a picture contains a man or a dog. You train it with 25 images of different men and dogs, telling the ANN which picture contains which. After it has been trained, you show it a picture containing a young boy which is totally unfamiliar to the network. Based on the way you trained it, the network should recognise enough human and male features in the child to come to the conclusion that it is more likely that the child is a man rather than it is being a dog. 
 
@@ -223,21 +223,21 @@ The recurrent neural network (RNN) is a family of neural networks. The hidden no
 \begin{figure}
  \centering
  \includegraphics[width=0.5\textwidth]{figures/chapter2/rnn_diagram}
- \caption[A diagram of a simple RNN.]{A diagram of a simple RNN (adapted from~\citeauthor{ann-wiki-pic}, \citeyear{ann-wiki-pic}).}
+ \caption[Diagram of a simple RNN.]{A diagram of a simple RNN (adapted from~\citeauthor{ann-wiki-pic}, \citeyear{ann-wiki-pic}).}
 \label{fig:chap2-rnn-diagram}
 \end{figure}
 
-In contrast to the FFN, this internal saved state allows the RNN to process arbitrary sequences of input data, making it adept at processing unsegmented speech or handwriting patterns. However, the added complexity of adding feedback loops between the different layers becomes computationally expensive, especially when large networks with many layers and inputs are used. Increases in computing power and improvements in the training process, as well as a better general understanding of RNNs and ANNs in general, have alleviated the computational expense somewhat.
+In contrast to the FFN, this internal saved state allows the RNN to process arbitrary sequences of input data, making it adept at processing unsegmented speech or handwriting patterns. However, the added complexity of adding feedback loops between the different layers becomes computationally expensive, especially when large networks with many layers and inputs are used. Increases in computing power and improvements in the training process, as well as a better understanding of RNNs and ANNs in general, have alleviated the computational expense somewhat.
 
 There are different RNN configurations available. These include the Hopfield network~\citep{hopfield1982neural}, the echo network~\citep{jaeger2001echo} and the recurrent multilayer perceptron network~\citep{tutschku1995recurrent}.
 
 \subsubsection{Radial Basis Function Network}
 
-The radial basis function neural network (RBFNN) is a type of neural network and is a sub-family of the RNN family, as stated by~\cite{wilamowski1996implementation}. 
+The radial basis function neural network (RBFNN) is another type of neural network and is a sub-family of the RNN family, as stated by~\cite{wilamowski1996implementation}. 
 
 The RBFNN topology is fixed to a three-layer architecture, with one input layer, one hidden layer and one output layer. The input layer provides the input. The hidden layer then remaps these inputs to make them linearly separable, where the output layer does the separation and outputs the data~\citep{xie2011comparison}.  
 
-Despite belonging to the same family of ANN, there are a number of significant differences between the RBFNN and RNN.\@ Firstly, the three-layer RBFNNs are simpler than multi-layered RNNs, making the training process for RBFNNs generally faster than that of an RNN.\@ Secondly, and most importantly, as stated by~\citeauthor{xie2011comparison}, is the difference in how the RBFNN and RNN classifies the data: the RBFNN data clusters are separated by a hyper sphere, whereas RNNs use arbitrarily shaped hyper surfaces. See Figure~\ref{fig:chap2-classifier} for a visualisation of these class separation strategies. This makes RBFNNs an attractive option to interpolate multidimensional data.
+Despite belonging to the same family of ANN, there are a number of significant differences between the RBFNN and RNN.\@ Firstly, the three-layer RBFNNs are simpler than multi-layered RNNs, making the training process for RBFNNs generally faster than for an RNN.\@ Secondly, and most importantly, as stated by~\citeauthor{xie2011comparison}, is the difference in how the RBFNN and RNN classifies the data: the RBFNN data clusters are separated by a hyper sphere, whereas RNNs use arbitrarily shaped hyper surfaces. See Figure~\ref{fig:chap2-classifier} for a visualisation of these class separation strategies. This makes RBFNNs an attractive option to interpolate multidimensional data.
 
 \begin{figure*}
   \centering
@@ -251,7 +251,7 @@ Despite belonging to the same family of ANN, there are a number of significant d
     \caption{}
     \label{fig:chap2-rnn-classifier}
   \end{subfigure}
-  \caption[A comparison between the RBF and RNN classifiers. ]{A comparison between the RBF classifier in Figure~\ref{fig:chap2-rbf-classifier} and the RNN classifier in Figure~\ref{fig:chap2-rnn-classifier} as shown by~\cite{xie2011comparison}. }
+  \caption[Comparison between the RBF and RNN classifiers. ]{A comparison between the RBF classifier in Figure~\ref{fig:chap2-rbf-classifier} and the RNN classifier in Figure~\ref{fig:chap2-rnn-classifier} as shown by~\cite{xie2011comparison}. }
 \label{fig:chap2-classifier}
 \end{figure*}
 
@@ -272,7 +272,7 @@ Support vector machines (SVM) is a widely used classification technique first pr
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{figures/chapter2/svm_linear}
-  \caption[SVM with linear hyperplane.]{An SVM plot illustrating different class separators~\citep{svm-wiki-pic}.\@ $H_1$ does not separate the classes, while $H_2$ has only minimal class separation. $H_3$ exhibits the widest average separation margin.}
+  \caption[SVM with a linear hyperplane.]{An SVM plot illustrating different class separators~\citep{svm-wiki-pic}.\@ $H_1$ does not separate the classes, while $H_2$ has only minimal class separation. $H_3$ exhibits the widest average separation margin.}
 \label{fig:chap2-svm-linear}
 \end{figure}
 
@@ -281,7 +281,7 @@ Support vector machines (SVM) is a widely used classification technique first pr
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/chapter2/svm_nonlinear}
-  \caption[An example of an SVM with a non-linear kernel separator.]{An example of an SVM with a non-linear kernel separator~\citep{kernel-wiki-pic}.}
+  \caption[Example of an SVM with a non-linear kernel separator.]{An example of an SVM with a non-linear kernel separator~\citep{kernel-wiki-pic}.}
 \label{fig:chap2-svm-nonlinear}
 \end{figure}
 

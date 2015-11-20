@@ -3,10 +3,11 @@ The quadcopter industry is a fast-growing and maturing industry which produces `
 
 There are a number of improvements that can be made to increase the safety of quadcopters. This research project investigates how well quadcopters can estimate their position and orientation, or pose. If this is known, it can be integrated into a control model as an error term to improve the performance and safety rating of a quadcopter. 
 
-Indoor measurement tools cannot be used, since the quadcopters of interest rely on GPS data. Therefore, in this project a computer vision-based (CV) pose measurement system was investigated, designed and implemented to measure the pose of a quadcopter in the outdoors. The system's measurements were compared to a quadcopter's pose estimates, recorded during an outdoor test flight.
+Indoor measurement tools cannot be used, since the quadcopters of interest rely on GPS data. Therefore, a computer vision-based pose measurement system (CVS) was investigated, designed and implemented to measure the pose of a quadcopter in the outdoors. The system's measurements were compared to a quadcopter's pose estimates recorded during an outdoor test flight.
 
-The results are that the quadcopter's pose estimates are more accurate than the CV system's. However, other pose error measures for an outdoor quadcopter are not available. Therefore, the measurement error of the CV system can be taken as a worst-case error measure for the quadcopter's pose estimates as well. This gives a result that can be used and integrated into a quadcopter's control model. 
+The results show that the CVS's measurements are more accurate than the quadcopter's in all the dimensions except for the yaw. It was found that the quadcopter's position estimation error is approximately $\SI{150}{\mm}$ for $x$, $y$ and $z$, and $\ang{3.27}$ and $\ang{1.9}$ for the roll and pitch dimensions. These results can be used and integrated into a quadcopter's control model. 
 
+%The results are that the quadcopter's pose estimates are more accurate than the CV system's. However, other pose error measures for an outdoor quadcopter are not available. Therefore, the measurement error of the CV system can be taken as a worst-case error measure for the quadcopter's pose estimates as well. This gives a result that 
 \end{abstract}
 
 \begin{abstract}[afrikaans]%=================================================
@@ -16,7 +17,9 @@ Daar is verskeie verbeterings wat gemaak kan word om die tegnologie se veilighei
 
 Binnemuurse meetinstrumente kan nie gebruik word hier nie, aangesien die onbemande vliegtuie van hierdie projek staatmaak op hul GPS lesings. Dus, in hierdie projek is daar 'n rekenaarvisiestelsel ontwerp, getoets en ge\"{i}mplimenteer om 'n vierbeen helikopter se posisie af te skat in die buitelug. Die vierbeen helikopter se afskattingsakkuraatheid was dan gevind deur sy afskatting te vergelyk met di\'{e} van die rekenaarvisiestelsel in 'n buitemuurse vlugtoets.
 
-Die resultate toon dat die vierbeen helikopter se posisieafksattings meer akkuraat is as di\'{e} van die rekenaarvisiestelsel. Ander akkuraatheidsmaatstawe is egter nie beskikbaar nie. Die metingsfout van die rekenaarvisiestelsel kan dus geneem word as die vierbeen helikopter se slegste moontlike metingsfout. Dit gee 'n resultaat wat gebruik en ge\"{i}ntegreer kan word in 'n vierbeen helikopter se beheermodel.
+The resultate toon dat die rekenaarvisiestelsel se metings meer akkuraat is as die vierbeen helikopter s'n vir alle meetdimensies, buiten die afwykingshoek. Dit was gevind dat die helikopter se posisieafksattingsfout ongeveer $\SI{150}{\mm}$ is in die $x$, $y$ en $z$ dimensies, terwyl hoekafskattingsfout $\ang{3.27}$ en $\ang{1.9}$ is vir die rol- en hellingshoeke. Hierdie resultate kan ge\"{i}mplimenteer word in 'n vierbeen helikopter se beheermodel. 
+
+%Die resultate toon dat die vierbeen helikopter se posisieafksattings meer akkuraat is as di\'{e} van die rekenaarvisiestelsel. Ander akkuraatheidsmaatstawe is egter nie beskikbaar nie. Die metingsfout van die rekenaarvisiestelsel kan dus geneem word as die vierbeen helikopter se slegste moontlike metingsfout. Dit gee 'n resultaat wat gebruik en ge\"{i}ntegreer kan word in 'n vierbeen helikopter se beheermodel.
 
 \end{abstract}
 

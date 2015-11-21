@@ -502,7 +502,9 @@ Determining the accuracy of a multi-dimensional data model is often a complex ta
   \end{equation}
 \normalsize
 
-The matrix $\Sigma$ displays large off-diagonal elements, indicating that there is strong interdimensionally dependant relationships. This dependence is further demonstrated when examining the change in a dimension's error with respect to the other dimensions, demonstrated by the contour plots of Figure~\ref{fig:err-contour}. 
+The matrix $\Sigma$ displays large off-diagonal elements, indicating that there is strong interdimensionally dependant relationships. This dependence is further demonstrated by the plots in Figure~\ref{fig:err-contour}. Here 300 random data points and their measurement errors are sorted from large to small and the errors from the six dimensions are plotted over the $z$ dimension's measurements. 
+
+This dependence is further demonstrated when examining the change in a dimension's error with respect to the other dimensions, demonstrated by the contour plots of Figure~\ref{fig:err-contour}. 
 
 %\begin{figure*}
   %\centering
@@ -559,11 +561,12 @@ The matrix $\Sigma$ displays large off-diagonal elements, indicating that there 
       \includegraphics[width=\textwidth, clip, trim = 80 0 60 0]{figures/chapter3/yaw_err}
     \end{subfigure}
   \end{subfigure}
-  \caption{}
-  \label{}
+  \caption[Plots demonstrating the complexity of the error data for the $z$ dimension.]{Plots demonstrating the complexity of the error data for the $z$ dimension. Note that the error intensity does not change in a predictable, linear manner as the distance from the camera increased.}
+  \label{fig:err-contour}
 \end{figure*}
 
-It can be seen from Figure~\ref{fig:err-contour} that the error in a dimension varies when the two other pose dimensions change. There are also multiple peaks, indicating that the error data is very complex. 
+One would expect the error to gradually increase as the distance between the camera and calibration board increases. However, it can be seen from Figure~\ref{fig:err-contour}, with high error points seemingly randomly intersperesed between low error points, that this is not the case. This indicates that the error is dependant on all six dimensions and demonstrates the error data's complexity. 
+%It can be seen from Figure~\ref{fig:err-contour} that the error in a dimension varies when the two other pose dimensions change. There are also multiple peaks, indicating that the error data is very complex. 
 
 These plots, as well as the covariance matrix $\Sigma$, show that there is no clear indication on the CVS's accuracy, since it is a function of the pose of the calibration board relative to the CVS's camera. 
 

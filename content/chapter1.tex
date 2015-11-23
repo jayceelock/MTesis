@@ -22,6 +22,45 @@ At the moment, UAVs are not as safe as they should be and can pose a serious hea
 
 Having accurate pose data of a UAV in flight available is crucial to implementing an effective control strategy and collision avoidance system. As mentioned in Section~\ref{sec:problem-statement}, UAVs do not estimate their own pose very well and are prone to sensor drift over time. This allows for a `bubble' of pose uncertainty to be drawn around a UAV in flight, where the true pose of a UAV will be somewhere within the bubble, but the true pose is indeterminable. If the bubble's volume can be determined, it will allow a UAV's control system to generate safer, more efficient flight paths, which will improve the UAVs performance and make them a more attractive and safe option for governments and industry. Furthermore, the measurement system can be used to evaluate and improve the flight performance of a UAV.\@ 
 
+\section{Potential Use Case}
+
+The results from this research project will be applicable to many different industries and applications. To illustrate this, an example of where it would be helpful to know how accurately a quadcopter can estimate its pose. 
+
+Concentrating solar power (CSP) is an attractive source of renewable energy which allows thermal energy to be stored for use at night time. However, a major hurdle to the construction of a CSP plant, in particular the central receiver configuration, is its hefty price tag. With CSP costing more per Watt than fossil fuels, as well as other renewable energy sources such as photovoltaic panels or wind turbines, as stated by the~\cite{irena-renewable_cost}, it is difficult to convince financiers to invest in a central receiver CSP plant.~\cite{pitz2005ecostar} states that approximately 40~\% of the initial capital expenditure of a CSP plant is spent on the thousands of heliostats placed around the receiver tower. 
+
+To prevent mirror deformation, wind loads, impacts from foreign objects and ground settling from affecting the heliostat's tracking path, each heliostat frame is designed to be heavy and sturdy and they are placed on strong foundations. They also come equipped with expensive actuators and gearboxes which minimise error build-ups during a heliostat's operation, contributing a significant portion to its total cost. 
+
+CSP as a concept is old and well documented, but the technologies used are still relatively new and widely researched. As such, CSP plant design has not yet reached full maturity in terms of efficiency and optimal design. Therefore, there are still ways to reduce the cost of CSP plants, such as improving the heliostat control scheme, optimising heliostat design and improving the thermal storage mechanisms, amongst others~\citep{irena-cost_reduction}.  
+
+Given the sheer size of a typical heliostat field, a small displacement in a mirror could influence the accuracy and effectiveness of that heliostat which is extremely undesirable given the lengthy calibration process required. Stellenbosch University (SU) and its Solar Thermal Energy Research Group (STERG) are attempting to make heliostats lighter, cheaper and reduce the need for expensive actuators and gearboxes, thereby allowing the heliostats to be placed on cheaper foundations with cheaper, less accurate actuators. This will lead to significant cost savings in the plant's manufacturing stage. However, to achieve this without compromising the accuracy of the heliostats during operation, the lengthy calibration procedure currently in use may have to be optimised and possibly redesigned to allow the heliostats to be calibrated more often on a monthly, or even weekly, basis.
+
+The current calibration procedure uses the sun as a light source and a section of the receiver tower as a reference target. This constrains the process to take place in day time and only allows one heliostat to be calibrated at a time and since a CSP heliostat field typically contains several thousand heliostats, this procedure may become very time-consuming. See Figure~\ref{fig:cur-calib-proc} for a diagrammatical example of the calibration procedure.
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/chapter1/cur_proc.pdf}
+    \caption{Diagram of the current heliostat calibration procedure where the position of the reflected sun rays on the target are measured.}
+\label{fig:cur-calib-proc}
+  \end{subfigure}%
+~
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.72\textwidth]{figures/chapter1/drone_proc.pdf}
+    \caption{A diagram of a proposed calibration procedure using quadcopters where the two quadcopter's positions are simultaneously measured.}
+\label{fig:drone-calib-proc}
+  \end{subfigure}
+  \caption{A side-by-side comparison of how heliostats are currently calibrated and how heliostats can be calibrated by autonomous quadcopters.}
+\label{fig:calib-diagrams}
+\end{figure*}
+
+In this regard, STERG is investigating the possibility of using quadcopter UAVs to autonomously perform or assist with heliostat calibration by, for example, making one quadcopter the light source and another the receiver. This will allow as many heliostats to be calibrated simultaneously as there are pairs of quadcopters available. See Figure~\ref{fig:drone-calib-proc} for an illustration of the proposed calibration procedure. This approach requires an estimate of the quadcopter's pose estimation error. The pose estimation error refers to the difference between a quadcopter's on-board pose estimate and its real pose. Currently, the only pose measurements of a quadcopter available are its own on-board estimates produced by a combination of readings from its sensor suite, which typically includes a gyroscope, accelerometer and GPS.\@ However, the on-board data cannot be used here, since its error has not yet been quantified.
+
+
+
+%The pose error of indoor quadcopters have been determined before with indoor motion tracking and measurement systems, such as the Vicon motion tracking system which has been shown to have millimetre-levels of accuracy~\cite{richards1999measurement}. However, these results and measurement methods are not applicable in the outdoor case, since testing indoors would deny a quadcopter its GPS coordinates. An outdoor quadcopter's GPS sensor readings provide an absolute position value, unlike its accelerometer, for example, whose readings are integrated twice to provide approximate position data, thereby making its readings prone to drift with time. Given the GPS sensor's importance to an outdoor quadcopter's localisation ability, it's crucial that a quadcopter have access to its GPS readings if we are to properly determine how well it estimates its pose, making it necessary to perform the measurements in the outdoors.  
+
 \section{Existing and Proposed Solutions}
 
 The current state-of-the-art method in determining the pose of a UAV in flight is to use an indoor motion tracking system, such as a Vicon\footnote{www.vicon.com/} system which uses a set of infrared cameras to track markers placed on an object. However, such systems cannot be used in this case since the UAVs of interest to this project require access to their GPS coordinates. The GPSs used in this project require a strong connection with a reasonably clear line of site to at least 6 different GPS satellites to produce accurate position data. These GPSs are also low-powered and small and therefore struggle to make good connections to satellites when indoors. Their line of sight to the satellites will also be affected, further reducing the GPS's accuracy. It was therefore decided that the quadcopters would be flown in the outdoors for this project. This implies that an outdoor pose measurement system is required. 

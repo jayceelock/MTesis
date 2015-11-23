@@ -445,40 +445,130 @@ As a result of the focal length and offset optimisation procedure, the optimal f
 \end{equation}
 The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed to be rotated to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension was surprising initially, since this indicated that there was a large constant level of error bias introduced to the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
 
-All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions.
+All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions. In the plots in Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw}, it is difficult to see any significant difference between the improved and original plots. To make these differences more obvious to the reader, each plot is accompanied by a zoomed-in figure of each dimension's plot. 
 
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/x}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $x$ dimension.}
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/x}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/x_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $x$ dimension, as well as a zoomed-in figure highlighting the detail.}
   \label{fig:estimate-x}
-\end{figure}
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/y}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $y$ dimension.}
-\end{figure}
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/z}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $z$ dimension.}
-\end{figure}
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/roll}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $roll$ dimension.}
-\end{figure}
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/pitch}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $pitch$ dimension.}
-\end{figure}
-\begin{figure}
-  \centering
-  \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/yaw}
-  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $yaw$ dimension.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/y}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/y_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $y$ dimension, as well as a zoomed-in figure highlighting the detail.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/z}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/z_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $z$ dimension, as well as a zoomed-in figure highlighting the detail.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/roll}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/roll_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $roll$ dimension, as well as a zoomed-in figure highlighting the detail.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/pitch}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/pitch_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $pitch$ dimension, as well as a zoomed-in figure highlighting the detail.}
+\end{figure*}
+
+\begin{figure*}
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/yaw}
+    \caption{}
+  \end{subfigure}
+  ~
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[clip, trim = 100 0 140 0, width=0.8\textwidth]{figures/chapter3/yaw_zoom}
+    \caption{}
+  \end{subfigure}
+  \caption{Plot comparing the Vicon, original and improved CVS measurements in the $yaw$ dimension, as well as a zoomed-in figure highlighting the detail.}
   \label{fig:estimate-yaw}
-\end{figure}
+\end{figure*}
+
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/y}
+  %\caption{Plot comparing the Vicon, original and improved CVS measurements in the $y$ dimension.}
+%\end{figure}
+
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/z}
+  %\caption{Plot comparing the Vicon, original and improved CVS measurements in the $z$ dimension.}
+%\end{figure}
+
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/roll}
+  %\caption{Plot comparing the Vicon, original and improved CVS measurements in the $roll$ dimension.}
+%\end{figure}
+
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/pitch}
+  %\caption{Plot comparing the Vicon, original and improved CVS measurements in the $pitch$ dimension.}
+%\end{figure}
+
+%\begin{figure}
+  %\centering
+  %\includegraphics[clip, trim = 100 0 140 0, width=\textwidth]{figures/chapter3/yaw}
+  %\caption{Plot comparing the Vicon, original and improved CVS measurements in the $yaw$ dimension.}
+  %\label{fig:estimate-yaw}
+%\end{figure}
 
 It can be seen that there is some improvement in all of the dimensions. However, in some cases the improvement in one section of the data set is negated by worse estimates in another. This can be attributed to the optimisation process, where an improvement at timeframe $t_i$ in the $x$ dimension, for example, may lead to a worse estimate at time $t_i$ in the $roll$ dimension. However, as the reduction in the two-norm magnitude of the error proves, there is an overall reduction in the error with the optimised data set. It can therefore be concluded that the optimisation procedure did indeed function as expected, producing a focal length combination which led to a more accurate pose estimate from the CVS. 
 

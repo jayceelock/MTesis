@@ -217,41 +217,79 @@ Before the flight test data was fed to the RBFNNs, it was first checked that the
 \label{fig:chap5-ts-tr-scatter}
 \end{figure*}
 
-The results for the flight test are presented in Figure~\ref{fig:chap5-results}. Here, six figures are given which plot the different pose dimensions. Each plot contains the Suncopter's pose estimate, as well as the expected measurement error margin for the CVS as given by the RBFNNs.\@ It can be observed from the plots for the $z$ and $yaw$ dimensions that they consistently hover around the flight configuration's set point of $\SI{1}{\m}$ and $\ang{0}$, providing a degree of sanity to the measurements. 
-  
-\begin{figure*}
+The results for the flight test are presented in Figures~\ref{fig:chap5-results-x} to~\ref{fig:chap5-results-yaw}. Here, six figures are given which plot the different pose dimensions. Each plot contains the Suncopter's pose estimate, as well as the expected measurement error margin for the CVS as given by the RBFNNs.\@ It can be observed from the plots for the $z$ and $yaw$ dimensions that they consistently hover around the flight configuration's set point of $\SI{1}{\m}$ and $\ang{0}$, providing a degree of sanity to the measurements. 
+
+\begin{figure}
   \centering
-  \begin{subfigure}{0.48\textwidth}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_x}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_y}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_z}
-    \end{subfigure}
-    \caption{}
-  \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_roll}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_pitch}
-    \end{subfigure}
-    \begin{subfigure}{\textwidth}
-      \includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_yaw}
-    \end{subfigure}
-    \caption{}
-  \end{subfigure}
-\caption[Plots of the Suncopter's flight and measurement errors.]{Plots of the Suncopter's pose estimate with the error margins from of the CVS's pose measurement. }
-\label{fig:chap5-results}
-\end{figure*}
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_x}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $x$ dimension.}
+  \label{fig:chap5-results-x}
+\end{figure}
 
-An important aspect of the plots in Figure~\ref{fig:chap5-results} to take note of is that sections in the CVS error estimate plots are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit throughout the test. 
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_y}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $y$ dimension.}
+\end{figure}
 
-From Figure~\ref{fig:chap5-results} it can be seen that all of the quadcopter's position estimates, as well as its roll and pitch estimates, fall largely outside the CVS's error boundaries given by the RBFNNs. This implies that the CVS's position, roll and pitch measurements are more accurate than the quadcopter's. Both the position and orientation RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position and orientation of the quadcopter lies within the CVS's error boundaries. The quadcopter's position, roll and pitch estimation accuracy can consequently be determined by comparing the two sets of measurement data. 
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_z}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $z$ dimension.}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_roll}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $roll$ dimension.}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_pitch}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $pitch$ dimension.}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_yaw}
+  \caption{Results of the flight test, comparing the CVS and quadcopter's measurements in the $yaw$ dimension.}
+  \label{fig:chap5-results-yaw}
+\end{figure}
+  
+%\begin{figure*}
+  %\centering
+  %\begin{subfigure}{0.48\textwidth}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_x}
+    %\end{subfigure}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_y}
+    %\end{subfigure}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 80 0 100 0, width = \textwidth]{figures/chapter5/ts_z}
+    %\end{subfigure}
+    %\caption{}
+  %\end{subfigure}
+  %\begin{subfigure}{0.48\textwidth}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_roll}
+    %\end{subfigure}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_pitch}
+    %\end{subfigure}
+    %\begin{subfigure}{\textwidth}
+      %\includegraphics[clip, trim = 100 0 100 0, width = \textwidth]{figures/chapter5/ts_yaw}
+    %\end{subfigure}
+    %\caption{}
+  %\end{subfigure}
+%\caption[Plots of the Suncopter's flight and measurement errors.]{Plots of the Suncopter's pose estimate with the error margins from of the CVS's pose measurement. }
+%\label{fig:chap5-results}
+%\end{figure*}
+
+An important aspect of the plots in Figures~\ref{fig:chap5-results-x} to~\ref{fig:chap5-results-yaw} to take note of is that sections in the CVS error estimate plots are missing. The reason for this is that during the video recording, the calibration board went out of the CVS camera's field of view or it could not detect enough of the corners due to bad lighting conditions or the board being to far from the camera. These effects were somewhat remedied by adjusting the pose extractor to use an adaptive threshold filter on the video data and can be permanently fixed by flying the quadcopter closer to the camera or ensuring that the board is well and evenly lit throughout the test. 
+
+From Figures~\ref{fig:chap5-results-x} to~\ref{fig:chap5-results-yaw} it can be seen that all of the quadcopter's position estimates, as well as its roll and pitch estimates, fall largely outside the CVS's error boundaries given by the RBFNNs. This implies that the CVS's position, roll and pitch measurements are more accurate than the quadcopter's. Both the position and orientation RBFNNs were well trained and produced small training and validation MSEs, providing a high level of confidence that the true position and orientation of the quadcopter lies within the CVS's error boundaries. The quadcopter's position, roll and pitch estimation accuracy can consequently be determined by comparing the two sets of measurement data. 
 
 The quadcopter's $yaw$ estimates fall inside the CVS's error boundaries for the most part, implying that the quadcopter's estimates are more accurate than the CVS's. This is not unexpected, since Figure~\ref{fig:err-norm} has shown that the CVS performs the worst in the $yaw$ dimension. In this case, the CVS's error boundary can be used as a worst-case pose estimate error for the quadcopter, since the quadcopter's estimate will not be worse than the CVS's.
 
@@ -282,11 +320,11 @@ Figure~\ref{fig:chap5-err-hist} shows a set of frequency histogram plots; one fo
     \caption{$\mu = \SI{-105}{\micro \m}$, $\sigma = \SI{160}{\mm}$}
   \end{subfigure}
   ~
-  %\begin{subfigure}{0.48\textwidth}
-    %\includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_yaw}
-    %\caption{$\mu = 3.4$ mili-degrees, $\sigma = \ang{2.6}$}
-  %\end{subfigure}
-  \caption{Set of frequency histograms displaying the quadcopter's pose estimate deviation from the CVS's measurements.}
+  \begin{subfigure}{0.48\textwidth}
+    \includegraphics[width=\textwidth, clip, trim = 100 20 100 20]{figures/chapter5/err_yaw}
+    \caption{$\mu = 3.4$ mili-degrees, $\sigma = \ang{2.6}$}
+  \end{subfigure}
+  \caption[Set of frequency histograms displaying the quadcopter's pose estimate deviation from the CVS's measurements.]{Set of frequency histograms displaying the quadcopter's pose estimate deviation from the CVS's measurements. Even though it has no bearing on the results, the $yaw$ dimension's plot is included here for the sake of completeness.}
 \label{fig:chap5-err-hist}
 \end{figure*}
 

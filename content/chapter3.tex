@@ -344,7 +344,7 @@ Several sets of data were produced during the data processing phase. The results
 
 \subsection{Evidence of Convergence}
 
-To show that the optimisation procedure worked as expected, minimising the error in each dimension, the error after each iteration of the process is plotted. These plots are given in Figure~\ref{fig:err-convergence} and shows the error over 15 iterations of the optimisation procedure.  
+To show that the optimisation procedure worked as expected, minimising the error in each dimension, the error after each iteration of the process is plotted. These plots are given in Figure~\ref{fig:err-convergence} and shows the error over 12 iterations of the optimisation procedure. It was found that the process converges an stays fairly constant after 12 iterations. The total norm reduction per iteration is showed in Figure~\ref{fig:err-tot-norm}. 
 
 \begin{figure*}
   \centering
@@ -377,11 +377,24 @@ To show that the optimisation procedure worked as expected, minimising the error
   \label{fig:err-convergence}
 \end{figure*}
 
-The graphs of Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$ and $z$ dimensions, while it increases slightly in the $y$ dimension and remains largely unchanged in all of the orientation dimensions. 
+\begin{figure}
+  \centering
+  \includegraphics[clip, trim = 80 0 80 0, width=0.8\textwidth]{figures/chapter3/err_tot}
+  \caption[Plot of the minimum norm values for the position dimensions.]{Plot of the minimum norm values for the position dimensions for the 12 iterations of the optimisation procedure.}
+  \label{fig:err-tot-norm}
+\end{figure}
 
-The errors in the orientation dimensions remain unchanged since it was opted not to give them any weight in the optimisation process. However, it can be seen that in iteration number 6, the $roll$, $pitch$ and $z$ dimensions experience a dramatic reduction in their error norm, while the other dimensions experience a spike. Since it happens only for a single iteration, it can be considered an anomaly within the optimisation procedure which is corrected  with the next iteration. It is most likely that the error got stuck in a local minimum for that single iteration and it was not investigated further.  
+The graphs in Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$, $z$ and $roll$ dimensions, stays ends unchanged in the $y$ dimension and is worse in the $pitch$ and $yaw$ dimensions.
 
-From Figure~\ref{fig:err-convergence} it can be concluded that the optimisation procedure does indeed converge, albeit very slowly. 
+It was expected that the position dimensions will be improved, since the optimisation weight was placed on reducing their error norm. It is unfortunate, however, that the $y$ dimension's norm did not see improvement. Conversely, the orientation dimensions were not expected to see significant improvement, since no weight was placed on them during optimisation. 
+
+The plots in Figures~\ref{fig:err-convergence} exhibit some spiky behaviour with large variations, sometimes growing larger than its initial value. MEME
+
+%The graphs of Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$ and $z$ dimensions, while it increases slightly in the $y$ dimension and remains largely unchanged in all of the orientation dimensions. 
+
+%The errors in the orientation dimensions remain unchanged since it was opted not to give them any weight in the optimisation process. However, it can be seen that in iteration number 6, the $roll$, $pitch$ and $z$ dimensions experience a dramatic reduction in their error norm, while the other dimensions experience a spike. Since it happens only for a single iteration, it can be considered an anomaly within the optimisation procedure which is corrected  with the next iteration. It is most likely that the error got stuck in a local minimum for that single iteration and it was not investigated further.  
+
+%From Figure~\ref{fig:err-convergence} it can be concluded that the optimisation procedure does indeed converge, albeit very slowly. 
 
 \subsection{Test for Zero Average Error}
 \label{sec:err-norm-test}
@@ -434,16 +447,16 @@ In all, the frequency histogram and normal distribution plots of the errors in F
 
 \subsection{Optimum Focal Lengths and Offset}
 
-As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $\hat{f}_x$ and $\hat{f}_y$, were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset, $\bar{\bm{P}}$, was found to be 
+As a result of the focal length and offset optimisation procedure, the optimal focal lengths, $\hat{f}_x$ and $\hat{f}_y$, were found to be 694 and 704 respectively after 15 iterations of the algorithm. This is approximately the 700 which was determined by the calibration toolbox. Note that these units are given in camera pixel units and not millimetres. The optimal offset, $\hat{\bar{\bm{P}}}$, was found to be 
 
 \begin{equation}
   \label{eq:chap3-offset-value}
-  \bar{\bm{P}} = 
+  \hat{\bar{\bm{P}}} = 
   \begin{bmatrix}
     \SI{283.8}{\mm} & \SI{56.16}{\mm} & \SI{-57.44}{\mm} & \ang{179.8} & \ang{-1.305} & \ang{-178.8}
   \end{bmatrix}^T.
 \end{equation}
-The values in $\bar{\bm{P}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed to be rotated to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension was surprising initially, since this indicated that there was a large constant level of error bias introduced to the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
+The values in $\hat{\bar{\bm{P}}}$ contain any constant error bias as well as marker placement errors that may have been introduced to the Vicon test during the measurement process. The large offsets of $\pm\ang{180}$ in the $roll$ and $yaw$ dimensions can be explained by the differing axis orientations of the CVS camera and Vicon systems, where the axes needed to be rotated to coincide with one another. This indicates that the offset was correctly calculated and was working as expected. The relatively large offset in the $x$ dimension was surprising initially, since this indicated that there was a large constant level of error bias introduced to the $x$ dimension's measurements. However, this would make sense if the CVS's camera was placed approximately $\SI{280}{\mm}$ from the Vicon's axis centre. It turns out this was indeed the case. 
 
 All of the above produce an error two-norm of approximately 1.01 (normalised), compared to the original 1.15 (normalised), showing an overall reduction in the error vector magnitude. The optimal focal lengths are fairly similar to the focal lengths given by OpenCV's calibration procedure, which is within the range that was expected. Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw} show the results of the Vicon measurements compared to the original and improved CVS measurements in all six dimensions. In the plots in Figures~\ref{fig:estimate-x} to~\ref{fig:estimate-yaw}, it is difficult to see any significant difference between the improved and original plots. To make these differences more obvious to the reader, each plot is accompanied by a zoomed-in figure of each dimension's plot. 
 

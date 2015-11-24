@@ -156,7 +156,7 @@ Here, $\bm{P}_{\mathrm{offset}}$ is the unknown term. The pose data contained wi
 
 \begin{equation}
   \label{eq:chap5-err-term}
-  \bm{e}_i = \bm{P}_{\mathrm{CVS}, i} + \bm{P}_{\mathrm{offset}, i} - \bm{P}_{\mathrm{quadcopter}, i}
+  \bm{e}_i(\bm{P}_{\mathrm{offset}}) = \bm{P}_{\mathrm{CVS}, i} + \bm{P}_{\mathrm{offset}} - \bm{P}_{\mathrm{quadcopter}, i}
 \end{equation}
 The minimisation was done using the \emph{minimize()} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language, which makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
 

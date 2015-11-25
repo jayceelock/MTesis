@@ -344,7 +344,7 @@ Several sets of data were produced during the data processing phase. The results
 
 \subsection{Evidence of Convergence}
 
-To show that the optimisation procedure worked as expected, minimising the error in each dimension, the minimum error norm after each iteration of the process is plotted in Figure~\ref{fig:err-convergence} and shows the error over 20 iterations of the optimisation procedure. It was found that the process converges to an constant value after approximately 12 iterations. The total norm reduction per iteration is showed in Figure~\ref{fig:err-tot-norm}. 
+To show that the optimisation procedure worked as expected, minimising the error in each dimension, the minimum error norm after each iteration of the process is plotted in Figure~\ref{fig:err-convergence} and shows the error over 20 iterations of the optimisation procedure. It was found in Figure~\ref{fig:err-tot-norm} that the process converges to a constant value after approximately 12 iterations. Figure~\ref{fig:err-tot-norm} plots the total norm reduction per iteration. 
 
 \begin{figure*}
   \centering
@@ -384,19 +384,11 @@ To show that the optimisation procedure worked as expected, minimising the error
   \label{fig:err-tot-norm}
 \end{figure}
 
-The graphs in Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$, $z$ and $roll$ dimensions, stays ends unchanged in the $y$ dimension and is worse in the $pitch$ and $yaw$ dimensions.
-
-It was expected that the position dimensions will be improved, since the optimisation weight was placed on reducing their error norm. It is unfortunate, however, that the $y$ dimension's norm did not see improvement. Conversely, the orientation dimensions were not expected to see significant improvement, since no weight was placed on them during optimisation. 
+The graphs in Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$ dimension, remains roughly the same in the $y$ and $yaw$ dimensions and is worsened in the rest. It was expected that the position dimensions will be improved, since the optimisation weight was placed on reducing their error norm. It is unfortunate, however, that the $y$ dimension's norm did not see improvement. The fact that the $z$ dimension got slightly worse does not necessarily condemn the optimisation procedure, since it can be seen in Figure~\ref{fig:err-tot-norm} that the total position norm does get reduced. Conversely, the orientation dimensions were not expected to see significant improvement, since no weight was placed on them during optimisation. 
 
 The plots in Figures~\ref{fig:err-convergence} exhibit some spiky behaviour with large variations, sometimes growing larger than its initial value. However, this is not an issue, since Figure~\ref{fig:err-tot-norm} shows that the total error norm decreases as the iterations increase, which is what was expected. It can also be seen that the total norm regularly stays constant for more than one iteration. It must be kept in mind at this point that it is not only the focal length that is being optimised, but the offset vector as well. Therefore, while the offset vector is being refined between iterations, it may affect the minimum norm values. 
 
 Overall it can be concluded that Figures~\ref{fig:err-convergence} and~\ref{fig:err-tot-norm} exhibits sufficient evidence of convergence for the CVS's pose measurement error.
-
-%The graphs of Figure~\ref{fig:err-convergence} show that the error is reduced in the $x$ and $z$ dimensions, while it increases slightly in the $y$ dimension and remains largely unchanged in all of the orientation dimensions. 
-
-%The errors in the orientation dimensions remain unchanged since it was opted not to give them any weight in the optimisation process. However, it can be seen that in iteration number 6, the $roll$, $pitch$ and $z$ dimensions experience a dramatic reduction in their error norm, while the other dimensions experience a spike. Since it happens only for a single iteration, it can be considered an anomaly within the optimisation procedure which is corrected  with the next iteration. It is most likely that the error got stuck in a local minimum for that single iteration and it was not investigated further.  
-
-%From Figure~\ref{fig:err-convergence} it can be concluded that the optimisation procedure does indeed converge, albeit very slowly. 
 
 \subsection{Test for Zero Average Error}
 \label{sec:err-norm-test}

@@ -19,11 +19,11 @@ The CVS has both hardware and software components, both of which are important t
 \subsection{System Overview and Requirements}
 
 The CVS is meant to measure the pose of a quadcopter in flight. It does this by using a calibrated camera to track a calibration board stuck to the object whose pose is to be measured (the quadcopter in this case). It then follows the next steps to determine the object's pose. 
-\begin{enumerate}
-  \item Detect and track the feature data of the calibration board, e.g.\ corners or dots on a flat board. 
-  \item Extract two-dimensional coordinates of the features.
-  \item Use a Principle n-Points solver with two-dimensional coordinates to determine the six-dimensional pose of the object relative to the camera. 
-\end{enumerate}
+\begin{description}
+  \item[Step 1] Detect and track the feature data of the calibration board, e.g.\ corners or dots on a flat board. 
+  \item[Step 2] Extract two-dimensional coordinates of the features.
+  \item[Step 3] Use a Principle n-Points solver with two-dimensional coordinates to determine the six-dimensional pose of the object relative to the camera. 
+\end{description}
 These steps are explained in more detail in this section. 
 
 The CVS's pose measurements must be accurate enough that it can be used as reference pose data when comparing it to a quadcopter's on-board pose data, thereby determining the pose accuracy of a quadcopter. The CVS has to meet the following requirements:

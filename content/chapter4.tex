@@ -21,11 +21,11 @@ This section discusses the design aspects of the machine learning model used for
 
 Designing a machine learning model can be performed in three basic steps. These steps are:
 
-\begin{enumerate}
-  \item Select the machine learning model type.
-  \item Train the model.
-  \item Validate the trained model's accuracy. 
-\end{enumerate}
+\begin{description}
+  \item[Step 1] Select the machine learning model type.
+  \item[Step 2] Train the model.
+  \item[Step 3] Validate the trained model's accuracy. 
+\end{description}
 
 First, the model type is selected. As stated previously, the CVS's pose measurement data is fairly complex, interdimensionally dependant and high dimensional. A neural network was therefore selected as a machine learning model basis. It has previously been shown by~\cite{tu1996advantages} that neural networks excel at handling complicated data and detecting and extracting complex, non-linear relationships within the input data. Furthermore, the radial basis function neural network (RBFNN) was selected as the network topology. RBFNNs provide superior results when compared to traditional feed-forward networks when noisy data sets are used, as shown by~\cite{xie2011comparison}. The data is not time dependant, making the recurrent neural network topology unnecessarily complex and costly for this application. An RBFNN is described by the relation given by Equation~\ref{eq:chap2-rbf} and is repeated again in Equation~\ref{eq:chap4-rbf}.
 

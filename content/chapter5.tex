@@ -19,7 +19,7 @@ Work was done to ensure that the flight tests were performed where it would prod
 
 This subsection describes the flight test design, including the equipment, the location and testing conditions.
 
-\subsubsection{Equipment}
+\subsubsection*{Equipment}
 
 The equipment and facilities that were required and used for the flight tests are given as follows:
 
@@ -87,11 +87,11 @@ The Suncopter quadcopter is a custom-built quadcopter for the Solar Thermal Ener
 \label{tab:chap5-sensor-specs}
 \end{table}
 
-\subsubsection{Location}
+\subsubsection*{Location}
 
 The flight tests were conducted at the Mariendahl experimental farm owned and operated by Stellenbosch University (SU). It is also the location of STERG's Helio100 central receiver concentrating solar power (CSP) project. The exact location is in an empty grass field relatively far away from any roadways and buildings. The soil in the field is soft and uneven, which was taken into account during the tests and the data processing. 
 
-\subsubsection{Flight Test Conditions and Layout}
+\subsubsection*{Flight Test Conditions and Layout}
 
 The flight tests were conducted on the 26$^{th}$ of June 2015 at the Helio100 test site at Mariendahl. The weather conditions were close to ideal with very little wind, clear skies and a moderate temperature. The tests were conducted at 10 AM and there was still significant condensation present on the ground. %See Appendix MEME for a more detailed weather and wind report recorded on site.
 
@@ -113,13 +113,13 @@ Two sets of data were recorded during the flight test: one from the CVS and anot
 
 After the video data of the Suncopter with the calibration board attached was recorded, data processing could begin. There are four different processing phases. They are the pose extraction from the video data, synchronising the data to a common time frame, data recentering around a common centre, and finally determining the pose estimation accuracy of the Suncopter. Each of these phases are discussed in this section. 
 
-\subsubsection{Pose Data Extraction}
+\subsubsection*{Pose Data Extraction}
 
 The first step in the data processing phase is to extract the pose data of the calibration board and, by extension, the Suncopter to which it was attached. This was done by using the process discussed in Chapter~\ref{chap2}, where OpenCV's chessboard corner detector and PnP problem solver were used to extract six-dimensional pose information of a chessboard pattern calibration board. This process is fairly automated. However, the output from the PnP solver still required some conditioning.
 
 The coordinate system for the corner detector and PnP solver used is specified in square units, i.e.\ a $5\times6$ square chessboard would have dimensions of $5\times6$ units. This required the position vector to be transformed back to SI units by multiplying the PnP solver's output by $0.05$, since each square on the chessboard is $\SI{5}{\cm}\times\SI{5}{\cm}$. Similarly, the orientation vector is output in radians, which was then converted to degrees. 
 
-\subsubsection{Data Synchronisation}
+\subsubsection*{Data Synchronisation}
 
 The CVS's camera captures video data at 30 frames per second, while the Pixhawk on the Suncopter sends data to the ground control station at a frequency of 200 Hz, making it necessary to change the time scale of either data set so they match one another. The Pixhawk's data packets contain various parameters, such as the battery voltage and altitude, but only the position and orientation data sets are of interest here. However, this data is not sent with every data package coming from the Pixhawk and do not necessarily arrive together either. It was therefore necessary to synchronise the position and orientation data received from the Pixhawk as well.
 
@@ -127,7 +127,7 @@ Since the CVS's data was recorded at a reliable, steady rate of 30 Hz, a zero-or
 
 Both data sets were recorded on the same laptop, and therefore share a common time source. However, their start and end points differ. To synchronise these points, the creation time of the video file was used as a start point and the video was cut at the quadcopter's final data packet's timestamp. 
 
-\subsubsection{Data Centering}
+\subsubsection*{Data Centering}
 \label{sec:chap5-data-centring}
 
 After the pose data has been extracted from the video data, the CVS and Suncopter's pose estimates were recentred around a common axis system. The CVS's axis system is centred around its camera centre, while the Suncopter's pose data is centred around the point from where it is launched. Therefore, to be able to compare the two sets of data, the constant offset vector between the axis systems was determined. The axis systems and offset vector is shown in Figure~\ref{fig:chap5-flight-test-schem}.
@@ -160,7 +160,7 @@ Here, $\bm{P}_{\mathrm{offset}}$ is the unknown term. The pose data contained wi
 \end{equation}
 The minimisation was done using the \emph{minimize()} function from the SciPy\footnote{SciPy scientific tools library v0.13.3} library for the Python language, which makes use of the \emph{BFGS} quasi-Newton method described by~\cite{nocedal2006numerical}. 
 
-\subsubsection{Determining the Pose Estimation Error}
+\subsubsection*{Determining the Pose Estimation Error}
 
 With the two data sets now directly relatable, the pose estimation error of a quadcopter in flight can now be determined by using the RBFNNs discussed in Chapter~\ref{chap4} and the two sets of pose data recorded during the flight tests.  
 

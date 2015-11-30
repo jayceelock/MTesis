@@ -117,7 +117,7 @@ This section describes the test layout, including the external measurement devic
 
 This section describes the test layout, including the layout for the CVS and Vicon systems. 
 
-\subsubsection{External Measurement Device Layout}
+\subsubsection*{External Measurement Device Layout}
 
 The external measurement system used to record the ground-truth pose data is a Vicon indoor motion capture system. It is a widely-used commercial system with applications in the film, medical and sporting industries and its measurements can reach sub-millimetre accuracy, as found by~\cite{windolf2008systematic}. It works by tracking a set of infrared markers stuck to a surface with at least two infrared cameras and sophisticated proprietary motion tracking software. It does this at a rate of 300 Hz. The Vicon only measures the position vector. Therefore, to get a pose vector including orientation data, trigonometric relationships between the position vectors were used to determine the angular orientation. Given its well-documented measurement accuracy, the measurement results from the Vicon were taken as ground-truth.
 
@@ -164,7 +164,7 @@ Only three markers need to be visible to the Vicon system's cameras for it to re
 
 One aspect of the Vicon system to note is that the infrared markers have some high-frequency noise associated with them, which is apparent when inspecting the raw data. This noise is inherent to the marker and can be safely filtered out with a zero-lag, second order Butterworth filter. However, to avoid any unknown filtering factors from affecting the data, the raw, unfiltered data is used throughout this project. 
 
-\subsubsection{Computer Vision System Setup}
+\subsubsection*{Computer Vision System Setup}
 
 The CVS configuration used during the Vicon test is the exact same as the one described in Section~\ref{sec:chap3-cvs-layout}.
 
@@ -201,7 +201,7 @@ The Vicon system's data required little processing, since most of the data was g
 
 Processing the CVS data involved several steps, the first of which was to make the data sets directly relatable by centering both data sets around a common axis system. Furthermore, the marker placement, measurement bias and other error offsets, e.g.\ the placement and orientation offset error between the Vicon markers and chessboard and camera frame surfaces, were determined while simultaneously optimising the camera matrix's focal lengths to produce the most accurate CVS pose measurement results. Each of these aspects are discussed here in more detail.
 
-\subsubsection{Reducing Vicon Sample Speed}
+\subsubsection*{Reducing Vicon Sample Speed}
 
 The Vicon system captures data at 300 Hz and the CVS at 30 Hz. Therefore, the Vicon's framerate had to be downsampled to match the CVS's framerate so that the two data sets could directly be related. 
 
@@ -209,7 +209,7 @@ Downsampling by a factor of 10 could have been accomplished by taking 1 out of e
 
 During the test, the calibration board was tilted forward to signal the start of a measurement. The two data sets were synchronised with respect to time by matching these initial peaks in the measurement data. 
 
-\subsubsection{Rotating and Centering the Camera and Chessboard Data}
+\subsubsection*{Rotating and Centering the Camera and Chessboard Data}
 \label{sec:rotate-axes}
 
 During the measurement test, four infrared markers were placed on the CVS camera's frame to provide data on its placement within the Vicon's axis system. The markers were roughly placed along the frame's $x$ and $y$ axes and coincided with the chessboard's axis system. Since the CVS's camera remained still during the test, it is most convenient to centre the CVS's camera and pose measurement data around the Vicon's axis system. 
@@ -218,7 +218,7 @@ With the CVS's camera placement and orientation in the Vicon coordinate system k
 
 With the CVS's camera axis system now centred around the Vicon system's origin, the pose data for the chessboard acquired by the CVS and the Vicon system are now directly relatable to one another.  
 
-\subsubsection{Camera Matrix Parameter Optimisation}
+\subsubsection*{Camera Matrix Parameter Optimisation}
 \label{sec:focal-optimisation}
 
 Before the measurement test took place, the CVS camera was calibrated using OpenCV's camera calibration toolbox. The calibration procedure provides a good estimate of the intrinsic parameters of the camera, which includes the focal length, lens distortion and principle points. However, given the lack of reference three-dimensional data, it is only an estimate of the intrinsic parameters. Using the ground-truth pose data from the Vicon system allowed the intrinsic parameters to be determined more accurately. 
